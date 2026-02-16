@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Domain List</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;600;800&display=swap');
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #111;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+        }
+        .gradient-text {
+            background: linear-gradient(45deg, #ff6b6b, #feca57, #48dbfb);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        #domain-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1rem;
+            padding: 1rem;
+        }
+        .domain-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            padding: 1rem;
+            border-radius: 0.5rem;
+            display: flex;
+            flex-direction: column; /* Adjusted for vertical alignment */
+            justify-content: center;
+            align-items: center;
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(20px);
+            height: 100px; /* Adjust height as needed */
+            text-align: center; /* Center align the content */
+        }
+        .domain-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .domain-card:hover {
+            transform: translateY(-5px) scale(1.03);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+        .domain-price {
+            font-size: 0.9rem; /* Adjust the font size as needed */
+            color: #fff;
+            font-weight: bold;
+        }
+        #load-more {
+            display: none; /* Hide initially */
+            margin: 2rem auto;
+            padding: 0.75rem 1.5rem;
+            background-color: #feca57;
+            color: #111;
+            border: none;
+            border-radius: 9999px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        #load-more.visible {
+            display: block; /* Show when needed */
+        }
+        #load-more:hover {
+            background-color: #ffdb7d;
+            transform: translateY(-2px);
+        }
+        .loader {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #feca57;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+            display: none; /* Hide initially */
+        }
+        .loader.visible {
+            display: block; /* Show when loading */
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        #end-message {
+            text-align: center;
+            padding: 2rem;
+            font-size: 1.2rem;
+            color: #feca57;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        #end-message.visible {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <header style="padding: 1.5rem 0;">
+        <h1 class="gradient-text" style="font-size: 1.8rem; font-weight: 800; text-align: center;">STARIII Domain List</h1>
+        <h2 class="domain-price" style="font-size: 1.0rem; font-weight: 800; text-align: center;">
+            Contact: <a href="mailto:yunliyo@foxmail.com" target="_blank" style="color:inherit;text-decoration:underline;">email</a>
+        </h2>
+    </header>
+    
+    <main style="max-width: 1200px; margin: 0 auto; padding: 0 1rem;">
+        <div id="domain-list">
+            <!-- 域名卡片将由 JS 动态生成 -->
+        </div>
+        <div class="loader"></div>
+        <button id="load-more">Load More</button>
+        <div id="end-message" class="visible">You have reached the end of our premium domain list.</div>
+    </main>
+
+    <footer style="text-align:center; margin:2rem 0 1rem 0;">
+      <a href="https://domain.cards/" target="_blank" class="badge" title="米表联盟[Domain.Cards]">
+        <img src="https://domain.cards/api/icon/aski.ng" alt="米表联盟 BadgeIcon">
+      </a>
+    </footer>
+
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+        let domains = [];
+        const domainList = document.getElementById('domain-list');
+        const loadMoreBtn = document.getElementById('load-more');
+        const loader = document.querySelector('.loader');
+        const endMessage = document.getElementById('end-message');
+        let loading = false; // 防止重复加载
+
+        async function fetchDomains() {
+            try {
+                // 读取根目录 domain.txt，每行一个域名
+                const response = await fetch('domain.txt');
+                const text = await response.text();
+                // 过滤空行，生成域名对象数组
+                domains = text.split('\n').map(line => line.trim()).filter(line => line).map(name => ({ name }));
+                loadDomains();
+            } catch (error) {
+                console.error('Error fetching domains:', error);
+            }
+        }
+
+        function loadDomains() {
+            if (loading) return;
+            loading = true;
+
+            loader.classList.add('visible');
+            loadMoreBtn.classList.remove('visible');
+
+            setTimeout(() => {
+                const fragment = document.createDocumentFragment();
+                for (let i = 0; i < domains.length; i++) {
+                    const card = document.createElement('div');
+                    card.className = 'domain-card';
+                    card.innerHTML = `
+                        <h3 class="gradient-text" style="font-size: 1.9rem; font-weight: 700; margin: 0;">${domains[i].name}</h3>
+                    `;
+                    fragment.appendChild(card);
+                }
+                domainList.appendChild(fragment);
+                loader.classList.remove('visible');
+                loading = false;
+                endMessage.classList.add('visible');
+
+                // 触发重绘以保证 CSS 动画
+                domainList.offsetHeight;
+
+                // 让新卡片依次可见
+                const newCards = domainList.querySelectorAll('.domain-card:not(.visible)');
+                newCards.forEach((card, index) => {
+                    setTimeout(() => {
+                        card.classList.add('visible');
+                    }, index * 50);
+                });
+            }, 500); // 可适当缩短延迟
+        }
+
+        // 移除 loadMore 按钮点击事件
+
+        // 初始加载
+        fetchDomains();
+ 
+        // 移除无限滚动事件
+    </script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015" integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ==" data-cf-beacon='{"version":"2024.11.0","token":"0597b4787e6a4ca883a39d46d1ab8393","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+</body>
+</html>

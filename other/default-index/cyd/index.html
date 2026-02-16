@@ -1,0 +1,270 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+    <meta name="renderer" content="webkit">
+    <meta name="format-detection" content="email=no">
+    <meta name="format-detection" content="telephone=no">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Yunli</title>
+    <link rel="shortcut icon" href="../../../images/default.png" type="image/x-icon">
+    <!--分享信息-->
+    <meta itemprop="description" name="description" content="Yunli">
+    <meta itemprop="name" content="Yunli">
+    <meta id="image" itemprop="image" content="../../../images/default.png">
+    <!--网站信息/-->
+    <meta name="generator" content="Yunli">
+    <meta name="template" content="Yunli">
+    <style>
+        body {
+            background-image: linear-gradient(to right, #f6fdef, #d2e1c1 25%, #E9FAD6 50%, #d2e1c1 75%, #f6fdef);
+        }
+
+        a {
+            color: #393;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .cyd_card {
+            border-radius: 20px;
+            border: 3px solid #8ac007;
+            background: #fff
+        }
+
+        .cyd_topText {
+            font-size: 60px;
+            color: #fff;
+            text-align: center;
+            text-shadow: 0.5px 0.5px 2px #393;
+        }
+
+        /* 当设备屏幕宽度小于600px时应用的样式，通常指手机 */
+        @media screen and (max-width: 600px) {
+            .cyd_topText {
+                font-size: 30px;
+            }
+
+            .cyd_mainCard {
+                /*主卡片*/
+                width: 77%;
+                margin: 5vh auto 0;
+                padding: 30px 25px 15px;
+            }
+
+            .cyd_left {
+                /*左*/
+                margin: 0 10px 0;
+            }
+
+            .cyd_touXiang {
+                border: solid 3px #393;
+                border-radius: 50%;
+                padding: 10px;
+                width: 100px;
+                height: 100px;
+                margin: auto;
+            }
+
+            .cyd_touXiang img {
+                border-radius: 50%;
+                border: solid 2px #393;
+                width: 97px;
+                height: 97px;
+            }
+
+            .cyd_name {
+                font-size: 40px;
+                color: #1f5c1f;
+                margin: 10px 0 15px;
+                text-align: center;
+                font-weight: bold;
+            }
+
+            .cyd_text {
+                text-align: center;
+                margin: 5px 0 5px;
+            }
+
+            .cyd_right {
+                /*右*/
+                margin: 15px 0px 0;
+                display: flex;
+                justify-content: space-around;
+            }
+
+            .cyd_link {
+                margin: 7px;
+                padding: 10px 15px;
+                border: 1px solid #85c285;
+                border-radius: 20px;
+                width: 40vm;
+                background-color: #ebf5eb;
+            }
+
+            /* 当屏幕高度大于777px时应用的样式 */
+            @media screen and (min-height: 777px) {
+                .cyd_mainCard {
+                    /*主卡片*/
+                    margin: 12vh auto 0;
+                    padding: 40px 30px 20px;
+                }
+
+                .cyd_text {
+                    text-align: center;
+                    margin: 12px 0 10px;
+                }
+            }
+
+            .cyd_foot {
+                display: flex;
+                justify-content: center;
+                /* 水平居中 */
+                align-items: flex-end;
+                /* 垂直对齐到容器末端，即底部 */
+            }
+
+            .cyd_footer {
+                /*页脚*/
+                padding: 10px 0;
+                width: 220PX;
+                text-align: center;
+                position: fixed;
+                bottom: 3vh;
+                /* 距离底部3%的距离 */
+                left: calc(50% - 113px);
+                /* 距离左侧50%的位置 */
+            }
+        }
+
+        /* 当设备屏幕宽度大于1024px时应用的样式，通常指电脑 */
+        @media screen and (min-width: 600px) {
+            .cyd_mainCard {
+                /*主卡片*/
+                width: max(50%, 777px);
+                margin: 10vh auto 15vh;
+                padding: 30px 50px 30px;
+                display: flex;
+            }
+
+            .cyd_left {
+                /*左*/
+                margin: 0 30px 0;
+            }
+
+            .cyd_touXiang {
+                border: solid 5px #393;
+                border-radius: 50%;
+                padding: 10px;
+                width: 180px;
+                height: 180px;
+                margin: auto;
+            }
+
+            .cyd_touXiang img {
+                border-radius: 50%;
+                border: solid 2px #393;
+                width: 177px;
+                height: 177px;
+            }
+
+            .cyd_name {
+                font-size: 40px;
+                color: #1f5c1f;
+                margin: 7px auto 0;
+                text-align: center;
+                font-weight: bold;
+            }
+
+            .cyd_text {
+                text-align: center;
+            }
+
+            .cyd_right {
+                /*右*/
+                margin: 0 auto 0;
+            }
+
+            .cyd_link {
+                margin: 20px 10px 20px;
+                padding: 10px;
+                border: 1px solid #85c285;
+                border-radius: 20px;
+                width: 400px;
+                font-size: 60px;
+                text-align: center;
+                background-color: #ebf5eb;
+            }
+
+            .cyd_foot {
+                display: flex;
+                justify-content: center;
+                /* 水平居中 */
+                align-items: flex-end;
+                /* 垂直对齐到容器末端，即底部 */
+            }
+
+            .cyd_footer {
+                /*页脚*/
+                padding: 10px 0;
+                width: 338PX;
+                text-align: center;
+                position: fixed;
+                bottom: 7vh;
+                /* 距离底部3%的距离 */
+                left: calc(50% - 177px);
+                /* 距离左侧50%的位置 */
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <p class="cyd_topText">馀事做诗人</p>
+    <div class="cyd_card cyd_mainCard">
+        <div class="cyd_left">
+            <div class="cyd_touXiang">
+                <img src="../../../images/default.png">
+            </div>
+            <p class="cyd_name">韵狸</p>
+            <p class="cyd_text">诗人，
+                <script language="JavaScript">
+                    var urodz = new Date("1997-03-24");
+                    var now = new Date();
+                    var ile = now.getTime() - urodz.getTime();
+                    var dni = Math.floor(ile / (1000 * 86400 * 365.256354176));
+                    document.write(+dni)
+                </script> 岁</p>
+            <p class="cyd_text">一个热爱诗词书画的程序员</p>
+            <p class="cyd_text">精神自由，追求极致。</p>
+        </div>
+
+        <div class="cyd_right">
+            <div class="cyd_link">
+                <a href="https://liqiang.info" target="_blank" title="博客">博客</a>
+            </div>
+            <div class="cyd_link">
+                <a href="https://github.com/yunliyo" target="_blank" title="关于">Github</a>
+            </div>
+            <div class="cyd_link">
+                <a href="mailto:yunliyo@foxmail.com" target="_blank" title="联系">联系</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="cyd_foot">
+        <div class="cyd_footer cyd_card">
+            <p>&copy; 2014-<script>document.write(new Date().getFullYear())</script> by <a href="#" target="_self">Yunli</a>.</p>
+        </div>
+    </div>
+</body>
+
+</html>

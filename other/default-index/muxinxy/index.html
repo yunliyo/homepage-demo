@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href=".../../../images/default.png">
+    <link rel="stylesheet" href="css/style.css">
+    <title>Yunli</title>
+    <script src="js/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            var listItems = [{
+                    url: 'https://',
+                    img: 'img/default.png',
+                    text: '韵狸博客'
+                },
+                {
+                    url: 'https://',
+                    img: 'img/default.png',
+                    text: 'AI Chat'
+                },
+                {
+                    url: 'https://',
+                    img: 'img/default.png',
+                    text: 'Google镜像'
+                },
+                {
+                    url: 'https://',
+                    img: 'img/default.png',
+                    text: 'YesPlayMusic'
+                },
+                {
+                    url: 'https://a.mxyz.tk',
+                    img: 'img/default.png',
+                    text: 'AList'
+                },
+                {
+                    url: 'https://',
+                    img: 'img/default.png',
+                    text: '小雅影视AList'
+                },
+                {
+                    url: 'https://',
+                    img: 'img/default.png',
+                    text: 'OneDrive列表'
+                },
+                {
+                    url: 'https://',
+                    img: 'img/default.png',
+                    text: '韵狸影视'
+                },
+                {
+                    url: 'https://',
+                    img: 'img/default.png',
+                    text: '韵狸博客导航'
+                },
+                {
+                    url: 'https://',
+                    img: 'img/default.png',
+                    text: 'Yourls短链接'
+                },
+                {
+                    url: 'https://',
+                    img: 'img/default.png',
+                    text: '源码'
+                },
+                {
+                    url: 'https://',
+                    img: 'img/default.png',
+                    text: 'Status Page'
+                },
+            ];
+
+
+            listItems.forEach(function (item) {
+                $('#app ul').append('<li><a href="' + item.url +
+                    '" target="_blank"><img class="shake" src="' + item.img +
+                    '" width="112" height="112" style="padding-left: 8px;padding-top: 8px;padding-right: 8px;padding-bottom: 8px;border-radius: 30px;"/><strong>' +
+                    item.text + '</strong></a></li>');
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <div id="wrap">
+        <div id="logo">
+            <img class="logo" src="img/default.png" style="border-radius: 30px;">
+        </div>
+        <div id="app" class="app animated fadeInLeft">
+            <ul>
+                <!-- List items will be inserted here -->
+            </ul>
+        </div>
+    </div>
+    <div id="footer">
+        <div class="footer-contents">
+            <div class="links">
+                <div class="line">
+                    <li>
+                        <p>&copy; 2014-<script>document.write(new Date().getFullYear())</script> by Yunli.</p>
+                    </li>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

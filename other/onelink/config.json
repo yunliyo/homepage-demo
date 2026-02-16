@@ -1,0 +1,220 @@
+{
+    "siteTitle": "韵狸 - 一个热爱诗词书画的程序员 | 馀事做诗人",
+    "siteIcon": "../../images/default.png",
+    "avatar": "../../images/default.png",
+    "h1Title": "韵狸",
+    "h2Title": "一个热爱诗词书画的程序员",
+    "socialIcons": [
+        {
+            "title": "GitHub",
+            "href": "https://github.com/yunliyo",
+            "target": "_blank",
+            "icon": "fab fa-github",
+            "type": "link"
+        },
+        {
+            "title": "邮箱",
+            "href": "mailto:yunliyo@foxmail.com",
+            "target": "_blank",
+            "icon": "fas fa-envelope",
+            "type": "link"
+        },
+        {
+            "title": "赞赏",
+            "href": "../../images/default.png",
+            "target": "_blank",
+            "icon": "fa fa-donate",
+            "type": "qrcode"
+        }
+    ],
+    "links": [
+        {
+            "title": "微博",
+            "href": "https://weibo.com/u/7903517120",
+            "target": "_blank",
+            "type": "link"
+        },{
+            "title": "百度贴吧",
+            "href": "https://tieba.baidu.com/f?kw=%E7%A8%8B%E5%BA%8F%E5%91%98%E9%9F%B5%E7%8B%B8&fr=index&fp=0&ie=utf-8",
+            "target": "_blank",
+            "type": "link"
+        },{
+            "title": "微信公众号",
+            "href": "/assets/images/coder-yunli.png",
+            "target": "_blank",
+            "type": "qrcode"
+        },{
+            "title": "微信视频号",
+            "href": "/assets/images/coder-yunli-video.png",
+            "target": "_blank",
+            "type": "qrcode"
+        },{
+            "title": "bilibili",
+            "href": "https://space.bilibili.com/9976765",
+            "target": "_blank",
+            "type": "link"
+        },{
+            "title": "知乎",
+            "href": "https://www.zhihu.com/people/coder_yunli",
+            "target": "_blank",
+            "type": "link"
+        },{
+            "title": "豆瓣",
+            "href": "https://www.douban.com/people/coder_yunli/",
+            "target": "_blank",
+            "type": "link"
+        },{
+            "title": "即刻",
+            "href": "https://m.okjike.com/users/7d7d97b4-581b-441a-8385-fab975127776",
+            "target": "_blank",
+            "type": "link"
+        },{
+            "title": "酷安",
+            "href": "https://www.coolapk.com/u/20011624",
+            "target": "_blank",
+            "type": "link"
+        },{
+            "title": "网易云音乐",
+            "href": "https://music.163.com/#/user/home?id=4020643684",
+            "target": "_blank",
+            "type": "link"
+        },{
+            "title": "抖音",
+            "href": "https://v.douyin.com/u0UO1IUm_pI",
+            "target": "_blank",
+            "type": "link"
+        },{
+            "title": "快手",
+            "href": "https://v.kuaishou.com/nUax6RsP",
+            "target": "_blank",
+            "type": "link"
+        },{
+            "title": "小红书",
+            "href": "https://www.xiaohongshu.com/user/profile/5d34920b0000000016000c66",
+            "target": "_blank",
+            "type": "link"
+        },{
+            "title": "百家号",
+            "href": "https://author.baidu.com/home/1683805198508565",
+            "target": "_blank",
+            "type": "link"
+        },{
+            "title": "头条号",
+            "href": "https://profile.zjurl.cn/rogue/ugc/profile/?user_id=3801486576062793",
+            "target": "_blank",
+            "type": "link"
+        },{
+            "title": "知识星球",
+            "href": "/assets/images/zsxq.png",
+            "target": "_blank",
+            "type": "qrcode"
+        },{
+            "title": "博客园",
+            "href": "https://www.cnblogs.com/yunliyo",
+            "target": "_blank",
+            "type": "link"
+        },{
+            "title": "CSDN",
+            "href": "https://blog.csdn.net/yunliyo",
+            "target": "_blank",
+            "type": "link"
+        },{
+            "title": "简书",
+            "href": "https://www.jianshu.com/u/c9f60ccdb868",
+            "target": "_blank",
+            "type": "link"
+        },{
+            "title": "掘金",
+            "href": "https://juejin.cn/user/3233008178965181",
+            "target": "_blank",
+            "type": "link"
+        },{
+            "title": "思否",
+            "href": "https://segmentfault.com/u/yunliyo",
+            "target": "_blank",
+            "type": "link"
+        },{
+            "title": "V2EX",
+            "href": "https://www.v2ex.com/member/yunliyo",
+            "target": "_blank",
+            "type": "link"
+        },{
+            "title": "诗词吾爱",
+            "href": "https://www.52shici.com/space.php?mem_id=98",
+            "target": "_blank",
+            "type": "link"
+        },{
+            "title": "中国诗歌网",
+            "href": "https://www.zgshige.cn/c/2017-06-17/3613734.shtml",
+            "target": "_blank",
+            "type": "link"
+        }
+    ],
+    "linksContainer-i18n": [
+        {
+            "title": "X(Twitter)",
+            "href": "https://x.com/yunliyo",
+            "target": "_blank",
+            "type": "link"
+        },{
+            "title": "Bluesky",
+            "href": "https://bsky.app/profile/coder-yunli.bsky.social",
+            "target": "_blank",
+            "type": "link"
+        },{
+            "title": "Facebook",
+            "href": "https://www.facebook.com/yunlihub",
+            "target": "_blank",
+            "type": "link"
+        },{
+            "title": "Instagram",
+            "href": "https://www.instagram.com/yunliyo",
+            "target": "_blank",
+            "type": "link"
+        },{
+            "title": "Threads",
+            "href": "https://www.threads.com/@yunliyo",
+            "target": "_blank",
+            "type": "link"
+        },{
+            "title": "YouTube",
+            "href": "https://www.youtube.com/@coder_yunli",
+            "target": "_blank",
+            "type": "link"
+        },{
+            "title": "TikTok",
+            "href": "https://www.tiktok.com/@coder_yunli",
+            "target": "_blank",
+            "type": "link"
+        },{
+            "title": "Lemon8",
+            "href": "https://www.lemon8-app.com/@coder_yunli",
+            "target": "_blank",
+            "type": "link"
+        },{
+            "title": "VK",
+            "href": "https://vk.com/id804334162",
+            "target": "_blank",
+            "type": "link"
+        },{
+            "title": "Snapchat",
+            "href": "https://www.snapchat.com/add/yunliyo?locale=zh-US%2Czh%3Bq%3D0.9%2Cen-US%3Bq%3D0.8%2Cen%3Bq%3D0.7%2Czh-CN%3Bq%3D0.6&share_id=cPrRHwCJSPE",
+            "target": "_blank",
+            "type": "link"
+        }
+    ],
+    "linksContainer-other": [
+        {
+            "title": "孔网书摊",
+            "href": "https://shop.kongfz.com/715788",
+            "target": "_blank",
+            "type": "link"
+        },{
+            "title": "闲鱼·鱼小铺",
+            "href": "/assets/images/xyyxp.png",
+            "target": "_blank",
+            "type": "qrcode"
+        }
+    ],
+    "btnCount": 1
+}

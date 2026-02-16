@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>狸庐</title>
+    <link rel="icon" href="../../images/default.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" crossorigin="anonymous">
+    <link rel="stylesheet" href="./assets/css/webapp.css">
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- 顶部导航 -->
+        <header class="top-nav">
+            <div class="nav-left">
+                <button class="nav-btn" id="backBtn">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+            </div>
+            <div class="nav-center">
+                <h1>狸庐</h1>
+            </div>
+            <div class="nav-right">
+                <button class="nav-btn" id="homeBtn">
+                    <i class="fas fa-home"></i>
+                </button>
+            </div>
+        </header>
+        <!-- 主要内容区域 -->
+        <main class="main-content">
+            <!-- 首页 -->
+            <div class="page-content" id="homePage">
+                <!-- 轮播图区域 -->
+                <section class="carousel-section">
+                    <div class="carousel-container">
+                        <div class="carousel-track" id="carouselTrack">
+                            <div class="carousel-slide">
+                                <img src="../../images/default-img.png" alt="轮播图1">
+                                <div class="carousel-caption">
+                                    <h3>设计驱动创新</h3>
+                                    <p>打造卓越用户体验</p>
+                                </div>
+                            </div>
+                            <div class="carousel-slide">
+                                <img src="../../images/default-img.png" alt="轮播图2">
+                                <div class="carousel-caption">
+                                    <h3>产品成就未来</h3>
+                                    <p>构建数字化产品生态</p>
+                                </div>
+                            </div>
+                            <div class="carousel-slide">
+                                <img src="../../images/default-img.png" alt="轮播图3">
+                                <div class="carousel-caption">
+                                    <h3>技术改变世界</h3>
+                                    <p>引领行业技术前沿</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="carousel-indicators" id="carouselIndicators">
+                            <span class="indicator active" data-slide="0"></span>
+                            <span class="indicator" data-slide="1"></span>
+                            <span class="indicator" data-slide="2"></span>
+                        </div>
+                    </div>
+                </section>
+                <!-- 公司简介 -->
+                <section class="intro-section">
+                    <h3 class="section-title">关于狸庐</h3>
+                    <p class="intro-text">
+                        <strong>狸庐</strong>始创于2018年7月，是由独立开发者韵狸打造的诗意平台，致力于提升全民诗词创作水平；同时也是一家致力于推动企业数字化转型的创新型科技<strong>工作室<u>（平仄云/零一云/ZeroneRhyme Cloud）</u></strong>，专注于大数据、云计算及科技解决方案的研发与应用，为客户提供从网站建设到品牌打造的全方位服务。凭借前沿的技术实力和深厚的行业洞察，助力企业优化运营效率、提升市场竞争力，携手共创智能未来。
+                    </p>
+                </section>
+                <section class="services-section">
+                    <h3 class="section-title">核心服务</h3>
+                    <div class="services-grid">
+                        <div class="service-card">
+                            <i class="fas fa-palette"></i>
+                            <h4>设计</h4>
+                            <p>UI/UX设计 · 品牌设计 · 视觉设计</p>
+                        </div>
+                        <div class="service-card">
+                            <i class="fas fa-cube"></i>
+                            <h4>产品</h4>
+                            <p>产品策划 · 原型设计 · 需求分析</p>
+                        </div>
+                        <div class="service-card">
+                            <i class="fas fa-code"></i>
+                            <h4>技术</h4>
+                            <p>软件开发 · 系统集成 · 技术支持</p>
+                        </div>
+                        <div class="service-card">
+                            <i class="fas fa-chart-line"></i>
+                            <h4>运营</h4>
+                            <p>数据分析 · 用户运营 · 市场推广</p>
+                        </div>
+                    </div>
+                </section>
+                <section class="stats-section">
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <div class="stat-number">500+</div>
+                            <div class="stat-label">服务客户</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">1000+</div>
+                            <div class="stat-label">成功项目</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">98%</div>
+                            <div class="stat-label">客户满意度</div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+            <!-- 产品服务 -->
+            <div class="page-content" id="servicesPage" style="display: none;">
+                <section class="services-detail">
+                    <div class="service-detail-card">
+                        <div class="service-icon">
+                            <i class="fas fa-palette"></i>
+                        </div>
+                        <h4>设计服务</h4>
+                        <p>提供专业的设计服务，打造美观实用的产品界面和品牌形象。</p>
+                        <ul class="service-features">
+                            <li>UI/UX界面设计</li>
+                            <li>品牌视觉设计</li>
+                            <li>交互体验设计</li>
+                            <li>视觉规范制定</li>
+                        </ul>
+                    </div>
+                    <div class="service-detail-card">
+                        <div class="service-icon">
+                            <i class="fas fa-cube"></i>
+                        </div>
+                        <h4>产品服务</h4>
+                        <p>从0到1的产品策划与设计，帮助客户构建完整的产品生态。</p>
+                        <ul class="service-features">
+                            <li>产品需求分析</li>
+                            <li>产品原型设计</li>
+                            <li>产品规划与迭代</li>
+                            <li>用户体验优化</li>
+                        </ul>
+                    </div>
+                    <div class="service-detail-card">
+                        <div class="service-icon">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <h4>技术服务</h4>
+                        <p>专业的技术团队，提供稳定可靠的系统开发与运维支持。</p>
+                        <ul class="service-features">
+                            <li>Web应用开发</li>
+                            <li>移动应用开发</li>
+                            <li>系统集成与部署</li>
+                            <li>技术架构咨询</li>
+                        </ul>
+                    </div>
+                    <div class="service-detail-card">
+                        <div class="service-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h4>运营服务</h4>
+                        <p>全方位的运营支持，帮助企业实现可持续的业务增长。</p>
+                        <ul class="service-features">
+                            <li>用户运营策略</li>
+                            <li>数据分析报告</li>
+                            <li>市场推广方案</li>
+                            <li>内容营销策划</li>
+                        </ul>
+                    </div>
+                </section>
+            </div>
+            <!-- 客户案例 -->
+            <div class="page-content" id="casesPage" style="display: none;">
+                <section class="cases-section">
+                    <div class="case-card">
+                        <div class="case-image">
+                            <i class="fas fa-shopping-cart"></i>
+                        </div>
+                        <div class="case-content">
+                            <h4>智能电商平台</h4>
+                            <p class="case-tag">电子商务</p>
+                            <p class="case-desc">为某知名电商集团打造智能推荐系统，通过AI算法提升转化率40%。</p>
+                            <div class="case-result">
+                                <span class="result-item"><i class="fas fa-arrow-up"></i> 销售额提升 40%</span>
+                                <span class="result-item"><i class="fas fa-users"></i> 用户留存 +25%</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="case-card">
+                        <div class="case-image">
+                            <i class="fas fa-heartbeat"></i>
+                        </div>
+                        <div class="case-content">
+                            <h4>智慧医疗系统</h4>
+                            <p class="case-tag">医疗健康</p>
+                            <p class="case-desc">开发医院管理系统，实现预约挂号、在线问诊、电子病历等功能。</p>
+                            <div class="case-result">
+                                <span class="result-item"><i class="fas fa-clock"></i> 就诊效率 +60%</span>
+                                <span class="result-item"><i class="fas fa-smile"></i> 患者满意度 95%</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="case-card">
+                        <div class="case-image">
+                            <i class="fas fa-university"></i>
+                        </div>
+                        <div class="case-content">
+                            <h4>金融风控平台</h4>
+                            <p class="case-tag">金融科技</p>
+                            <p class="case-desc">构建智能风控系统，运用大数据分析实现实时风险评估和预警。</p>
+                            <div class="case-result">
+                                <span class="result-item"><i class="fas fa-shield-alt"></i> 风险识别率 99.5%</span>
+                                <span class="result-item"><i class="fas fa-bolt"></i> 响应时间 &lt;100ms</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="case-card">
+                        <div class="case-image">
+                            <i class="fas fa-seedling"></i>
+                        </div>
+                        <div class="case-content">
+                            <h4>智慧农业物联网</h4>
+                            <p class="case-tag">农业科技</p>
+                            <p class="case-desc">部署IoT设备监测农作物生长，实现精准灌溉和智能施肥。</p>
+                            <div class="case-result">
+                                <span class="result-item"><i class="fas fa-leaf"></i> 产量提升 35%</span>
+                                <span class="result-item"><i class="fas fa-tint"></i> 用水量减少 50%</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+            <!-- 关于我们 -->
+            <div class="page-content" id="aboutPage" style="display: none;">
+                <section class="about-section">
+                    <div class="about-intro">
+                        <img src="../../images/default.png"alt="公司logo" class="about-logo">
+                        <h3 class="about-title">关于狸庐</h3>
+                        <p class="about-text">
+                            筚路蓝缕，如履薄冰，艰难前行，持续运营。
+                        </p>
+                    </div>
+                    <div class="mission-vision">
+                        <div class="mv-card">
+                            <div class="mv-icon">
+                                <i class="fas fa-rocket"></i>
+                            </div>
+                            <h4>我们的使命</h4>
+                            <p>用科技赋能企业，让创新成为增长动力</p>
+                        </div>
+                        <div class="mv-card">
+                            <div class="mv-icon">
+                                <i class="fas fa-eye"></i>
+                            </div>
+                            <h4>我们的愿景</h4>
+                            <p>成为企业数字化转型的首选合作伙伴</p>
+                        </div>
+                    </div>
+                    <div class="contact-section">
+                        <h3 class="section-title">联系我们</h3>
+                        <div class="contact-card">
+                            <div class="contact-item">
+                                <i class="fas fa-envelope"></i>
+                                <div>
+                                    <span class="contact-label">电子邮箱</span>
+                                    <span class="contact-value">yunliyo@foxmail.com</span>
+                                </div>
+                            </div>
+                            <div class="contact-item">
+                                <i class="fas fa-globe"></i>
+                                <div>
+                                    <span class="contact-label">网站</span>
+                                    <span class="contact-value">www.liqiang.info</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="social-links">
+                            <a href="https://github.com/yunliyo" target="_blank" class="social-link"><i class="fab fa-github"></i></a>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+        <!-- 底部导航 -->
+        <footer class="bottom-nav">
+            <div class="nav-item active" data-target="homePage">
+                <i class="fas fa-home"></i>
+                <span>首页</span>
+            </div>
+            <div class="nav-item" data-target="servicesPage">
+                <i class="fas fa-box-open"></i>
+                <span>产品服务</span>
+            </div>
+            <div class="nav-item" data-target="casesPage">
+                <i class="fas fa-project-diagram"></i>
+                <span>客户案例</span>
+            </div>
+            <div class="nav-item" data-target="aboutPage">
+                <i class="fas fa-info-circle"></i>
+                <span>关于我们</span>
+            </div>
+        </footer>
+    </div>
+
+    <script src="./assets/js/webapp.js"></script>
+
+</body>
+
+</html>

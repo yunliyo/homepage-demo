@@ -1,0 +1,20 @@
+<navigation-bar id="navigationBar" title="狸庐" back="{{true}}" home="{{true}}" color="black" background="#FFF"></navigation-bar>
+<scroll-view class="scrollarea" scroll-y type="list">
+  <view class="profile-container">
+    <text class="nickname">{{nickname}}</text>
+    <view class="links-container">
+      <block wx:for="{{buttons}}" wx:key="index">
+        <view
+        class="link-item"
+        bindtap="{{item.copyText ? 'copyText' : 'navigateTo'}}"
+        data-text="{{item.copyText}}"
+        data-url="{{item.navigateTo}}"
+        ><text>{{item.text}}</text></view>
+      </block>
+    </view>
+    <view class="info">
+      <view class="yiyan">{{yiyan}}</view>
+      <view class="copyright" >{{copyright}}</view>
+    </view>
+  </view>
+</scroll-view>

@@ -1,0 +1,349 @@
+/* 基础样式 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: #f5f5f5;
+    color: #333;
+    line-height: 1.6;
+    padding: 30px 20px;
+}
+
+/* 信息栏样式 - 顶部状态栏和控制按钮 */
+.info {
+    max-width: 900px;
+    margin: 0 auto 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+.status-bar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 14px;
+    color: #666;
+}
+
+.controls {
+    display: flex;
+    gap: 10px;
+}
+
+.circle-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: none;
+    background-color: #f0f0f0;
+    color: #333;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.circle-btn:hover {
+    background-color: #e0e0e0;
+    transform: scale(1.1);
+}
+
+/* 玻璃公告栏样式 - 滚动通知 */
+.glass {
+    max-width: 900px;
+    margin: 0 auto 20px;
+    padding: 10px 16px;
+    border-left: 4px solid var(--accent, #2196f3);
+    background-color: #fff;
+    color: var(--accent, #2196f3);
+    font-weight: 700;
+    font-size: 12px;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+}
+
+.marquee {
+    display: inline-block;
+    white-space: nowrap;
+    animation: marquee-scroll 15s linear infinite;
+    padding-top: 4px;
+    padding-bottom: 4px;
+}
+
+@keyframes marquee-scroll {
+    0% {
+        transform: translateX(100%);
+    }
+    100% {
+        transform: translateX(-100%);
+    }
+}
+
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+}
+
+/* 头部样式 */
+.header {
+    background: linear-gradient(135deg, #64b5f6, #42a5f5);
+    color: white;
+    padding: 40px 25px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    opacity: 0.3;
+}
+
+.avatar {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    border: 4px solid white;
+    margin: 0 auto 20px;
+    background-image: url("../../../../images/default.png");
+    background-size: cover;
+    position: relative;
+    z-index: 1;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+}
+
+.header h1 {
+    font-size: 26px;
+    margin-bottom: 10px;
+    position: relative;
+    z-index: 1;
+    letter-spacing: 0.5px;
+}
+
+.header p {
+    font-size: 15px;
+    opacity: 0.9;
+    position: relative;
+    z-index: 1;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* 内容区域样式 */
+.content {
+    padding: 30px 40px;
+}
+
+.section {
+    margin-bottom: 30px;
+    padding-bottom: 25px;
+    border-bottom: 1px solid #eee;
+}
+
+.section:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.section-title {
+    color: #2196f3;
+    font-size: 18px;
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    font-weight: 600;
+}
+
+.section-title::before {
+    content: '';
+    display: inline-block;
+    width: 4px;
+    height: 18px;
+    background-color: #2196f3;
+    border-radius: 2px;
+    margin-right: 10px;
+}
+
+.social-links,
+.games-list,
+.contact-info,
+.projects-list {
+    list-style: none;
+}
+
+.social-links li,
+.games-list li,
+.contact-info li,
+.projects-list li {
+    margin-bottom: 12px;
+    padding-left: 24px;
+    position: relative;
+    font-size: 14px;
+}
+
+.social-links li::before,
+.games-list li::before,
+.contact-info li::before,
+.projects-list li::before {
+    content: '•';
+    color: #2196f3;
+    font-weight: bold;
+    position: absolute;
+    left: 0;
+}
+
+.games-list li em {
+    color: #757575;
+    font-style: normal;
+    font-size: 13px;
+}
+
+.link {
+    color: #2196f3;
+    text-decoration: none;
+    transition: color 0.2s;
+    font-weight: 500;
+}
+
+.link:hover {
+    color: #1976d2;
+    text-decoration: underline;
+}
+
+@keyframes scroll {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(-153%);
+    }
+}
+
+/* 页脚样式 */
+.footer {
+    background-color: #f5f9ff;
+    padding: 20px 25px;
+    border-top: 1px solid #e3f2fd;
+    margin-top: auto;
+}
+
+.footer h6 {
+    font-size: 12px;
+    color: #64748b;
+    text-align: center;
+    line-height: 1.8;
+    font-weight: normal;
+}
+
+.footer h6 a {
+    color: #2196f3;
+    text-decoration: none;
+}
+
+.footer h6 a:hover {
+    color: #1976d2;
+    text-decoration: underline;
+}
+
+/* 语言切换按钮样式 */
+.language-switcher {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    position: relative;
+    z-index: 1;
+    gap: 15px;
+}
+
+.lang-btn {
+    background-color: rgba(255, 255, 255, 0.2);
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    color: white;
+    padding: 8px 20px;
+    border-radius: 30px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.lang-btn:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+    border-color: rgba(255, 255, 255, 0.8);
+}
+
+.lang-btn.active {
+    background-color: rgba(255, 255, 255, 0.9);
+    color: #2196f3;
+    border-color: white;
+}
+
+/* 响应式设计 - 手机端优化 */
+@media (max-width: 600px) {
+    @keyframes scroll {
+        0% {
+            transform: translateX(0);
+        }
+
+        100% {
+            transform: translateX(-342%);
+        }
+    }
+
+    .container {
+        border-radius: 8px;
+    }
+
+    .header {
+        padding: 25px 15px;
+    }
+
+    .avatar {
+        width: 110px;
+        height: 110px;
+    }
+
+    .content {
+        padding: 25px 20px;
+    }
+
+    .section {
+        margin-bottom: 25px;
+        padding-bottom: 20px;
+    }
+
+    .footer {
+        padding: 15px 15px;
+    }
+
+    .footer h6 {
+        font-size: 11px;
+    }
+}

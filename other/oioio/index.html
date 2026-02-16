@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <title>狸庐</title>
+    <link rel="stylesheet" href="./css/styles.css">
+</head>
+
+<body>
+    <!-- 导航栏 -->
+    <header>
+        <nav>
+            <ul>
+                <li><a href="#home" data-target="home">首页</a></li>
+                <li><a href="#about" data-target="about">关于</a></li>
+                <li><a href="#projects" data-target="projects">项目</a></li>
+                <li><a href="#members" data-target="members">成员</a></li>
+                <li><a href="#contact" data-target="contact">联系</a></li>
+                <a href="javascript:void(0);">友链</a>
+            </ul>
+            <div class="indicator"></div> <!-- 用于显示指示器 -->
+        </nav>
+    </header>
+
+    <!-- 首页 -->
+    <section id="home">
+        <img src="../../images/default.png" class="hero-avatar">
+        <div class="hero">
+            <h1>狸庐</h1>
+            <p>“过眼溪山，旧时曾识”</p>
+            <br>
+            <button onclick="scrollToSection('projects')">
+                <i class="fas fa-rocket"></i>
+                <b>查看项目</b>
+            </button>
+            <button onclick="scrollToSection('about')"
+                style="background: #fff; color: var(--text-primary);border-color: #fff;">
+                <i class="fas fa-user"></i>
+                <b>了解我们</b>
+            </button>
+        </div>
+    </section>
+
+    <!-- 关于我们 -->
+    <section id="about">
+        <div style="text-align: center; display: flex; align-items: center; flex-direction: row;">
+            <h2 class="page-title"><b>|</b>关于我们</h2>
+        </div>
+        <div class="about-section">
+            <h3>狸庐简介</h3>
+            <p>你好！欢迎来到<strong>狸庐</strong>，让我们无限进步。</p>
+            <blockquote>
+                岁月如歌，我们的爱在时光的长河中泛起波光粼粼，温柔又璀璨，仿佛每一寸回忆都被镀上了金色的光辉。
+            </blockquote>
+            <p>成分复杂，人才丰富。</p>
+        </div>
+        <div class="about-section" style="margin-top: 10px;">
+            <h3>目标与愿景</h3>
+            <p>热爱永不降温，我们的目标是：</p>
+            <ul class="about-list">
+                <li>1. 摆烂二十四小时</li>
+                <li>2. 摆烂一个星期</li>
+                <li>3. 摆烂一个月</li>
+                <li>4. 摆烂一整年</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- 项目 -->
+    <section id="projects" class="section">
+        <h2 class="page-title"><b>|</b>项目展示</h2>
+        <div class="card">
+            <div class="project-card">
+                <img src="../img/lgboxs.jpg" alt="粼光开源集IMG" class="project-image">
+                <div class="project-content">
+                    <h3>开源集</h3>
+                    <p>开源集，开元新生态。</p>
+                    <div class="project-tech">
+                        <span><i class="fas fa-atom"></i> Electron</span>
+                        <span><i class="fab fa-vuejs"></i> Vue3</span>
+                        <span><i class="fab fa-node-js"></i> Node.js</span>
+                        <span class="star-count"><i class="fas fa-star"></i> <img src="https://img.shields.io/github/stars/GSQZ/TuneFree?style=flat&color=yellow" alt="GitHub stars"></span>
+                    </div>
+                    <div class="project-links">
+                        <a href="javascript:void(0);" target="_blank"><i class="fas fa-globe"></i> 官网</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <img src="https://linguang.jibukeshi.us.kg/images/drawerHeader.png" alt="粼光应用商店IMG"
+                    class="project-image">
+                <div class="project-content">
+                    <h3>应用商店</h3>
+                    <p>应用商店旧版项目地址</p>
+                    <div class="project-tech">
+                        <span><i class="fas fa-atom"></i> Electron</span>
+                        <span><i class="fab fa-vuejs"></i> Vue3</span>
+                        <span><i class="fab fa-node-js"></i> Node.js</span>
+                        <span class="star-count"><i class="fas fa-star"></i> <img src="https://img.shields.io/github/stars/GSQZ/TuneFree?style=flat&color=yellow" alt="GitHub stars"></span>
+                    </div>
+                    <div class="project-links">
+                        <a href="javascript:void(0);" target="_blank"><i class="fas fa-globe"></i> 官网</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- 成员 -->
+    <section id="members" class="section">
+        <h2 class="page-title"><b>|</b>狸庐成员</h2>
+        <div class="container">
+            <div class="member-card">
+                <img src="../../images/default.png" class="member-image">
+                <div class="member-content">
+                    <h3>韵狸<b>创始人</b></h3>
+                    <p>馀事做诗人</p>
+                </div>
+                <div class="member-links">
+                    <a href="https://github.com/yunliyo" target="_blank"><i class="fab fa-github"></i></a>
+                    <a href="mailto:yunliyo@foxmail.com" target="_blank"><i class="far fa-envelope"></i></a>
+                </div>
+            </div>
+        </div>
+        <!--div class="pagination">
+            <button class="member-button" onclick="prevPage()">上一页</button>
+            <div class="page-indicators">
+                <span class="indicator active" onclick="goToPage(1)">1</span>
+                <span class="indicator" onclick="goToPage(2)">2</span>
+            </div>
+            <button class="member-button" onclick="nextPage()">下一页</button>
+        </div-->
+    </section>
+
+    <!-- 联系我们 -->
+    <section id="contact">
+        <h2 class="page-title"><b>|</b>联系我们</h2>
+        <div class="contact-cards">
+            <a href="mailto:yunliyo@foxmail.com" target="_blank" class="contact-card">
+                <img src="./img/qqmail.png" class="contact-image">
+                <b>邮箱</b>
+            </a>
+            <a href="https://bilibili.com" target="_blank" class="contact-card">
+                <img src="./img/bilibili.png" class="contact-image">
+                <b>B站</b>
+            </a>
+        </div>
+    </section>
+
+
+    <!-- 页脚 -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-main">
+                <div class="footer-info">
+                    <div class="footer-logo">
+                        <span class="logo-text">狸庐</span>
+                        <span class="logo-dot"></span>
+                        <span class="logo-text">TOP</span>
+                    </div>
+                    <p class="footer-copyright">&copy; 2014-<script>document.write(new Date().getFullYear())</script> by 韵狸.</p>
+                </div>
+                <div class="footer-links">
+                    <a href="https://beian.miit.gov.cn/" target="_blank" class="footer-link">
+                        <i class="fas fa-shield-alt"></i>
+                        未ICP备00000000号
+                    </a>
+                    <a href="https://www.github.com/" target="_blank" class="footer-link">
+                        <i class="fab fa-github"></i>
+                        <span>GitHub 提供部署支持</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <script src="./js/scripts.js"></script>
+
+</body>
+
+</html>

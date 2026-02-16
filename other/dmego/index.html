@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Yunli</title>
+    <link rel="stylesheet" type="text/css" href="./assets/css/onlinewebfonts.css" />
+    <link rel="stylesheet" type="text/css" href="./assets/css/vno.css">
+    <link rel="stylesheet" type="text/css" href="./assets/css/iconfont.css">
+    <link rel="apple-touch-icon" href="../../images/default.png">
+    <link rel="icon" href="../../images/default.png">
+</head>
+
+<body>
+    <span class="mobile btn-mobile-menu">
+        <i class="social iconfont icon-list btn-mobile-menu__icon"></i>
+        <i class="social iconfont icon-angleup btn-mobile-close__icon hidden"></i>
+    </span>
+    <header id="panel" class="panel-cover">
+        <div class="panel-main">
+            <div class="panel-main__inner panel-inverted">
+                <div class="panel-main__content">
+                    <div class="ih-item circle effect right_to_left">
+                        <a href="#" title="" class="blog-button">
+                            <div class="img"><img src="../../images/default.png" alt="img" class="js-avatar iUp profilepic"></div>
+                            <div class="info iUp">
+                                <div class="info-back">
+                                    <h2>元亨利贞</h2>
+                                    <p>馀事做诗人</p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <h1 class="panel-cover__title panel-title iUp"><a href="#" title="Yunli">Yunli</a></h1>
+                    <p class="panel-cover__subtitle panel-subtitle iUp">一个热爱诗词书画的程序员</p>
+                    <hr class="panel-cover__divider iUp" />
+                    <p id="description" class="panel-cover__description iUp">做梦想做的事。
+                        <br />
+                        <strong>-「韵狸」</strong>
+                    </p>
+                    <div class="navigation-wrapper iUp">
+                        <div>
+                            <nav class="cover-navigation cover-navigation--primary">
+                                <ul class="navigation">
+                                    <li class="navigation__item">
+                                        <a href="" class="blog-button">首页</a>
+                                    </li>
+                                    <li class="navigation__item">
+                                        <a href="https://liqiang.info" class="blog-button" target="_blank"
+                                            onclick="event.preventDefault();">博客</a>
+                                    </li>
+                                    <li class="navigation__item">
+                                        <a href="file:///D:/repo/yunli/page/about.html" class="blog-button" target="_blank"
+                                            onclick="event.preventDefault();">关于</a>
+                                    </li>
+                                    <li class="navigation__item">
+                                        <a href="https://liqiang.info" class="blog-button" target="_blank" 
+                                            onclick="event.preventDefault(); showWeChatModal();">打赏</a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                        <div class="iUp">
+                            <nav class="cover-navigation navigation--social">
+                                <ul class="navigation">
+                                    <li class="navigation__item">
+                                        <a href="https://github.com/yunliyo" title="github" target="_blank">
+                                            <i class='social iconfont icon-github'></i>
+                                            <span class="label">Github</span>
+                                        </a>
+                                    </li>
+                                    <li class="navigation__item">
+                                        <!-- 加密的邮箱地址, 请自行修改, 或者改用下方的明文方式 -->
+                                        <a href="javascript:decryptEmail('eXVubGkucG9ldGljLmxlZUBnbWFpbC5jb20=');" title="email">
+                                            <!--a href="test@test.com" title="email"-->
+                                            <i class='social iconfont icon-email'></i>
+                                            <span class="label">E-Mail</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-cover--overlay cover-slate"></div>
+        </div>
+        <div class="beian iUp">
+            <a class="icp" href="http://beian.miit.gov.cn/" target="_blank">未ICP备00000000号</a>
+            <a class="gwab" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=00000000000000" target="_blank">未公网安备000000000000号</a>
+        </div>
+        <div class="remark iUp">
+            <p class="power">Powered By
+                <a href="https://liqiang.info" target="_blank"> Yunli </a>.
+            </p>
+        </div>
+    </header>
+    <!-- WeChat Modal -->
+    <div id="wechatModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); z-index: 1000; justify-content: center; align-items: center; flex-direction: column; opacity: 0; visibility: hidden; transition: opacity 0.3s ease;" onclick="closeWeChatModal()">
+        <img src="../../images/default-img.png" alt="WeChat" style="max-width: 300px; max-height: 300px; border-radius: 10px;" onclick="event.stopPropagation()">
+    </div>
+    <script type="text/javascript" src="./assets/js/main.js"></script>
+    <script type="text/javascript" src="./assets/json/images.json?cb=getBingImages"></script>
+</body>
+
+</html>

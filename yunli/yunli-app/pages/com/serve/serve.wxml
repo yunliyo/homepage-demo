@@ -1,0 +1,96 @@
+<navigation-bar id="navigationBar" title="产品服务" back="{{true}}" home="{{true}}" color="black" background="#FFF"></navigation-bar>
+<view class="serve-container">
+  <!-- 顶部轮播卡片 -->
+  <view class="slider-section">
+    <swiper
+      class="slider-swiper"
+      indicator-dots="true"
+      indicator-color="rgba(255, 255, 255, 0.4)"
+      indicator-active-color="#ffffff"
+      autoplay="true"
+      interval="3000"
+      circular="true"
+      duration="500"
+      current="{{currentBanner}}"
+      bindchange="onBannerChange">
+      <swiper-item wx:for="{{banners}}" wx:key="id">
+        <view class="slider-card" bindtap="onBannerTap" data-id="{{item.id}}">
+          <image class="slider-image" src="{{item.image}}" mode="aspectFill" />
+          <view class="slider-overlay">
+            <text class="slider-title">{{item.title}}</text>
+            <text class="slider-desc">{{item.description}}</text>
+          </view>
+        </view>
+      </swiper-item>
+    </swiper>
+  </view>
+  <!-- 产品模块 -->
+  <view class="section">
+    <view class="section-header">
+      <text class="section-title">{{pageConfig.sections.product.title}}</text>
+      <view class="section-line"></view>
+    </view>
+    <view class="product-list">
+      <view class="product-card" wx:for="{{products}}" wx:key="id">
+        <image class="product-image" src="{{item.image}}" mode="aspectFill" />
+        <view class="product-info">
+          <text class="product-name">{{item.name}}</text>
+          <text class="product-desc">{{item.description}}</text>
+          <view class="product-tags">
+            <text class="tag" wx:for="{{item.tags}}" wx:key="*this" wx:for-item="tag">{{tag}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+  <!-- 项目模块 -->
+  <view class="section">
+    <view class="section-header">
+      <text class="section-title">{{pageConfig.sections.project.title}}</text>
+      <view class="section-line"></view>
+    </view>
+    <view class="project-list">
+      <view class="project-card" wx:for="{{projects}}" wx:key="id" bindtap="onProjectTap" data-id="{{item.id}}">
+        <view class="project-content">
+          <text class="project-name">{{item.name}}</text>
+          <text class="project-intro">{{item.intro}}</text>
+          <view class="project-meta">
+            <text class="meta-item">
+              <image class="meta-icon-img" src="{{icons.date}}" />
+              {{item.date}}
+            </text>
+            <text class="meta-item">
+              <image class="meta-icon-img" src="{{icons.team}}" />
+              {{item.team}}
+            </text>
+          </view>
+        </view>
+        <view class="project-status status-{{item.status}}">
+          {{item.statusText}}
+        </view>
+      </view>
+    </view>
+  </view>
+  <!-- 服务项目模块 -->
+  <view class="section">
+    <view class="section-header">
+      <text class="section-title">{{pageConfig.sections.service.title}}</text>
+      <view class="section-line"></view>
+    </view>
+    <view class="service-list">
+      <view class="service-card" wx:for="{{services}}" wx:key="id" bindtap="onServiceTap" data-id="{{item.id}}">
+        <image class="service-icon-img" src="{{item.icon}}" />
+        <view class="service-content">
+          <text class="service-name">{{item.name}}</text>
+          <text class="service-desc">{{item.description}}</text>
+          <view class="service-features">
+            <text class="feature" wx:for="{{item.features}}" wx:key="*this" wx:for-item="feature">
+              <image class="feature-icon" src="{{icons.check}}" />{{feature}}
+            </text>
+          </view>
+        </view>
+        <image class="service-arrow-img" src="{{icons.arrow}}" />
+      </view>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <title>Yunli</title>
+    <link rel="icon" href="../../images/default.png" type="image/x-icon">
+    <link rel="shortcut icon" href="../../images/default.png" type="image/x-icon">
+    <link rel="stylesheet" href="./static/style.css">
+</head>
+
+<body oncontextmenu="return false">
+    <!-- 背景图片容器 -->
+    <div id="background-image"></div>
+    <!-- 移动端标题图片 -->
+    <img id="headimg" class="mobile-headimg" src="" alt="页面标题" loading="lazy">
+    <!-- PC端左右对称布局 -->
+    <div id="pc-container">
+        <!-- 左半边：标题图片、头像和赏赐按钮 -->
+        <div class="pc-left-panel">
+            <!-- PC端标题图片 -->
+            <img id="headimg-pc" class="pc-headimg" src="" alt="页面标题" loading="lazy">
+            <div id="single-avatar" class="pc-avatar">
+                <img src="../../images/default.png" alt="" id="avatar-img-pc" class="avatar-img-common" draggable="false" loading="lazy">
+            </div>
+            <div id="box-pc" class="box-common">
+                <div class="smallbox" id="sb2-pc">
+                    <a href="javascript:void(0)" onclick="openRewardModal()">
+                        囊空恐羞涩，留得一钱看
+                    </a>
+                </div>
+            </div>
+        </div>
+        <!-- 右半边：搜索引擎 -->
+        <div class="pc-right-panel">
+            <div id="search-container">
+                <!-- 百度搜索 -->
+                <div class="search-box">
+                    <input type="text" id="baidu-input" class="search-input" placeholder="百度搜索..." autocomplete="off">
+                    <button class="search-btn" onclick="doSearch('baidu')">百度</button>
+                </div>
+                <!-- 谷歌搜索 -->
+                <div class="search-box">
+                    <input type="text" id="google-input" class="search-input" placeholder="谷歌搜索..." autocomplete="off">
+                    <button class="search-btn" onclick="doSearch('google')">谷歌</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 移动端布局（保持原有结构） -->
+    <div id="main-box">
+        <!-- 头像 -->
+        <div id="single-avatar-mobile" class="single-avatar-mobile">
+            <img src="../../images/default.png" alt="" id="avatar-img" class="avatar-img-common" draggable="false" loading="lazy">
+        </div>
+        <!-- 功能按钮 -->
+        <div id="box" style="margin-bottom: 20px;">
+            <div class="smallbox" id="sb2">
+                <a href="javascript:void(0)" onclick="openRewardModal()">
+                    囊空恐羞涩，留得一钱看
+                </a>
+            </div>
+        </div>
+    </div>
+    <!-- 赏赐弹窗 -->
+    <div id="reward-modal" class="reward-modal" onclick="closeRewardModal(event)">
+        <div class="reward-content">
+            <button class="reward-close" onclick="closeRewardModal(event)">&times;</button>
+            <!-- 支付方式选择 -->
+            <div id="reward-selection">
+                <div class="pay-item" onclick="showQrCode('qq')">
+                    <div class="pay-icon qq-bg">
+                        <img src="data:image/png;base64,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" alt="QQ钱包" width="40" height="40">
+                    </div>
+                    <span class="pay-name">QQ钱包</span>
+                </div>
+                <div class="pay-item" onclick="showQrCode('wechat')">
+                    <div class="pay-icon wechat-bg">
+                        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJMAAACABAMAAAD9iUYTAAAAG1BMVEUAAAAItwgIuggIuwYJuwcJvAcKvAYIuwgJuwfwtx5iAAAACHRSTlMAIGCAv9+fQIKJL3EAAAPySURBVGjerZrLb9pAEMbtPJoeoTSPI0qklCNRqOojUaOIIylNy5E+lHK0VFXNsSks7J/d2sZmH996Z9Z8N2z4MTs7O7OzdhTVqn0xuH2Yiofbu29vogZqD6ZSkbg7T8NAnYG0JL4GgOK3Ekr84JJ+Sqc+sUYZJ7JG4h2dtDeX9fpAJe1LryY7IxFZJBKJtUcjEVjxiIqSnz2ohEySol9L+kUn/WelzV1earETRxW6d6KemCS3u5jDy+SKiDkfJbFZBwEkKVoIxfW52/Ovg0jQrDCjkFlBnsrN2plRUo4N0otgkvxroJJgkhmlRzsjRYehJLv2jAJJVxaJnNB1ocRwtjNS2PhEt/x53G82vtV28SXrRvM3UUjK4kkCSHpKqcbKJynh1Mk+l+uQv/6+bElFQSjX4UsmSCiBeTQtLm0+9pgkJZyqyrlx1pRH6iqkpLw6DIgqJZzUqS8ii5WKJypJ2aws2F7XspNaowTX6xqpo91Ks0tzMulGJRk7jCGI9YVr/y+0PBdP9btjMIFj61sbkpadYnMsz2DZDE0vIJKdAdYgFjJLjy3SsqWRetYXFiBZrSPQLk10EtiqLEFYCTA9RrGDDkC2ptb/GiS80UyBA4eRMcQbnbTJK6a6IELXRtwYZdO1I+8D1EpziFnsnA1sH9TAckvYQyR3SemjxDfbBvQyNUjuJmiGUONyLBdWv33iJGWzZV90d0F1/QZEiRBSNhZ7gNtaSwuDyqop/ANESqQHBf5qDVH1pGwGAWqJSL5eeIZTe2qTvC1QH6OGFqnjI2Uo5ALrCIHQwHZxw7wySI68oqmFd8dGk0fq9CPHlmHGCKjtQCBKC1IKKUdBj6qN2TGFlP8CNl3Kij4hkfLqHMM7VZBSzzFy787rnEXeEubZ5AndWTPCIFcePmfozpIeBrkK5+IOICWHQa4iieO++Z6QVxQ9Fw6B/hAp62hlszx6ePQjBkm2iFnNrxU3dtwqqwH7tNBWlXZ7jVHVOmvsrG3WjZui/jCTW4263OzmlFqCw8+ccj2r6XveCKUV80ZzqFdN3GwRpZWn0GOnXOYJfoN1aO3GkmBUaqL8ux6qUYyKYKhroULN+muTQs1KASrMLLyZDplE11OhgEXtfJDDzjUrF4nv+dSJ4j4UqnusxytjNU/PIt5TL+NsxdQZneR50sg5rPOQGHXaR6KXiysfiXraKvwk4hm3z+OZaBneOBfDohyXE19BONx+v305wialJFIV7Hkail99tyx6TwRVYVW59fRSmVLx8ZoMqsJKnaD26fnF493j9fVvOiZTQfK9EkBREQvElzEIqEVzTlSElScLUXXgeUeBoX3S6iIpHjQi/QP2us/nibauVQAAAABJRU5ErkJggg==" alt="微信支付" width="40" height="40">
+                    </div>
+                    <span class="pay-name">微信支付</span>
+                </div>
+                <div class="pay-item" onclick="showQrCode('alipay')">
+                    <div class="pay-icon alipay-bg">
+                        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACABAMAAAAxEHz4AAAAG1BMVEUAAAAIfPcKevcJe/gKe/gKe/kLevcIePcKe/iijYOsAAAACHRSTlMAQIC/359gIKkgsagAAAN8SURBVGje7ZlBT9swFMddKhaOQRtbj4FuoseKwZRjV7auRxgqyrFiGuqxZRPlSJu0+GMvcezEdvwcx5YmhPjf6ub98vLes+M8I5Sr1Q2xuZLzMx8JetvAmjKueft3je1TfS3t/9jYY/yD2bfs7HEyp4CZJQAP3RxIFRBAxx5A4ujZ2+dRaDsAcN8lhJlWKSB0ASQIvXGxx9hHu26APtpzAwzcYphFMXIDrLVJ2Oa1rquUGI01/wb1gEQLmJoAsBsAvwJeAS8RsFqKoq8+Txoeg4AnZKQXDYg/i/Jzgx1p+DnXwSvgmQAu9znNc0CLHwtrAEGjOrYAVLZU/x3QrgOcTQDRjOw1SiMvOrVn1gD6CJEtYANk0RjwBCTBGPCYA3atAVASjAFzIAmmgJjGMLQF0E2v4mppKDk53P+wuP10ahpDEZAcFTW/vBG8DaAYCoBkKsyb+yvuMiiGPCCey1OvQIB1yAMSXzF77yPyH1iHPKCvXgDuslhcAIsBD9giQN6voow6OoCPQN1PwDIqASuWvaPJz1sApuwTMABJdKtHf50fGq2HHIDU+h03rkLMNIAnyT7VsFIWoQaQ1uCO/FcsFibyPmoASn5yLLlwAAK2CgcywqWc0BAAPEKtmJFcVV014ALsBQ0rpT1WAaZwH6JCWEQKwFzThwhUk0MGaHo5MaqKjyUBbDS9nAE0QyXAGLAvOnaQEwSwhgErBIg5UQfwEah8xawBMAfa1alFESwGkd6BCH9X+rLoIpqqjtKe9V2zOt0AT0NCDaw2xUpP8NJ7hweknip7cn0WccoLQECAPEUlrdk1D8yjYwiQ3uov/ABl07SyQDDAStVavZAdyDRSA7KXp+xC0fkWl4qhEpB56/WAC2ciWC6pMt6tsdK+stRIJcUF3IuKYJXhVqRHLAg+4t4B2RslJ9w9ZrgqIZ10jLX6vfe37FOJSH1ywKeTDUmhodrBgEYyoDxt4CXEFUhG4VWguD9sXyajfK55I/siGXCF3OEa5cmAKkQqTDgZwkCxLVl2682J1/L++/x6f+ktbq7MzAnB+FJA2sa0ESB0s49dARvUcwV03ABbYcW00KPbOZVue2Yo3/GgKttBdVwA2f7B+bDOG9vb54vQg9sTOB3X0RWoZ2vPPhVto1B+61oeXA/qXmA14o7OEfrd3P8v4ktg0T1tYv6teIH/A4Qg93svKTuWAAAAAElFTkSuQmCC" alt="支付宝" width="40" height="40">
+                    </div>
+                    <span class="pay-name">支付宝</span>
+                </div>
+            </div>
+            <!-- 二维码显示区域 -->
+            <div id="reward-qr" style="display: none;">
+                <img class="reward-img" id="reward-img" src="" alt="赏赐二维码">
+                <button class="back-btn" onclick="backToSelection()">返回选择</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="./static/script.js"></script>
+
+</body>
+
+</html>

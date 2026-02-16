@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>404 - 页面不存在</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
+    }
+    body {
+      min-height: 100vh;
+      background: #f8f9fa;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    #app {
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+      padding: 60px 40px;
+      max-width: 450px;
+      width: 100%;
+      text-align: center;
+    }
+    .text-404 {
+      font-size: 72px;
+      font-weight: 700;
+      color: #4299e1;
+      margin-bottom: 20px;
+      letter-spacing: -2px;
+    }
+    .text-title {
+      font-size: 24px;
+      color: #2d3748;
+      margin-bottom: 16px;
+    }
+    .desc {
+      font-size: 15px;
+      color: #718096;
+      line-height: 1.6;
+      margin-bottom: 36px;
+    }
+    .countdown {
+      font-size: 14px;
+      color: #4a5568;
+      margin-bottom: 36px;
+    }
+    .btn {
+      display: inline-block;
+      background: #4299e1;
+      color: #fff;
+      padding: 12px 36px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-size: 16px;
+      font-weight: 500;
+      transition: background 0.3s ease;
+    }
+    .btn:hover {
+      background: #3182ce;
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <div class="text-404">404</div>
+    <h2 class="text-title">页面找不到啦</h2>
+    <p class="desc">你访问的页面不存在、已被移除或链接有误，请返回首页继续浏览～</p>
+    <p class="countdown"><span id="count">5</span>秒后自动返回首页</p>
+    <a href="/" class="btn">立即返回首页</a>
+  </div>
+
+  <script>
+    let count = 5;
+    const countElement = document.getElementById('count');
+    const timer = setInterval(() => {
+      count--;
+      countElement.textContent = count;
+      if (count <= 0) {
+        clearInterval(timer);
+        window.location.href = "/"
+      }
+    }, 1000);
+  </script>
+</body>
+</html>

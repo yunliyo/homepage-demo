@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Yunli</title>
+  <link rel="icon" href="../../images/default.png" type="image/x-icon">
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+  <link rel="stylesheet" href="./static/css/styles.css">
+  <link rel="stylesheet" href="./static/css/all.min.css">
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const openModalBtn = document.getElementById('openModalBtn');
+      const modal = document.getElementById('myModal');
+      const closeBtn = document.querySelector('.close-btn');
+
+      openModalBtn.addEventListener('click', function () {
+        modal.style.display = 'flex';
+      });
+
+      closeBtn.addEventListener('click', function () {
+        modal.style.display = 'none';
+      });
+
+      modal.addEventListener('click', function (event) {
+        if (event.target === modal) {
+          modal.style.display = 'none';
+        }
+      });
+      document.addEventListener('keydown', function (event) {
+        if (event.key === 'Escape' && modal.style.display === 'flex') {
+          modal.style.display = 'none';
+        }
+      });
+    });
+  </script>
+</head>
+
+<body>
+  <main class="main-content">
+    <section class="profile-section">
+      <div class="profile">
+        <img src="../../images/default.png" alt="Logo" class="avatar">
+        <div class="location"><i class="fas fa-map-marker-alt"></i> China-Chongqing</div>
+      </div>
+      <h1>Hello, I'm <span class="name" style="background: linear-gradient(to right, blue, purple); -webkit-background-clip: text; color: transparent;">Yunli</span></h1>
+      <p class="bio">A coder who loves poetry.</p>
+    </section>
+    <div class="nav-links" style="margin: 25px 0; text-align: center;">
+      <a href="https://" style="margin: 0 12px; color: #2c5282; text-decoration: none; font-size: 15px;" target="_blank">Blog</a>
+      <a href="https://" style="margin: 0 12px; color: #2c5282; text-decoration: none; font-size: 15px;" target="_blank">Movie</a> 
+      <a href="https://" style="margin: 0 12px; color: #2c5282; text-decoration: none; font-size: 15px;" target="_blank">Music</a> 
+      <a id="openModalBtn" href="javascript:void(0);" style="margin: 0 12px; color: #2c5282; text-decoration: none; font-size: 15px;">Friends</a>
+    </div>
+    <footer class="footer">
+      <div class="footer-content">
+        <div class="icp-info">
+            <a href="http://beian.miit.gov.cn" target="_blank">未ICP备0000000000号</a>|
+            <a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=000000000000" target="_blank">未公网安备000000000000号</a>
+        </div>
+      </div>
+    </footer>
+
+    <!-- 友情链接 -->
+    <div class="modal" id="myModal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2>友情链接</h2>
+          <button class="close-btn">&times;</button>
+        </div>
+        <div class="links-container">
+          <a href="https://www.onelives.cn" class="link-btn" target="_blank">小魏先生</a>
+          <a href="https://qq.md/" class="link-btn" target="_blank">叶开</a>
+          <a href="https://www.rz.sb/" class="link-btn" target="_blank">若志</a>
+          <a href="https://heming.org/" class="link-btn" target="_blank">何明</a>
+          <a href="https://blog.zwying.com/" class="link-btn" target="_blank">赵阿卷</a>
+          <a href="https://h4ck.org.cn" class="link-btn" target="_blank">obaby</a>
+          <a href="https://wanyijizi.com/" class="link-btn" target="_blank">桃子</a>
+          <a href="https://lifelonglearn.ing" class="link-btn" target="_blank">奶爸</a>
+          <a href="https://shi.su/" class="link-btn" target="_blank">世俗</a>
+          <a href="https://pwsz.com/" class="link-btn" target="_blank">品味苏州</a>
+          <a href="https://blog.luoli.net/" class="link-btn" target="_blank">小萌</a>
+          <a href="https://blog.keepke.com/" class="link-btn" target="_blank">吾柯</a>
+          <a href="https://feng.pub/" class="link-btn" target="_blank">阿锋</a>
+          <a href="https://roy.wang/" class="link-btn" target="_blank">王罗伊</a>
+          <a href="https://ershiliu.com/links" class="link-btn" target="_blank">二十六</a>
+          <a href="https://blog.ohtoai.com/" class="link-btn" target="_blank">大户爱</a>
+          <a href="https://www.miaoer.xyz/" class="link-btn" target="_blank">喵二</a>
+          <a href="https://www.edzbe.com/" class="link-btn" target="_blank">耳朵</a>
+          <a href="https://woc.xyz/" class="link-btn" target="_blank">废物作家</a>
+          <a href="https://blogc.com/" class="link-btn" target="_blank">杨哥</a>
+          <a href="https://long.ge/yemian/links.html" class="link-btn" target="_blank">龙哥</a>
+          <a href="https://blog.allnull.cn/links.html" class="link-btn" target="_blank">人潮尽头</a>
+          <a href="https://hao.gg/links.html" class="link-btn" target="_blank">好哥哥</a>
+          <a href="https://blog.youyuela.com/" class="link-btn" target="_blank">有约啦</a>
+          <a href="https://usj.cc/" class="link-btn" target="_blank">小赵</a>
+        </div>
+      </div>
+    </div>
+
+    <script src="./static/js/jquery.min.js"> </script>
+    <script src="./static/js/min.js"> </script>
+    <script src="./static/js/snowy.js"> </script>
+
+</body>
+
+</html>

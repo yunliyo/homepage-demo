@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>捐赠打赏</title>
+    <link rel="icon" href="../../images/default.png" type="image/x-icon">
+    <link rel="stylesheet" href="./static/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>囊空恐羞涩，留得一钱看。</h1>
+        <div class="tab-container">
+            <button class="tab-btn" data-tab="qqpay">QQ钱包</button>
+            <button class="tab-btn" data-tab="weixinpay">微信支付</button>
+            <button class="tab-btn active" data-tab="donate">微信赞赏码</button>
+            <button class="tab-btn" data-tab="alipay">支付宝</button>
+            <button class="tab-btn" data-tab="alipay-b">支付宝经营码</button>
+            <button class="tab-btn" data-tab="weixinpay-b">微信经营码</button>
+            <button class="tab-btn" data-tab="paypal">PayPal</button>
+            <button class="tab-btn" data-tab="usdt">USDT</button>
+        </div>
+        <div class="qr-content">
+            <div class="qr-pane" id="qqpay">
+                <img src="https://www.liqiang.info/assets/images/qqpay.png" alt="QQ钱包">
+            </div>
+            <div class="qr-pane" id="weixinpay">
+                <img src="https://www.liqiang.info/assets/images/weixinpay.png" alt="微信支付">
+            </div>
+            <div class="qr-pane active" id="donate">
+                <img src="https://www.liqiang.info/assets/images/donate.png" alt="微信赞赏码">
+            </div>
+            <div class="qr-pane" id="alipay">
+                <img src="https://www.liqiang.info/assets/images/alipay.png" alt="支付宝">
+            </div>
+            <div class="qr-pane" id="alipay-b">
+                <img src="https://www.liqiang.info/assets/images/alipay-b.png" alt="支付宝经营码">
+            </div>
+            <div class="qr-pane" id="weixinpay-b">
+                <img src="https://www.liqiang.info/assets/images/weixinpay-b.png" alt="微信经营码">
+            </div>
+            <div class="qr-pane" id="paypal">
+                <a href="https://www.paypal.me/yunliyo" target="_blank"><img src="https://www.liqiang.info/assets/images/PayPal.svg" alt="PayPal"></a>
+                <p>点击图片跳转打赏链接</p>
+            </div>
+            <div class="qr-pane" id="usdt">
+                <p>暂未开通</p>
+            </div>
+        </div>
+    </div>
+    <script src="./static/script.js"></script>
+</body>
+</html>

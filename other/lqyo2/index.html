@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yunli</title>
+    <link rel="icon" href="../../images/default.png">
+    <!-- 内联关键CSS -->
+    <style>
+        :root {
+            --bg-color: #ffffff;
+            --text-color: #374151;
+            --transition-speed: 0.3s;
+        }
+        [data-theme="dark"] {
+            --bg-color: #1a1a1a;
+            --text-color: #ffffff;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        body.loaded {
+            opacity: 1;
+        }
+        .loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: var(--bg-color);
+            z-index: 9999;
+            transition: opacity 0.5s ease;
+        }
+        .loading.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+    </style>
+    <!-- 预连接常用域名 -->
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <!-- 异步加载非关键CSS -->
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="./css/style.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="./css/background.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="./css/cursor-styles.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <!-- 后备方案 -->
+    <noscript>
+        <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+        <link href="./css/style.css" rel="stylesheet">
+        <link href="./css/background.css" rel="stylesheet">
+        <link href="./css/cursor-styles.css" rel="stylesheet">
+    </noscript>
+</head>
+<body>
+    <!-- 加载动画 -->
+    <div class="loading">
+        <svg width="50" height="50" viewBox="0 0 50 50">
+            <circle cx="25" cy="25" r="20" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round">
+                <animate attributeName="stroke-dasharray" from="1, 150" to="90, 150" dur="1.5s" repeatCount="indefinite"/>
+                <animate attributeName="stroke-dashoffset" from="0" to="-120" dur="1.5s" repeatCount="indefinite"/>
+            </circle>
+        </svg>
+    </div>
+
+    <!-- 背景图预加载 -->
+    <img src="./assets/images/backgrounds/bg.jpg" alt="Background" class="background-preload">
+
+    <div id="fps" style="position: fixed; top: 10px; right: 10px; color: white; padding: 5px 10px; border-radius: 4px; font-size: 14px; z-index: 9999;"></div>
+
+
+    <div class="container">
+        <h1>幸会，我是韵狸</h1>
+        <div class="intro">
+            <p>✨ 欢迎访问！元亨利贞，顺颂时祺！</p>
+            <p>💻 一个热爱诗词书画的程序员。</p>
+            <p>🚀 做梦想做的事。</p>
+        </div>
+
+        <div class="links">
+            <a href="https://github.com/yunliyo" class="link github" target="_blank" title="GitHub">
+                <i class="ri-github-fill"></i>
+            </a>
+            <a href="mailto:yunliyo@foxmail.com" class="link email" title="邮箱">
+                <i class="ri-mail-line"></i>
+            </a>
+            <a href="https://liqiang.info" class="link blog" target="_blank" title="博客">
+                <i class="ri-article-line"></i>
+            </a>
+            <a href="javascript:void(0)" class="link theme-switch" onclick="manualToggleTheme()" title="切换主题">
+                <i id="theme-icon" class="ri-moon-line"></i>
+            </a>
+        </div>
+
+        <section>
+            <div class="projects">
+                <a href="https://liqiang.info" class="project-card" target="_blank">
+                    <div class="project-header">
+                        <img src="./assets/images/blog.png" class="project-icon" alt="GitHub Pages Blog">
+                        <div class="project-content">
+                            <div class="project-title">Blog ✍️</div>
+                            <div class="project-desc">分享日常</div>
+                        </div>
+                    </div>                 
+                </a>
+                <a href="https://liqiang.info" class="project-card" target="_blank">
+                    <div class="project-header">
+                        <img src="./assets/images/blog.png" class="project-icon" alt="GitHub Pages Blog">
+                        <div class="project-content">
+                            <div class="project-title">Blog ✍️</div>
+                            <div class="project-desc">分享日常</div>
+                        </div>
+                    </div>                 
+                </a>
+                <a href="https://liqiang.info" class="project-card" target="_blank">
+                    <div class="project-header">
+                        <img src="./assets/images/blog.png" class="project-icon" alt="GitHub Pages Blog">
+                        <div class="project-content">
+                            <div class="project-title">Blog ✍️</div>
+                            <div class="project-desc">分享日常</div>
+                        </div>
+                    </div>                 
+                </a>
+            </div>
+        </section>
+
+        <section class="skills-section">
+            <div class="skills-container">
+                <p align="left"> 
+                  <a href="https://www.w3.org/html/" target="_blank" rel="noreferrer"> 
+                    <img src="./assets/icons/html5.svg" alt="html5" width="40" height="40"/> 
+                  </a> 
+                  <a href="https://www.w3schools.com/css/" target="_blank" rel="noreferrer"> 
+                    <img src="./assets/icons/css3.svg" alt="css3" width="40" height="40"/> 
+                  </a> 
+                  <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank" rel="noreferrer"> 
+                    <img src="./assets/icons/javascript.svg" alt="javascript" width="40" height="40"/> 
+                  </a> 
+                  <a href="https://www.docker.com/" target="_blank" rel="noreferrer"> 
+                    <img src="./assets/icons/docker.svg" alt="docker" width="40" height="40"/> 
+                  </a> 
+                  <a href="https://git-scm.com/" target="_blank" rel="noreferrer"> 
+                    <img src="./assets/icons/git.svg" alt="git" width="40" height="40"/> 
+                  </a> 
+                  <a href="https://www.linux.org/" target="_blank" rel="noreferrer"> 
+                    <img src="./assets/icons/linux.svg" alt="linux" width="40" height="40"/> 
+                  </a> 
+                  <a href="https://nodejs.org" target="_blank" rel="noreferrer"> 
+                    <img src="./assets/icons/nodejs.svg" alt="nodejs" width="40" height="40"/> 
+                  </a> 
+                  <a href="https://www.nginx.com" target="_blank" rel="noreferrer"> 
+                    <img src="./assets/icons/nginx.svg" alt="nginx" width="40" height="40"/> 
+                  </a> 
+                </p>
+            </div>
+        </section>
+
+        <footer class="footer">
+            <div class="footer-content">
+                <div class="copyright">
+                    &copy; 2014-<script>document.write(new Date().getFullYear())</script> by Yunli.
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- 优化的脚本加载 -->
+    <script>
+        // 页面加载性能监控
+        const perfData = window.performance.timing;
+        // 页面加载完成后处理
+        window.addEventListener('load', function() {
+            document.body.classList.add('loaded');
+            document.querySelector('.loading').classList.add('hidden');
+            // 延迟加载非关键脚本
+            setTimeout(function() {
+                const themeScript = document.createElement('script');
+                themeScript.src = './js/theme.js';
+                themeScript.defer = true;
+                document.body.appendChild(themeScript);
+                const fpsScript = document.createElement('script');
+                fpsScript.src = './js/fps.js';
+                fpsScript.defer = true;
+                document.body.appendChild(fpsScript);
+                // 输出页面加载时间（开发模式）
+                if (window.location.search.includes('dev=true')) {
+                    const loadTime = perfData.loadEventEnd - perfData.navigationStart;
+                    console.log(`页面加载时间: ${loadTime}ms`);
+                }
+            }, 100);
+        });
+    </script>
+</body>
+</html>

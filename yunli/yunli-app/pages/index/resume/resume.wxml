@@ -1,0 +1,149 @@
+<!--index.wxml-->
+<navigation-bar id="navigationBar" title="个人简历" back="{{true}}" home="{{true}}" color="black" background="#FFF"></navigation-bar>
+<scroll-view class="scrollarea" scroll-y type="list">
+  <!-- 个人信息 -->
+  <view class="resume-section">
+    <view class="section-header personal-info">个人信息</view>
+    <view class="section-content">
+      <view>姓名：{{personalInfo.name}}</view>
+      <view>性别：{{personalInfo.gender}}</view>
+      <view>学历：{{personalInfo.education}}</view>
+      <view>院校：{{personalInfo.university}}</view>
+      <view>电话：{{personalInfo.phone}}</view>
+      <view>邮箱：{{personalInfo.email}}</view>
+      <view>城市：{{personalInfo.city}}</view>
+      <view class="summary">{{personalInfo.summary}}</view>
+    </view>
+  </view>
+  <!-- 教育经历 -->
+  <view class="resume-section">
+    <view class="section-header">教育经历</view>
+    <view class="section-content">
+      <view class="experience-item" wx:for="{{education}}" wx:key="school">
+        <view class="experience-title">{{item.school}} - {{item.major}} ({{item.degree}})</view>
+        <view class="experience-time">{{item.time}}</view>
+      </view>
+    </view>
+  </view>
+  <!-- 研究兴趣 -->
+  <view class="resume-section">
+    <view class="section-header">研究兴趣</view>
+    <view class="section-content">
+      <view class="summary">{{researchInterests.summary}}</view>
+      <view class="tech-tags">
+        <view wx:for="{{researchInterests.tags}}" wx:key="*this" class="tech-tag">{{item}}</view>
+      </view>
+    </view>
+  </view>
+  <!-- 发表论文 -->
+  <view class="resume-section">
+    <view class="section-header">论文与出版物</view>
+    <view class="section-content">
+      <view wx:for="{{publications}}" wx:key="title" class="experience-item">
+        <view class="experience-title">{{item.title}}</view>
+        <view class="experience-time">{{item.journal}}</view>
+        <view class="experience-desc">{{item.description}}</view>
+      </view>
+    </view>
+  </view>
+  <!-- 研究项目 -->
+  <view class="resume-section">
+    <view class="section-header">研究项目</view>
+    <view class="section-content">
+      <view wx:for="{{researchProjects}}" wx:key="title" class="project-item">
+        <view class="project-title">{{item.title}}</view>
+        <view class="project-desc">{{item.description}}</view>
+      </view>
+    </view>
+  </view>
+  <!-- 荣誉奖励 -->
+  <view class="resume-section">
+    <view class="section-header">荣誉奖励</view>
+    <view class="section-content">
+      <view wx:for="{{awards}}" wx:key="title" class="project-item">
+        <view class="project-title">{{item.title}}</view>
+        <view class="project-desc">{{item.description}}</view>
+      </view>
+    </view>
+  </view>
+  <!-- 工作经历 -->
+  <view class="resume-section">
+    <view class="section-header">工作经历</view>
+    <view class="section-content">
+      <view class="experience-item" wx:for="{{workExperience}}" wx:key="company">
+        <view class="experience-title">{{item.company}} - {{item.position}}</view>
+        <view class="experience-time">{{item.time}}</view>
+        <view class="experience-desc">{{item.description}}</view>
+      </view>
+    </view>
+  </view>
+  <!-- 项目经历 -->
+  <view class="resume-section">
+    <view class="section-header">项目经历</view>
+    <view class="section-content">
+      <view class="project-item" wx:for="{{projects}}" wx:key="name">
+        <view class="project-title">{{item.name}} ({{item.role}})</view>
+        <view class="experience-time">{{item.time}}</view>
+        <view class="experience-desc" wx:if="{{item.techStack && item.techStack.length}}">
+          <view class="tech-tags">
+            <view class="tech-tag" wx:for="{{item.techStack}}" wx:key="*this">{{item}}</view>
+          </view>
+        </view>
+        <view class="project-desc">{{item.description}}</view>
+      </view>
+    </view>
+  </view>
+  <!-- 开源项目 -->
+  <view class="project-container">
+    <view class="osprojectstitle">{{osprojectstitle}}</view>
+    <block wx:for="{{osprojects}}" wx:key="name">
+      <view class="project-card">
+        <view class="project-header">
+          <text class="project-name">{{item.name}}</text>
+          <text class="project-time">{{item.time}}</text>
+        </view>
+        <view class="project-description">{{item.description}}</view>
+        <view class="tech-stack">
+          <view class="tech-tags">
+            <block wx:for="{{item.technologies}}" wx:key="*this">
+              <text class="tech-tag">{{item}}</text>
+            </block>
+          </view>
+        </view>
+        <view class="link">{{item.link}}</view>
+      </view>
+    </block>
+  </view>
+  <!-- 技能 -->
+  <view class="resume-section">
+    <view class="section-header">技能</view>
+    <view class="section-content">
+      <view class="skill-list">
+        <view class="skill-item" wx:for="{{skills}}" wx:key="name">
+          <view class="skill-name">{{item.name}}</view>
+          <view class="skill-progress">
+            <view class="progress-bar" style="width: {{item.progress + '%'}}"></view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+  <!-- 其他 -->
+  <view class="resume-section">
+    <view class="section-header">其他</view>
+    <view class="section-content">
+      <view class="other-item">
+        <view class="other-title">证书：</view>
+        <view wx:for="{{others.certificates}}" wx:key="*this">{{item}}</view>
+      </view>
+      <view class="other-item">
+        <view class="other-title">兴趣爱好：</view>
+        <view wx:for="{{others.hobbies}}" wx:key="*this">{{item}}</view>
+      </view>
+    </view>
+  </view>
+  <view class="info">
+    <view class="yiyan">{{yiyan}}</view>
+    <view class="copyright">{{copyright}}</view>
+  </view>
+</scroll-view>

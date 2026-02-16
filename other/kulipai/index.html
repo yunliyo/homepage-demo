@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Yunli</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-lite-webfont@1.6.0/style.min.css" />
+    <style>
+        @import url("https://cdn.jsdelivr.net/npm/lxgw-wenkai-lite-webfont@1.6.0/style.min.css");
+
+        :root {
+            --bg: #faf6f1;
+            --fg: #212121;
+            --accent: #a27b5c;
+            --card-bg: rgba(255, 255, 255, 0.6);
+            --shadow: rgba(0, 0, 0, 0.1);
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg: #2c3639;
+                --fg: #ffffff;
+                --card-bg: rgba(255, 255, 255, 0.05);
+                --shadow: rgba(0, 0, 0, 0.3);
+            }
+        }
+
+        body {
+            margin: 0;
+            font-family: "LXGW WenKai Lite", "Inter", sans-serif;
+            background-color: var(--bg);
+            color: var(--fg);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            text-align: center;
+            margin-top: 3rem;
+        }
+
+        h1 {
+            font-size: 2rem;
+            margin: 0;
+        }
+
+        .subtitle {
+            color: var(--accent);
+            font-size: 1rem;
+            margin-top: 0.3rem;
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+        }
+
+        .links {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 1rem;
+            width: 100%;
+            max-width: 800px;
+            margin-top: 1.5rem;
+        }
+
+        .links a {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            background-color: var(--card-bg);
+            border-radius: 16px;
+            padding: 1rem 1.2rem;
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 6px var(--shadow);
+        }
+
+        .links a:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 16px var(--shadow);
+            color: var(--accent);
+        }
+
+        .icon {
+            font-size: 2rem;
+            flex-shrink: 0;
+        }
+
+        .title {
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .desc {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .about-link {
+            margin-top: 2rem;
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .about-link:hover {
+            text-decoration: underline;
+        }
+
+        .about {
+            max-width: 700px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+            line-height: 1.7;
+        }
+
+        .about ul {
+            padding-left: 1.5rem;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 1.5rem;
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        footer {
+            text-align: center;
+            padding: 1.5rem 0;
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+
+        .icp {
+            font-size: 0.8rem;
+            margin-top: 0.5rem;
+            opacity: 0.6;
+        }
+
+        .icp a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .icp a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Yunli</h1>
+        <p class="subtitle">A coder who loves poetry.</p>
+    </header>
+
+    <main>
+        <div class="links">
+            <a href="https://" target="_blank">
+                <div class="icon">📘</div>
+                <div class="text">
+                    <div class="title">博客 / Blog</div>
+                    <div class="desc">记录、分享、随想</div>
+                </div>
+            </a>
+
+            <a href="https://" target="_blank">
+                <div class="icon">☁️</div>
+                <div class="text">
+                    <div class="title">云盘 / Cloud</div>
+                    <div class="desc">云储存共享文件</div>
+                </div>
+            </a>
+
+            <a href="https://" target="_blank">
+                <div class="icon">🧪</div>
+                <div class="text">
+                    <div class="title">实验室 / Lab</div>
+                    <div class="desc">一些好玩的项目</div>
+                </div>
+            </a>
+
+            <a href="./status.html" target="_blank">
+                <div class="icon">📡</div>
+                <div class="text">
+                    <div class="title">状态 / Status</div>
+                    <div class="desc">查看网站运行状态</div>
+                </div>
+            </a>
+        </div>
+
+        <a class="about-link" href="https://" target="_blank">关于我 →</a>
+    </main>
+
+    <footer>
+        <p>© 2015–<span id="year"> Yunli</p>
+        <p class="icp">
+            <a href="https://beian.miit.gov.cn/" target="_blank">未ICP备0000000000号</a>
+        </p>
+    </footer>
+    <script>
+        document.getElementById("year").textContent = new Date().getFullYear();
+    </script>
+    <script defer src="https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015" integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ==" data-cf-beacon='{"version":"2024.11.0","token":"0be3216a618544d98c32f992cde469f6","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+</body>
+
+</html>

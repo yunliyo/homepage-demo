@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yunli</title>
+    <link rel="icon" href="../../../images/default.png">
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --background: #f8f9fa;
+            --text-color: #2c3e50;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+        }
+
+        body {
+            background: var(--background);
+            color: var(--text-color);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 800px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .logo {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin: 0 auto 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .title-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .main-title {
+            font-size: 2.2rem;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .sub-title {
+            color: #7f8c8d;
+            font-size: 1.1rem;
+        }
+
+        .url-copy {
+            background: white;
+            padding: 1rem 2rem;
+            border-radius: 25px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin: 1.5rem auto;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.2s;
+            border: none;
+            font-size: 1rem;
+        }
+
+        .url-copy:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+            background: var(--secondary-color);
+            color: white;
+        }
+
+        .link-list {
+            display: grid;
+            grid-gap: 1rem;
+        }
+
+        .link-item {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .link-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .link-content {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .link-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .link-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .link-description {
+            color: #666;
+            font-size: 0.9rem;
+            max-width: 300px;
+            text-align: right;
+        }
+
+        /* 弹窗样式 */
+        .toast {
+            position: fixed;
+            bottom: -50px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #2ecc71;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 25px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-align: center;
+            width: auto;
+            max-width: 90%;
+        }
+
+        .url-toast {
+            background: #e74c3c;
+        }
+
+        .toast.active {
+            bottom: 30px;
+            opacity: 1;
+        }
+
+        .toast::before {
+            content: "✓";
+            font-size: 1.2em;
+        }
+
+        /* 新增二维码相关样式 */
+        .qr-button {
+            margin: 2rem auto;
+            padding: 1rem 2rem;
+            background: linear-gradient(45deg, var(--secondary-color), #2ecc71);
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .qr-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg,
+                    transparent,
+                    rgba(255, 255, 255, 0.2),
+                    transparent);
+            transition: 0.5s;
+        }
+
+        .qr-button:hover::before {
+            left: 100%;
+        }
+
+        .qr-button:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            }
+
+            50% {
+                box-shadow: 0 8px 15px rgba(52, 152, 219, 0.3);
+            }
+
+            100% {
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            }
+        }
+
+        .qr-button span {
+            position: relative;
+            z-index: 1;
+        }
+
+        .qr-popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -40%);
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            text-align: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .qr-popup.active {
+            display: block;
+            opacity: 1;
+            visibility: visible;
+            transform: translate(-50%, -50%);
+        }
+
+        .qr-popup img {
+            width: 200px;
+            height: 200px;
+            margin-bottom: 1rem;
+        }
+
+        .beian {
+            margin-top: 2rem;
+            text-align: center;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .beian a {
+            color: #666;
+            text-decoration: none;
+        }
+
+        .beian a:hover {
+            color: var(--secondary-color);
+        }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 1rem;
+            }
+
+            .link-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            .link-description {
+                text-align: left;
+                width: 100%;
+            }
+
+            .main-title {
+                font-size: 1.8rem;
+            }
+
+            .sub-title {
+                font-size: 1rem;
+            }
+
+            .toast {
+                width: 90%;
+                text-align: center;
+            }
+        }
+
+        /* 添加全局点击波纹效果样式 */
+        .ripple {
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .ripple::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            background-image: radial-gradient(circle, rgba(255, 255, 255, 0.3) 10%, transparent 10.01%);
+            background-repeat: no-repeat;
+            background-position: 50%;
+            transform: scale(10, 10);
+            opacity: 0;
+            transition: transform .5s, opacity 1s;
+        }
+
+        .ripple:active::after {
+            transform: scale(0, 0);
+            opacity: .3;
+            transition: 0s;
+        }
+
+        /* 修改按钮和链接的鼠标样式 */
+        .url-copy,
+        .link-item,
+        .qr-button,
+        .beian a {
+            cursor: pointer;
+        }
+
+        /* 添加点击缩放效果 */
+        .url-copy:active,
+        .link-item:active,
+        .qr-button:active {
+            transform: scale(0.95);
+            transition: transform 0.1s;
+        }
+    </style>
+    <script>
+        // 检查是否需要强制刷新
+        (function () {
+            // 获取当前时间戳
+            const timestamp = new Date().getTime();
+            const lastRefresh = localStorage.getItem('lastRefresh');
+            // 如果从未刷新过或者距离上次刷新超过1小时
+            if (!lastRefresh || (timestamp - lastRefresh > 3600000)) {
+                localStorage.setItem('lastRefresh', timestamp);
+                // 清除所有缓存的资源
+                caches.keys().then(function (names) {
+                    for (let name of names) caches.delete(name);
+                });
+                // 强制刷新页面
+                window.location.reload(true);
+            }
+        })();
+    </script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">
+                <img src="../../../images/default.png" alt="网站Logo">
+            </div>
+            <div class="title-group">
+                <h1 class="main-title">Yunli</h1>
+                <div class="sub-title">一位热爱诗词书画的程序员</div>
+            </div>
+            <button class="url-copy ripple" id="copyUrlBtn">
+                <span id="currentUrl">liqiang.info</span>
+            </button>
+        </div>
+
+        <div class="link-list">
+            <div class="link-item ripple" data-url="https://liqiang.info" data-description="个人博客">
+                <div class="link-content">
+                    <div class="link-icon">
+                        <img src="../../../images/default.png">
+                    </div>
+                    <div>个人博客</div>
+                </div>
+                <div class="link-description">韵狸的个人博客</div>
+            </div>
+            <div class="link-item ripple" data-url="https://liqiang.info" data-description="韵狸的个人网站">
+                <div class="link-content">
+                    <div class="link-icon">
+                        <img src="../../../images/default.png">
+                    </div>
+                    <div>个人网站</div>
+                </div>
+                <div class="link-description">韵狸的个人博客</div>
+            </div>
+        </div>
+        <!-- 新增二维码按钮和弹窗 -->
+        <button class="qr-button ripple" id="qrButton">
+            <span>关注我</span>
+        </button>
+        <div class="qr-popup" id="qrPopup">
+            <img src="../../assets/images/donate.png" alt="二维码">
+            <div>扫码关注我</div>
+        </div>
+        <!-- 新增备案信息 -->
+        <div class="beian">
+            &copy; 2014-<script>document.write(new Date().getFullYear())</script> by 韵狸.
+        </div>
+    </div>
+
+    <div class="toast" id="toast">您已复制本页面网址，建议存为书签，以防丢失！</div>
+    <div class="toast url-toast" id="urlToast"></div>
+
+    <script>
+        // 修改显示固定网址
+        const currentUrl = 'liqiang.info';
+        document.getElementById('currentUrl').textContent = currentUrl;
+        // 复制按钮功能也需要相应修改
+        document.getElementById('copyUrlBtn').addEventListener('click', async () => {
+            try {
+                await navigator.clipboard.writeText(currentUrl); // 使用固定的 URL
+                showToast();
+            } catch (err) {
+                console.error('复制失败:', err);
+            }
+        });
+        // 显示弹窗（保持不变）
+        function showToast() {
+            const toast = document.getElementById('toast');
+            toast.classList.add('active');
+            setTimeout(() => {
+                toast.classList.remove('active');
+            }, 3000);
+        }
+        // 修改二维码按钮逻辑
+        const qrButton = document.getElementById('qrButton');
+        const qrPopup = document.getElementById('qrPopup');
+        qrButton.addEventListener('click', () => {
+            qrPopup.classList.add('active');
+        });
+        // 点击弹窗外部关闭弹窗
+        document.addEventListener('click', (e) => {
+            if (!qrPopup.contains(e.target) && !qrButton.contains(e.target)) {
+                qrPopup.classList.remove('active');
+            }
+        });
+        // 修改链接点击功能
+        document.querySelectorAll('.link-item').forEach(item => {
+            item.addEventListener('click', async (e) => {
+                const realUrl = item.dataset.url;
+                try {
+                    await navigator.clipboard.writeText(realUrl);
+                    // 显示新的提示信息
+                    const urlToast = document.getElementById('urlToast');
+                    urlToast.textContent = `您已复制"${realUrl}"，三秒后跳转，不要在QQ微信中打开，请到其他浏览器中粘贴后打开，谢谢！`;
+                    urlToast.classList.add('active');
+                    // 3秒后跳转
+                    setTimeout(() => {
+                        urlToast.classList.remove('active');
+                        window.open(realUrl, '_blank');
+                    }, 3000);
+                } catch (err) {
+                    console.error('复制失败:', err);
+                    window.open(realUrl, '_blank');
+                }
+            });
+        });
+    </script>
+    <script defer data-website-id="8fc7438f-fa90-484e-a6f4-d16452b241d7">
+        !function(){"use strict";(t=>{const{screen:{width:e,height:a},navigator:{language:r,doNotTrack:n,msDoNotTrack:i},location:o,document:c,history:s,top:u,doNotTrack:d}=t,{currentScript:l,referrer:f}=c;if(!l)return;const{hostname:h,href:m,origin:p}=o,y=m.startsWith("data:")?void 0:t.localStorage,g="data-",b="true",$=l.getAttribute.bind(l),v=$(`${g}website-id`),w=$(`${g}host-url`),S=$(`${g}before-send`),k=$(`${g}tag`)||void 0,N="false"!==$(`${g}auto-track`),T=$(`${g}do-not-track`)===b,A=$(`${g}exclude-search`)===b,j=$(`${g}exclude-hash`)===b,x=$(`${g}domains`)||"",L=$(`${g}fetch-credentials`)||"omit",E=x.split(",").map(t=>t.trim()),K=`${(w||""||l.src.split("/").slice(0,-1).join("/")).replace(/\/$/,"")}/api/send`,O=`${e}x${a}`,U=/data-umami-event-([\w-_]+)/,_=`${g}umami-event`,D=300,P=t=>{if(!t)return t;try{const e=new URL(t,o.href);return A&&(e.search=""),j&&(e.hash=""),e.toString()}catch{return t}},R=()=>({website:v,screen:O,language:r,title:c.title,hostname:h,url:G,referrer:H,tag:k,id:F||void 0}),W=(t,e,a)=>{a&&(H=G,G=P(new URL(a,o.href).toString()),G!==H&&setTimeout(J,D))},B=()=>Q||!v||y?.getItem("umami.disabled")||x&&!E.includes(h)||T&&(()=>{const t=d||n||i;return 1===t||"1"===t||"yes"===t})(),C=async(e,a="event")=>{if(B())return;const r=t[S];if("function"==typeof r&&(e=await Promise.resolve(r(a,e))),e)try{const t=await fetch(K,{keepalive:!0,method:"POST",body:JSON.stringify({type:a,payload:e}),headers:{"Content-Type":"application/json",...void 0!==z&&{"x-umami-cache":z}},credentials:L}),r=await t.json();r&&(Q=!!r.disabled,z=r.cache)}catch(t){}},I=()=>{M||(M=!0,J(),(()=>{const t=(t,e,a)=>{const r=t[e];return(...e)=>(a.apply(null,e),r.apply(t,e))};s.pushState=t(s,"pushState",W),s.replaceState=t(s,"replaceState",W)})(),(()=>{const t=async t=>{const e=t.getAttribute(_);if(e){const a={};return t.getAttributeNames().forEach(e=>{const r=e.match(U);r&&(a[r[1]]=t.getAttribute(e))}),J(e,a)}};c.addEventListener("click",async e=>{const a=e.target,r=a.closest("a,button");if(!r)return t(a);const{href:n,target:i}=r;if(r.getAttribute(_)){if("BUTTON"===r.tagName)return t(r);if("A"===r.tagName&&n){const a="_blank"===i||e.ctrlKey||e.shiftKey||e.metaKey||e.button&&1===e.button;return a||e.preventDefault(),t(r).then(()=>{a||(("_top"===i?u.location:o).href=n)})}}},!0)})())},J=(t,e)=>C("string"==typeof t?{...R(),name:t,data:e}:"object"==typeof t?{...t}:"function"==typeof t?t(R()):R()),q=(t,e)=>("string"==typeof t&&(F=t),z="",C({...R(),data:"object"==typeof t?t:e},"identify"));t.umami||(t.umami={track:J,identify:q});let z,F,G=P(m),H=P(f.startsWith(p)?"":f),M=!1,Q=!1;N&&!B()&&("complete"===c.readyState?I():c.addEventListener("readystatechange",I,!0))})(window)}();
+    </script>
+</body>
+
+</html>

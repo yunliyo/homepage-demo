@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="stylesheet" href="./assets/css/recipage.min.css">
+    <link rel="stylesheet" href="./assets/css/github.min.css">
+    <link rel="stylesheet" href="./assets/css/markdown.css">
+    <!--link rel="stylesheet" href="./assets/css/original-markdown.css"-->
+    <title>韵狸的简历</title>
+    <link rel="icon" href="../../../images/default.png" type="image/x-icon">
+</head>
+
+<body>
+    <div id="login" style="position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;">
+        <input type="password" id="password" placeholder="请输入密码" style="padding:12px;font-size:18px;border:3px solid #ddd;border-radius:5px;">
+        <button onclick="checkPassword()" style="padding:12px 24px;background:#8d4bbb;color:#fff;border:3px;border-radius:5px;margin:9px;">立即验证</button>
+    </div>
+    <div id="app" style="display:none;"></div>
+</body>
+
+<script>
+    window.$recipage = {
+        url: './assets/md/cv.md',
+        github: 'https://github.com/yunliyo',
+        footer: {
+            title: '个人简历 - 韵狸',
+            logo: '../../../images/default.png'
+        },
+        callback: function () {
+            hljs.initHighlightingOnLoad();
+        }
+    }
+
+    const PASSWORD_HASH = '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92';
+    async function checkPassword() {
+        const input = document.getElementById('password').value;
+        const encoder = new TextEncoder();
+        const data = encoder.encode(input);
+        const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+        const hashArray = Array.from(new Uint8Array(hashBuffer));
+        const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+        
+        if(hashHex === PASSWORD_HASH) {
+            document.getElementById('login').style.display = 'none';
+            document.getElementById('app').style.display = 'block';
+            window.$recipage.url = './assets/md/cv.md';
+        } else {
+            alert('请正确输入密码！');
+        }
+    }
+</script>
+
+<script src="./assets/js/highlight.min.js"></script>
+<script src="./assets/js/emojify.js"></script>
+<script src="./assets/js/recipage.js"></script>
+
+</html>

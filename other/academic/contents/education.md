@@ -1,0 +1,1 @@
+- IoT Engineer, Internet of Things Application Technology major, Chongqing City Management College, 2015-2018.

@@ -1,0 +1,147 @@
+html,
+body {
+    color: #fff;
+    padding: 0;
+    margin: 0;
+    font-family: "Simsun";
+    font-size: 18px;
+    font-weight: bolder;
+}
+
+body {
+    background: #ff2121;
+    background: -webkit-linear-gradient(to right, #ff2121, #8d4bbb);
+    background: linear-gradient(to right, #ff2121, #8d4bbb);
+}
+
+p {
+    text-align: center;
+}
+
+h1 {
+    font-size: 35px;
+    margin: .8vw;
+    font-weight: bolder;
+}
+
+h2 {
+    font-size: 22px;
+    margin: .8vw;
+    font-weight: bolder;
+}
+
+h3 {
+    font-size: 16px;
+    margin: .8vw;
+    font-weight: bolder;
+    color: #ccc;
+}
+
+#container {
+    margin-top: 50px;
+    width: 100%;
+    height: 100%;
+    margin-bottom: 0;
+}
+
+.wrap {
+    position: relative;
+    top: 1%;
+    text-align: center;
+}
+
+.wrap img {
+    border-radius: 64px;
+    width: 128px;
+    height: 128px;
+}
+
+.wrap img:hover {
+    transform: rotate(360deg);
+    transition: transform .5s ease;
+}
+
+.btn {
+    border: 1px solid #fff;
+    color: #fff;
+    cursor: pointer;
+    display: block;
+    font-size: 18px;
+    font-weight: bolder;
+    line-height: 45px;
+    margin: 1em auto;
+    max-width: 500px;
+    overflow: hidden;
+    position: relative;
+    text-decoration: none;
+    text-align: center;
+    width: 100%;
+}
+
+.btn:after {
+    background: #fff;
+    content: "";
+    height: 155px;
+    left: -75px;
+    opacity: .2;
+    position: absolute;
+    top: -50px;
+    -webkit-transform: rotate(35deg);
+    -ms-transform: rotate(35deg);
+    transform: rotate(35deg);
+    -webkit-transition: all 550ms cubic-bezier(0.19, 1, 0.22, 1);
+    transition: all 550ms cubic-bezier(0.19, 1, 0.22, 1);
+    width: 50px;
+    z-index: -10
+}
+
+.btn:hover:after {
+    left: 120%;
+    -webkit-transition: all 550ms cubic-bezier(0.19, 1, 0.22, 1);
+    transition: all 550ms cubic-bezier(0.19, 1, 0.22, 1)
+}
+
+@media (max-width: 768px) {
+    .btn {
+        max-width: 200px;
+    }
+}
+
+.footer {
+    font-size: 14px;
+    font-weight: normal;
+    line-height: 20px;
+    margin: .8vw 0 .4vw;
+    position: relative;
+}
+
+.footer a {
+    text-decoration: underline;
+    color: #fff;
+}
+
+.footer a:hover {
+    text-decoration: none;
+    color: #666;
+}
+
+#linksContainer, #linksContainer-i18n, #linksContainer-other {
+    text-align: center;
+}
+
+#socialicons {
+    margin: 1em auto;
+    text-align: center;
+}
+
+.social-icon {
+    display: inline-block;
+    margin: 0 10px;
+    cursor: pointer;
+    font-size: 22px;
+    margin-bottom: 0;
+}
+
+.social-icon:hover {
+    transform: scale(1.2);
+}

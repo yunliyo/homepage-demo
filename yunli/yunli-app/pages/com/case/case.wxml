@@ -1,0 +1,58 @@
+<navigation-bar id="navigationBar" title="客户案例" back="{{true}}" home="{{true}}" color="black" background="#FFF"></navigation-bar>
+<view class="case-container">
+  <!-- 顶部标题 -->
+  <view class="header-section">
+    <text class="header-title">{{pageTitle}}</text>
+    <text class="header-subtitle">{{pageSubtitle}}</text>
+  </view>
+  <!-- 案例统计 -->
+  <view class="stats-section">
+    <view class="stat-item" wx:for="{{stats}}" wx:key="label">
+      <text class="stat-value">{{item.value}}</text>
+      <text class="stat-label">{{item.label}}</text>
+    </view>
+  </view>
+  <!-- 案例列表 -->
+  <view class="case-list">
+    <view class="case-card" wx:for="{{cases}}" wx:key="id" bindtap="onCaseTap" data-id="{{item.id}}">
+      <!-- 案例头部 -->
+      <view class="case-header">
+        <view class="case-company">
+          <image class="company-logo" src="{{item.logo}}" mode="aspectFit" />
+          <text class="company-name">{{item.company}}</text>
+        </view>
+        <view class="case-industry industry-{{item.industryType}}">
+          {{item.industry}}
+        </view>
+      </view>
+      <!-- 项目信息 -->
+      <view class="case-project">
+        <text class="project-title">{{item.projectTitle}}</text>
+        <text class="project-desc">{{item.projectDesc}}</text>
+      </view>
+      <!-- 客户评价 -->
+      <view class="case-review">
+        <view class="review-header">
+          <image class="quote-icon" src="{{icons.quote}}" />
+          <text class="reviewer-info">
+            <text class="reviewer-name">{{item.reviewer.name}}</text>
+            <text class="reviewer-title">{{item.reviewer.title}}</text>
+          </text>
+        </view>
+        <text class="review-content">{{item.review}}</text>
+      </view>
+      <!-- 项目成果 -->
+      <view class="case-results">
+        <view class="result-item" wx:for="{{item.results}}" wx:key="*this" wx:for-item="result">
+          <image class="result-icon" src="{{icons.star}}" />
+          <text class="result-text">{{result}}</text>
+        </view>
+      </view>
+      <!-- 查看详情 -->
+      <view class="case-footer">
+        <text class="view-detail">查看详情</text>
+        <image class="arrow-icon" src="{{icons.arrow}}" />
+      </view>
+    </view>
+  </view>
+</view>

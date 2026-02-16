@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yunli</title>
+    <style>
+        body {
+            font-family: "Simsun";
+            font-size: 1em;
+            /* Base font size */
+            line-height: 1.5;
+            margin: 0;
+            padding: 0;
+            background-color: #F8F2F5;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        h1 {
+            font-size: 3em;
+            margin: 0.5em 0;
+        }
+
+        h2 {
+            font-size: 2em;
+            margin: 0.5em 0;
+        }
+
+        p {
+            font-size: 1.5em;
+            margin: 0.5em 0;
+        }
+
+        a {
+            color: #8d4bbb;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            width: 100%;
+            max-width: 1200px;
+        }
+
+        .card {
+            background-color: #f5f5f5;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin: 20px;
+        }
+
+        .icon {
+            width: 60px;
+            height: 60px;
+            transition: transform 0.3s;
+        }
+
+        .qr {
+            width: 300px;
+            height: 300px;
+            transition: transform 0.3s;
+        }
+
+        .icon:hover {
+            transform: scale(1.2);
+        }
+
+        .icon-text {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            /* Space between icon and text */
+        }
+
+        .icon-text img {
+            width: 60px;
+            /* Icon size */
+            height: 60px;
+            /* Icon size */
+        }
+
+        /* Responsive Design */
+        @media (max-width: 600px) {
+            body {
+                font-size: 18px;
+            }
+
+            h1 {
+                font-size: 2em;
+            }
+
+            h2 {
+                font-size: 1.5em;
+            }
+
+            p,
+            a {
+                font-size: 1em;
+            }
+
+            .card {
+                padding: 15px;
+                margin: 15px;
+            }
+
+            .icon {
+                width: 40px;
+                height: 40px;
+            }
+
+            .icon-text img {
+                width: 40px;
+                /* Adjust icon size for mobile */
+                height: 40px;
+                /* Adjust icon size for mobile */
+            }
+
+        }
+    </style>
+</head>
+
+<body>
+    <h1>韵狸</h1>
+    <p>一个热爱诗词书画的程序员。</p>
+    <h2>工作经历</h2>
+    <div class="container">
+        <div class="card">
+            <p class="icon-text">
+                <img src="../../images/default.png" alt="狸庐">
+                <span>自由职业 - 独立开发者, 2018-至今</span>
+            </p>
+            <p>设计、产品、技术、运营，什么都干。</p>
+        </div>
+        <div class="card">
+            <p class="icon-text">
+                <img src="https://www.huawei.com/-/media/htemplate-home/1.0.1.20251205144752/components/assets/img/favicon-logo.svg" alt="华为">
+                <span>华为 - 技术文档工程师，2018.03-2018.06</span>
+            </p>
+            <p>使用 DITA 结构化写作工具编写技术文档。</p>
+        </div>
+        <div class="card">
+            <p class="icon-text">
+                <img src="https://www.boe.com/nuxt/resouces/img/logo2a.cf8edcb.png" alt="京东方">
+                <span>京东方 - 技术文档工程师，2017.09-2017.12</span>
+            </p>
+            <p>使用 DITA 结构化写作工具编写技术文档。</p>
+        </div>
+    </div>
+    <h2>教育经历</h2>
+    <div class="card">
+        <div>
+            <p class="icon-text">
+                <img src="https://bkimg.cdn.bcebos.com/pic/8c1001e93901213f579bfafa59e736d12f2e9568?x-bce-process=image/format,f_auto/watermark,image_d2F0ZXIvYmFpa2UyNzI,g_7,xp_5,yp_5,P_20/resize,m_lfit,limit_1,h_1080" alt="重庆城市管理职业大学">
+                <span>物联网应用技术, 2015.09-2018.07</span>
+            </p>
+        </div>
+    </div>
+    <h2>捐赠打赏</h2>
+    <p><img src="../../assets/images/donate.png" class="qr"></p>
+    <p>&copy; 2014-<script>document.write(new Date().getFullYear())</script> by 韵狸.</p>
+</body>
+
+</html>

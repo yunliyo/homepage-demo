@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<meta name="robots" content="noindex, nofollow">
+	<meta http-equiv="Cache-Control" content="no-siteapp">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-touch-fullscreen" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<meta name="full-screen" content="yes"><!--UC强制全屏-->
+	<meta name="browsermode" content="application"><!--UC应用模式-->
+	<meta name="x5-fullscreen" content="true"><!--QQ强制全屏-->
+	<meta name="x5-page-mode" content="app"><!--QQ应用模式-->
+	<title>Yunli Search</title>
+	<link rel="icon" href="../../../images/default.png" sizes="192x192" />
+	<link rel="apple-touch-icon-precomposed" href="../../../images/default.png" />
+	<meta name="msapplication-TileImage" content="../../../images/default.png" />
+	<link rel="shortcut icon" href="../../../images/default.png" />
+	<!--网站标题自动判断设置/*-->
+	<script>
+		var title = document.title;
+		// window 失去焦点 
+		window.onblur = function () {
+			document.title = '余事做诗人';
+		};
+		// window 获得焦点 
+		window.onfocus = function () {
+			document.title = '馀事做诗人';
+			setTimeout("document.title=title", 3000);
+		}
+	</script>
+	<link href="static/css/style.css" rel="stylesheet">
+
+	<!-- CDN cdnjs.loli.net-->
+	<link href="https://cdnjs.loli.net/ajax/libs/font-awesome/6.1.1/css/all.min.css" rel="stylesheet">
+	<script src="https://cdnjs.loli.net/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	
+	<!--字节跳动CDN-->
+	<!--<link href="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/font-awesome/6.0.0/css/all.min.css" type="text/css" rel="stylesheet" />-->
+	<!--<script src="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/jquery/3.6.0/jquery.min.js" type="application/javascript"></script>-->
+	<!--字节跳动CDN-->
+
+	<!--75CDN-->
+	<!--<link crossorigin="anonymous" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" href="https://lib.baomitu.com/font-awesome/6.2.0/css/all.min.css" rel="stylesheet">-->
+	<!--<script crossorigin="anonymous" integrity="sha512-aVKKRRi/Q/YV+4mjoKBsE4x3H+BkegoM/em46NNlCqNTmUYADjBbeNefNxYV7giUp0VxICtqdrbqU7iVaeZNXA==" src="https://lib.baomitu.com/jquery/3.6.1/jquery.min.js"></script>-->
+	<!--<script crossorigin="anonymous" integrity="sha512-aVKKRRi/Q/YV+4mjoKBsE4x3H+BkegoM/em46NNlCqNTmUYADjBbeNefNxYV7giUp0VxICtqdrbqU7iVaeZNXA==" src="https://lib.baomitu.com/jquery/latest/jquery.min.js"></script>-->
+	<!--75CDN-->
+
+	<!-- CDN cdnjs.com-->
+	<!-- <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css" rel="stylesheet">
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> -->
+
+	<!-- CDN www.bootcdn.cn -->
+	<!-- <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.2.0/css/all.min.css" rel="stylesheet">
+		<script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.1/jquery.min.js"></script> -->
+	<!-- CDN  -->
+	<!--全站灰色-在特定时间以灰色显示，表达哀思和悼念。 -->
+	<!--<style>
+			/* 方法一 */
+		html{
+		    -webkit-filter: grayscale(100%); /* webkit */
+		    -moz-filter: grayscale(100%); /*firefox*/
+		    -ms-filter: grayscale(100%); /*ie9*/
+		    -o-filter: grayscale(100%); /*opera*/
+		    filter: grayscale(100%);
+		    filter:progid:DXImageTransform.Microsoft.BasicImage(grayscale=1);
+		    filter:gray; /*ie9- */
+		    }
+			/* 方法二 */
+		html{
+			-webkit-filter: grayscale(100%); /* Chrome, Safari, Opera */
+			filter: grayscale(100%);
+			}
+		</style>-->
+	<!--全站灰色-end-->
+
+</head>
+
+<body>
+	<div id="menu"><i></i></div>
+	<div class="list closed">
+		<ul>
+			<!-- Yunli Search -->
+			<li class="title"><i class="fa fa-home"></i>馀事做诗人</li>
+			<li><a rel="nofollow" href="../yunli-search/" target="_self"><i class="fa-solid fa-github" style="color: #24292F;"></i>韵狸搜索</a></li>
+			<li><a rel="nofollow" href="../yunli-search-pro/" target="_blank"><i class="fa-solid fa-github" style="color: #24292F;"></i>韵狸搜索Pro</a></li>
+			<li><a rel="nofollow" href="../yunli-guide/" target="_blank"><i class="fa-solid fa-github" style="color: #24292F;"></i>韵狸导航</a></li>
+			<li><a rel="nofollow" href="../yunli-guide-pro/" target="_blank"><i class="fa-solid fa-github" style="color: #24292F;"></i>韵狸导航Pro</a></li>
+			<li><a rel="nofollow" href="mailto:yunliyo@foxmailcom" target="_blank"><i class="fas fa-arrow-alt-circle-up" style="color: #FF1744;"></i>提交收录</a></li>
+			<!-- Yunli Search END -->
+			
+			<!-- 热门推荐 -->
+			<li class="title"><i class="fa fa-fire"></i>热门推荐</li>
+			<li><a rel="nofollow" href="https://www.deepl.com/translator" target="_blank"><i class="fa-solid fa-language" style="color:#1B1E25"></i>DeepL翻译</a></li>
+			<li><a rel="nofollow" href="https://mail.qq.com" target="_blank"><i class="fa-solid fa-envelope" style="color:#FABD0A"></i>QQ邮箱</a></li>
+			<li><a rel="nofollow" href="https://mp.weixin.qq.com" target="_blank"><i class="fa-brands fa-weixin" style="color:#2AAE67"></i>微信开发</a></li>
+			<li><a rel="nofollow" href="https://pan.baidu.com" target="_blank"><i class="fa-solid fa-cloud-arrow-down" style="color:#0EAEFF"></i>百度网盘</a></li>
+			<li><a rel="nofollow" href="https://www.aliyundrive.com" target="_blank"><i class="fa-solid fa-cloud-arrow-down" style="color:#446DFF"></i>阿里云盘</a></li>
+			<li><a rel="nofollow" href="https://mail.163.com" target="_blank"><i class="fa-solid fa-envelope" style="color:#CE0326"></i>网易邮箱</a></li>
+			<li><a rel="nofollow" href="https://outlook.live.com" target="_blank"><i class="fa-brands fa-microsoft" style="color:#0078D4"></i>Outlook</a></li>
+			<li><a rel="nofollow" href="https://mail.google.com" target="_blank"><i class="fa-brands fa-google" style="color:#EA4335"></i>Gmail</a></li>
+			<li><a rel="nofollow" href="https://mail.sina.com.cn" target="_blank"><i class="fa-brands fa-weibo" style="color:#DE252A"></i>新浪邮箱</a></li>
+			<li><a rel="nofollow" href="https://www.dingtalk.com" target="_blank"><i class="fa-solid fa-d" style="color:#0089FF"></i>钉钉办公</a></li>
+			<li><a rel="nofollow" href="https://work.weixin.qq.com" target="_blank"><i class="fa-brands fa-weixin" style="color:#FC6500"></i>企业微信</a></li>
+			<li><a rel="nofollow" href="https://mail.aliyun.com" target="_blank"><i class="fa-solid fa-m" style="color:#EF4542"></i>阿里邮箱</a></li>
+			<!-- 热门推荐END -->
+
+			<!-- 影音媒体 -->
+			<li class="title"><i class="fa-solid fa-photo-film"></i>影音媒体</li>
+			<li><a rel="nofollow" href="https://v.qq.com" target="_blank"><i class="fa-solid fa-play" style="color:#2CA6FA"></i>腾讯视频</a></li>
+			<li><a rel="nofollow" href="https://www.bilibili.com" target="_blank"><i class="fa-brands fa-bilibili" style="color:#FA8EA2"></i>哔哩哔哩</a></li>
+			<li><a rel="nofollow" href="https://y.qq.com" target="_blank"><i class="fa-brands fa-qq" style="color:#31c27c"></i>QQ 音乐</a></li>
+			<li><a rel="nofollow" href="https://www.youku.com" target="_blank"><i class="fa-solid fa-clapperboard" style="color:#FF006D"></i>优酷视频</a></li>
+			<li><a rel="nofollow" href="https://www.douyin.com" target="_blank"><i class="fa-brands fa-tiktok" style="color:#060716"></i>抖音视频</a></li>
+			<li><a rel="nofollow" href="https://music.163.com" target="_blank"><i class="fa-solid fa-record-vinyl" style="color:#EA2000"></i>网易音乐</a></li>
+			<li><a rel="nofollow" href="https://www.iqiyi.com" target="_blank"><i class="fa-solid fa-circle-play" style="color:#1CC749"></i>爱奇艺</a></li>
+			<li><a rel="nofollow" href="https://www.mgtv.com" target="_blank"><i class="fa-brands fa-maxcdn" style="color:#FF6200"></i>芒果TV</a></li>
+			<li><a rel="nofollow" href="https://tv.cctv.com" target="_blank"><i class="fa-solid fa-c" style="color:#E60012"></i>CCTV</a></li>
+			<li><a rel="nofollow" href="https://www.acfun.cn" target="_blank"><i class="fa-solid fa-a" style="color:#FD4C5D"></i>AcFun</a></li>
+			<li><a rel="nofollow" href="https://www.youtube.com" target="_blank"><i class="fa-brands fa-youtube" style="color:#FF0000"></i>YouTube</a></li>
+			<li><a rel="nofollow" href="https://www.netflix.com" target="_blank"><i class="fa-solid fa-n" style="color:#E50914"></i>NetFlix</a></li>
+			<li><a rel="nofollow" href="https://ymck.me" target="_blank"><i class="fa-solid fa-cat" style="color:#EDA362"></i>影猫仓库</a></li>
+			<li><a rel="nofollow" href="https://videotogether.github.io" target="_blank"><i class="fa-solid fa-video" style="color:#42B883"></i>一起看视频</a></li>
+			<li><a rel="nofollow" href="https://musetransfer.com" target="_blank"><i class="fa-solid fa-m" style="color:#000"></i>文件传输</a></li>
+			<!-- 影音媒体END -->
+
+			<!-- 购物休闲 -->
+			<li class="title"><i class="fa-solid fa-cart-shopping"></i>购物休闲</li>
+			<li><a rel="nofollow" href="https://www.taobao.com" target="_blank"><i class="fa-brands fa-alipay" style="color:#FF5B00"></i>淘宝</a></li>
+			<li><a rel="nofollow" href="https://www.jd.com" target="_blank"><i class="fa-solid fa-d" style="color:#e1251b"></i>京东</a></li>
+			<li><a rel="nofollow" href="https://www.dangdang.com" target="_blank"><i class="fa-solid fa-bag-shopping" style="color:#FF2832"></i>当当</a></li>
+			<li><a rel="nofollow" href="https://www.pinduoduo.com" target="_blank"><i class="fa-solid fa-p" style="color:#E22A1F"></i>拼多多</a></li>
+			<li><a rel="nofollow" href="https://you.163.com" target="_blank"><i class="fa-solid fa-cart-shopping" style="color:#333333"></i>网易严选</a></li>
+			<li><a rel="nofollow" href="https://www.suning.com" target="_blank"><i class="fa-solid fa-shop" style="color:#FFD000"></i>苏宁易购</a></li>
+			<li><a rel="nofollow" href="https://www.amazon.cn" target="_blank"><i class="fa-brands fa-amazon" style="color:#FFA000"></i>亚马逊</a></li>
+			<li><a rel="nofollow" href="https://store.steampowered.com" target="_blank"><i class="fa-brands fa-steam" style="color:#193C53"></i>Steam</a></li>
+			<li><a rel="nofollow" href="https://store.epicgames.com/zh-CN" target="_blank"><i class="fab fas fa-e" style="color:#121212"></i>Epic</a></li>
+			<li><a rel="nofollow" href="https://www.wegame.com.cn" target="_blank"><i class="fa-brands fa-w" style="color:#FF6F54"></i>WeGame</a></li>
+			<!-- 购物休闲END -->
+
+			<!-- 资讯社交 -->
+			<li class="title"><i class="fa-regular fa-newspaper"></i>资讯社交</li>
+			<li><a rel="nofollow" href="https://www.thepaper.cn" target="_blank"><i class="fa-solid fa-p" style="color:#000"></i>澎湃新闻</a></li>
+			<li><a rel="nofollow" href="https://weibo.com/login.php" target="_blank"><i class="fa-brands fa-weibo" style="color:#E22428"></i>微博</a></li>
+			<li><a rel="nofollow" href="https://www.zhihu.com" target="_blank"><i class="fa-brands fa-zhihu" style="color:#0066FF"></i>知乎</a></li>
+			<li><a rel="nofollow" href="https://36kr.com" target="_blank"><i class="fa-solid fa-k" style="color:#4285f4"></i>36氪</a></li>
+			<li><a rel="nofollow" href="https://juejin.cn" target="_blank"><i class="fa-solid fa-angles-down" style="color:#1881FF"></i>掘金</a></li>
+			<li><a rel="nofollow" href="https://www.douban.com" target="_blank"><i class="fa-solid fa-d" style="color:#41ac52"></i>豆瓣</a></li>
+			<li><a rel="nofollow" href="https://www.v2ex.com" target="_blank"><i class="fa-solid fa-v" style="color:#1D9BF0"></i>V2EX</a></li>
+			<li><a rel="nofollow" href="https://twitter.com" target="_blank"><i class="fa-brands fa-twitter" style="color:#1D9BF0"></i>Twitter</a></li>
+			<li><a rel="nofollow" href="https://www.facebook.com" target="_blank"><i class="fa-brands fa-facebook" style="color:#1877F2"></i>Facebook</a></li>
+			<li><a rel="nofollow" href="https://www.kkdaxue.com" target="_blank"><i class="fa-solid fa-building-columns" style="color:#2F88FF"></i>框框大学</a></li>
+			<li><a rel="nofollow" href="https://www.instagram.com" target="_blank"><i class="fa-brands fa-instagram" style="color:#D92A78"></i>Instagram</a></li>
+			<!-- 资讯社交END -->
+
+			<!-- 设计视觉 -->
+			<li class="title"><i class="fa-solid fa-compass-drafting"></i>设计视觉</li>
+			<li><a rel="nofollow" href="https://chuangzaoshi.com" target="_blank"><i class="fa-solid fa-pen-ruler" style="color:#171717"></i>创造狮</a></li>
+			<li><a rel="nofollow" href="https://www.zcool.com.cn" target="_blank"><i class="fa-solid fa-z" style="color:#FFF200"></i>zcool站酷</a></li>
+			<li><a rel="nofollow" href="https://www.iconfont.cn" target="_blank"><i class="fa-solid fa-font" style="color:#A50DFE"></i>阿里图标</a></li>
+			<li><a rel="nofollow" href="https://huaban.com" target="_blank"><i class="fa-solid fa-h" style="color:#FF6868"></i>花瓣网</a></li>
+			<li><a rel="nofollow" href="https://www.chuangkit.com" target="_blank"><i class="fa-brands fa-redhat" style="color:#0499FD"></i>创客贴</a></li>
+			<li><a rel="nofollow" href="https://dribbble.com" target="_blank"><i class="fa-brands fa-dribbble" style="color:#EA4C89"></i>Dribbble</a></li>
+			<li><a rel="nofollow" href="https://mixkit.co" target="_blank"><i class="fa-solid fa-m" style="color:#2A2A2A"></i>Mixkit</a></li>
+			<li><a rel="nofollow" href="https://uiverse.io" target="_blank"><i class="fa-solid fa-file-code" style="color:#2575fc"></i>Universe</a></li>
+			<li><a rel="nofollow" href="https://toolight.cn" target="_blank"><i class="fa-solid fa-t" style="color:#000"></i>偷懒工具</a></li>
+			<!-- 设计视觉END -->
+
+			<!-- 学习充电 -->
+			<li class="title"><i class="fa-solid fa-chalkboard-user"></i>学习充电</li>
+			<li><a rel="nofollow" href="https://ke.qq.com" target="_blank"><i class="fa-solid fa-graduation-cap" style="color:#2080F7"></i>腾讯课堂</a></li>
+			<li><a rel="nofollow" href="https://www.imooc.com" target="_blank"><i class="fa-solid fa-fire" style="color:#F01414"></i>慕课网</a></li>
+			<li><a rel="nofollow" href="https://study.163.com" target="_blank"><i class="fa-solid fa-book-open" style="color:#FC1E1E"></i>网易云课堂</a></li>
+			<li><a rel="nofollow" href="https://www.wps.cn/learning" target="_blank"><i class="fa-solid fa-book" style="color:#2077EC"></i>WPS学堂</a></li>
+			<li><a rel="nofollow" href="https://www.lanrenexcel.com" target="_blank"><i class="fa-solid fa-file-excel" style="color:#217346"></i>懒人Excel</a></li>
+			<li><a rel="nofollow" href="https://www.icourse163.org" target="_blank"><i class="fa-solid fa-building-columns" style="color:#00C658"></i>中国大学MOOC</a></li>
+			<li><a rel="nofollow" href="https://www.runoob.com" target="_blank"><i class="fa-solid fa-laptop-code" style="color:#96B97D"></i>菜鸟教程</a></li>
+			<li><a rel="nofollow" href="https://www.w3school.com.cn" target="_blank"><i class="fa-solid fa-w" style="color:#BD2D30"></i>W3School</a></li>
+			<li><a rel="nofollow" href="https://time.geekbang.org" target="_blank"><i class="fa-solid fa-lightbulb" style="color:#EB620F"></i>极客时间</a></li>
+			<li><a rel="nofollow" href="https://www.hetianlab.com" target="_blank"><i class="fa-solid fa-shield-cat" style="color:#0086DC"></i>合天网安</a></li>
+			<li><a rel="nofollow" href="https://qadoc.cn" target="_blank"><i class="fa-solid fa-laptop-file" style="color:#212529"></i>QAdoc</a></li>
+			<li><a rel="nofollow" href="https://www.pypypy.cn" target="_blank"><i class="fa-solid fa-wind" style="color:#050505"></i>风变编程</a></li>
+			<li><a rel="nofollow" href="http://www.lemonban.com" target="_blank"><i class="fa-solid fa-lemon" style="color:#FFDE6A"></i>柠檬班</a></li>
+			<li><a rel="nofollow" href="https://www.itheima.com" target="_blank"><i class="fa-solid fa-chess-knight" style="color:#495150"></i>黑马程序员</a></li>
+			<li><a rel="nofollow" href="https://www.ruancang.net" target="_blank"><i class="fa-solid fa-warehouse" style="color:#8B9FC5"></i>软仓</a></li>
+			<!-- 学习充电END -->
+
+			<!-- 搜索引擎 -->
+			<li class="title"><i class="fa-brands fa-searchengin"></i>搜索引擎</li>
+			<li><a rel="nofollow" href="https://cn.bing.com" target="_blank"><i class="fa-solid fa-magnifying-glass" style="color:#8DC63F"></i>必应搜索</a></li>
+			<li><a rel="nofollow" href="https://weixin.sogou.com" target="_blank"><i class="fa-brands fa-weixin" style="color:#FE6711"></i>搜狗微信</a></li>
+			<li><a rel="nofollow" href="https://www.so.com" target="_blank"><i class="fa-solid fa-shield" style="color:#FEE500"></i>360搜索</a></li>
+			<li><a rel="nofollow" href="https://fsoufsou.com" target="_blank"><i class="fa-solid fa-f" style="color:#1973E8"></i>Fsou</a></li>
+			<li><a rel="nofollow" href="https://www.upyunso.com" target="_blank"><i class="fa-solid fa-u" style="color:#84DC43"></i>UP云搜</a></li>
+			<li><a rel="nofollow" href="https://www.google.com" target="_blank"><i class="fa-brands fa-google" style="color:#EA4335"></i>谷歌搜索</a></li>
+			<!-- 搜索引擎END -->
+
+			<!-- 在线工具 -->
+			<li class="title"><i class="fa-solid fa-toolbox"></i>在线工具</li>
+			<li><a rel="nofollow" href="https://tools.miku.ac" target="_blank"><i class="fas fa-tools" style="color:#000"></i>Miku工具</a></li>
+			<li><a rel="nofollow" href="https://www.picdiet.com/zh-cn" target="_blank"><i class="fa-solid fa-file-image" style="color:#2B95FD"></i>JPG压缩</a></li>
+			<li><a rel="nofollow" href="https://tinypng.com" target="_blank"><i class="fa-regular fa-file-image" style="color:#3F444F"></i>TinyPNG</a></li>
+			<li><a rel="nofollow" href="https://docs.qq.com" target="_blank"><i class="fa-solid fa-file-lines" style="color:#1E6FFF"></i>腾讯文档</a></li>
+			<li><a rel="nofollow" href="https://www.office.com" target="_blank"><i class="fa-brands fa-microsoft" style="color:#D83B01"></i>Office</a></li>
+			<li><a rel="nofollow" href="https://msdn.itellyou.cn" target="_blank"><i class="fa-brands fa-windows" style="color:#3B84C3"></i>MSDN下载</a></li>
+			<li><a rel="nofollow" href="https://ipw.cn" target="_blank"><i class="fa-solid fa-network-wired" style="color:#07C160"></i>IP查询</a></li>
+			<li><a rel="nofollow" href="http://dnslog.cn" target="_blank"><i class="fa-solid fa-d" style="color:#ADD3EF"></i>DNSLog</a></li>
+			<li><a rel="nofollow" href="https://cubic-bezier.com" target="_blank"><i class="fa-solid fa-bezier-curve" style="color:#00AABB"></i>贝赛尔曲线</a></li>
+			<li><a rel="nofollow" href="https://zh.recompressor.com" target="_blank"><i class="fa-solid fa-file-image" style="color:#0000FF"></i>图像优化</a></li>
+			<li><a rel="nofollow" href="http://tool.mkblog.cn/svgo" target="_blank"><i class="fa-solid fa-file-image" style="color:#8A8A8A"></i>SVG压缩</a></li>
+			<li><a rel="nofollow" href="https://flowus.cn/boot/share/4feb1624-943e-487d-8b69-4301c7ab61f3" target="_blank"><i class="fa-brands fa-windows" style="color:#4ACBEA"></i>时光Boot</a></li>
+			<!-- 在线工具END -->
+
+			<!-- 程序人生 -->
+			<li class="title"><i class="fa-solid fa-code"></i>程序人生</li>
+			<li><a rel="nofollow" href="https://github.com" target="_blank"><i class="fa-brands fa-github" style="color:#24292F"></i>Github</a></li>
+			<li><a rel="nofollow" href="https://gitee.com" target="_blank"><i class="fa-brands fa-git-square" style="color:#C71D23"></i>Gitee码云</a></li>
+			<li><a rel="nofollow" href="https://codepen.io" target="_blank"><i class="fa-brands fa-codepen" style="color:#131417"></i>Codepen</a></li>
+			<li><a rel="nofollow" href="https://cloud.tencent.com/login" target="_blank"><i class="fa-solid fa-cloud-arrow-up" style="color:#00A3FF"></i>腾讯云</a></li>
+			<li><a rel="nofollow" href="https://account.aliyun.com/login/login.htm" target="_blank"><i class="fa-solid fa-cloud-arrow-up" style="color:#FF6A00"></i>阿里云</a></li>
+			<li><a rel="nofollow" href="https://auth.huaweicloud.com/authui" target="_blank"><i class="fa-solid fa-cloud-arrow-up" style="color:#C7000B"></i>华为云</a></li>
+			<li><a rel="nofollow" href="https://cloud.tencent.com/developer" target="_blank"><i class="fa-solid fa-cloud" style="color:#00A3FF"></i>云+社区</a></li>
+			<li><a rel="nofollow" href="https://developer.aliyun.com" target="_blank"><i class="fa-solid fa-cloud" style="color:#FF6A00"></i>云栖社区</a></li>
+			<li><a rel="nofollow" href="https://www.52pojie.cn" target="_blank"><i class="fa-solid fa-5" style="color:#E21616"></i>吾爱破解</a></li>
+			<li><a rel="nofollow" href="https://segmentfault.com" target="_blank"><i class="fa-solid fa-s" style="color:#00965E"></i>SF思否</a></li>
+			<li><a rel="nofollow" href="https://itpanda.net/book" target="_blank"><i class="fa-solid fa-book" style="color:#665B5B"></i>IT熊猫</a></li>
+			<li><a rel="nofollow" href="https://wangdoc.com" target="_blank"><i class="fa-solid fa-file-lines" style="color:#089BE0"></i>网道文档</a></li>
+			<li><a rel="nofollow" href="https://www.ghxi.com/llq" target="_blank"><i class="fa-brands fa-chrome" style="color:#FBBC05"></i>浏览器检测</a></li>
+			<li><a rel="nofollow" href="https://danmaku.suki.club" target="_blank"><i class="fa-solid fa-code" style="color: #FF1744;"></i>MDMKS</a></li>
+			<!-- 程序人生END -->
+		</ul>
+	</div>
+	<div id="tp-weather-widget" class="mywth"></div>
+	<div id="content">
+		<div class="con">
+			<div class="shlogo"></div>
+			<div class="sou">
+				<form action="" method="get" target="_blank">
+					<!--required属性设置空判断   autofocus 自动获取焦点-->
+					<input class="wd" type="text" placeholder="请输入搜索内容" name="wd" x-webkit-speech lang="zh-CN" required="required" autofocus="autofocus" autocomplete="on">
+					<button><i class="fas fa-search"></i></button>
+				</form>
+				<ul>
+					<li data-s="google"><i style="background-image: url(static/icon/google.svg);"></i>谷歌搜索</li>
+					<li data-s="baidu"><i style="background-image: url(static/icon/baidu.svg);"></i>百度一下</li>
+				</ul>
+			</div>
+		</div>
+		<script>
+			$(document).ready(function () {
+				//判断窗口大小，添加输入框自动完成
+				var wid = $("body").width();
+				if (wid < 640) {
+					$(".wd").attr('autocomplete', 'off');
+				}
+				// 默认搜索引擎:谷歌
+				var defaultEngine = 'google';
+				// 根据IP选择搜索引擎(中国IP用百度,其他用谷歌)
+				$.get('https://ipapi.co/json/', function(data) {
+					if (data.country === 'CN') {
+						defaultEngine = 'baidu';
+						$(".wd").attr('name', 'wd');
+						$("form").attr('action', 'https://www.baidu.com/s?ie=utf-8');
+					} else {
+						defaultEngine = 'google';
+						$(".wd").attr('name', 'q');
+						$("form").attr('action', 'https://www.google.com/search?hl=zh');
+					}
+				}).fail(function() {
+					// IP检测失败时使用默认谷歌
+					$(".wd").attr('name', 'q');
+					$("form").attr('action', 'https://www.google.com/search?hl=zh');
+				});
+				function sub(engine) {
+					if (engine == "google") {
+						$(".wd").attr('name', 'q');
+						$("form").attr('action', 'https://www.google.com/search?hl=zh');
+					} else {
+						$(".wd").attr('name', 'wd');
+						$("form").attr('action', 'https://www.baidu.com/s?ie=utf-8');
+					}
+					$("form").submit();
+				}
+				// 搜索引擎按钮点击
+				$(".sou li").click(function () {
+					var dt = $(this).attr('data-s');
+					sub(dt);
+				});
+				// 搜索按钮点击
+				$("form button").click(function() {
+					sub(defaultEngine);
+				});
+				// 回车搜索
+				$(".wd").keypress(function(e) {
+					if(e.which == 13) {
+						sub(defaultEngine);
+					}
+				});
+				// 菜单点击
+				$("#menu").click(function (event) {
+					$(this).toggleClass('on');
+					$(".list").toggleClass('closed');
+					$("#tp-weather-widget").toggleClass('hidden');
+				});
+				$("#content").click(function (event) {
+					$(".on").removeClass('on');
+					$(".list").addClass('closed');
+					$("#tp-weather-widget").removeClass('hidden');
+				});
+			});
+		</script>
+
+		<!--天气插件开始-->
+		<!-- By_HFweather -->
+		<div id="he-plugin-simple"></div>
+		<script>
+			WIDGET = {
+				"CONFIG": {
+					"modules": "01234",
+					"background": "1",
+					"tmpColor": "FFFFFF",
+					"tmpSize": "16",
+					"cityColor": "FFFFFF",
+					"citySize": "16",
+					"aqiColor": "FFFFFF",
+					"aqiSize": "16",
+					"weatherIconSize": "24",
+					"alertIconSize": "18",
+					"padding": "10px 10px 10px 10px",
+					"shadow": "1",
+					"language": "auto",
+					"borderRadius": "14",
+					"fixed": "true",
+					"vertical": "center",
+					"horizontal": "left",
+					"left": "10",
+					"top": "10",
+					"key": "4d76f283d26c410c95f4b73d0ab33843"
+				}
+			}
+		</script>
+		<script src="https://widget.qweather.net/simple/static/js/he-simple-common.js?v=2.0"></script>
+		<!--天气插件end-->
+		<!-- 尾部 -->
+		<div class="foot">
+			<p style="color:#000;text-shadow:1px 1px 1px #5b616d;"><span id="jinrishici-sentence">正在加载今日诗词....</span></p>
+			<p id="hitokoto" style="color:#000;text-shadow:1px 1px 1px #5b616d;"><a href="#" id="hitokoto_text">:D 获取中...</a></p>
+			<span>
+				&copy; 2014-<script>document.write(new Date().getFullYear())</script> by <a style="color: #999;" href="https://www.liqiang.info" target="_blank">Yunli.</a> All rights reserved.
+			</sapn>
+		</div>
+	</div>
+	<script src="https://sdk.jinrishici.com/v2/browser/jinrishici.js" charset="utf-8"></script>
+	<script src="https://v1.hitokoto.cn/?encode=js&select=%23hitokoto" defer></script>
+</body>
+
+</html>

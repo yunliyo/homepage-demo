@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>围住猫猫</title>
+    <link rel="icon" href="../../../images/default.png" type="image/x-icon">
+    <link rel="stylesheet" href="./assets/css/style.css">
+</head>
+
+<body>
+    <div class="container">
+        <h1>围住猫猫</h1>
+        <h2>Catch the Cat</h2>
+        <div id="catch-the-cat"></div>
+        <div class="action-area">
+            <a href="../" target="_self" class="btn btn-primary">返回首页</a>
+            <a href="../" target="_self" class="btn btn-secondary">HOME</a>
+        </div>
+    </div>
+    <div class="footer">&copy; 2014-<script>document.write(new Date().getFullYear())</script> by 韵狸.</div>
+    <script src="./assets/js/phaser.min.js"></script>
+    <script src="./assets/js/catch-the-cat.js"></script>
+    <script>
+        window.game = new CatchTheCatGame({
+            w: 11,
+            h: 11,
+            r: 20,
+            backgroundColor: 0xffffff,
+            parent: "catch-the-cat",
+            statusBarAlign: "center",
+            credit: "HOME"
+        });
+    </script>
+</body>
+
+</html>

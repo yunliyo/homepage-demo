@@ -1,0 +1,560 @@
+/* 重置样式 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* 基础样式 */
+html {
+    font-size: 18px;
+}
+
+body {
+    font-family: "Simsun";
+    background: #f5f5f5;
+    color: #333333;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow-x: hidden;
+    padding: 20px;
+    position: relative;
+}
+
+/* 背景图片样式 */
+#background-image {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: -1;
+    opacity: 0.9;
+    will-change: opacity;
+    transition: opacity 0.5s ease;
+}
+
+/* 标题图片 - 移动端 */
+#headimg {
+    width: 200px;
+    margin-bottom: 20px;
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+}
+
+/* 移动端标题图片 */
+.mobile-headimg {
+    display: block;
+}
+
+/* PC端标题图片 */
+.pc-headimg {
+    width: 160px;
+    margin-bottom: 15px;
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+}
+
+/* PC端隐藏移动端标题图片 */
+@media (min-width: 769px) {
+    .mobile-headimg {
+        display: none !important;
+    }
+}
+
+/* 移动端隐藏PC端标题图片 */
+@media (max-width: 768px) {
+    .pc-headimg {
+        display: none !important;
+    }
+}
+
+/* 主容器 */
+#main-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: transparent;
+    max-width: 90%;
+    width: 900px;
+}
+
+/* PC端左右对称布局容器 */
+@media (min-width: 769px) {
+    #pc-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: stretch;
+        gap: 60px;
+        width: 100%;
+        max-width: 1200px;
+        min-height: 400px;
+        animation: fadeInUp 0.8s ease-out;
+    }
+
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .pc-left-panel,
+    .pc-right-panel {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        max-width: 500px;
+    }
+
+    .pc-left-panel {
+        align-items: center;
+        justify-content: flex-start;
+        padding-left: 50px;
+        gap: 10px;
+        /* Consistent gap between items */
+    }
+
+    .pc-right-panel {
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* 修正PC端赏赐按钮对齐方式 */
+    #box-pc {
+        justify-content: center;
+        width: auto;
+    }
+}
+
+/* 移动端隐藏PC布局 */
+@media (max-width: 768px) {
+    #pc-container {
+        display: none !important;
+    }
+}
+
+/* 头像容器 */
+#single-avatar {
+    position: relative;
+    width: 150px;
+    height: 150px;
+    margin-bottom: 20px;
+}
+
+#avatar-img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    transition: transform 0.3s ease-out;
+    cursor: pointer;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    will-change: transform;
+}
+
+/* 旋转动画 */
+.rotating {
+    animation: rotate 2s linear infinite;
+}
+
+@keyframes rotate {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* 功能按钮容器 */
+#box {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+/* 功能按钮样式 */
+.smallbox {
+    background: rgba(128, 128, 128, 0.2);
+    /* 更适合浅色背景的中性色调 */
+    border-radius: 15px;
+    padding: 20px 30px;
+    text-align: center;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(200, 200, 200, 0.4);
+    will-change: transform, background;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    /* 柔和阴影 */
+}
+
+.smallbox:hover {
+    background: rgba(128, 128, 128, 0.3);
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.smallbox a {
+    text-decoration: none;
+    color: #333333;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 16px;
+    font-weight: bold;
+    font-family: '楷体', 'KaiTi', 'STKaiti', serif;
+}
+
+/* 搜索框样式 - 仅PC端显示 */
+#search-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.search-box {
+    background: rgba(128, 128, 128, 0.1);
+    /* 更适合浅色背景的中性色调 */
+    border-radius: 25px;
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    max-width: 450px;
+    /* 限制最大宽度，更美观 */
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid rgba(200, 200, 200, 0.4);
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.search-box:hover,
+.search-box:focus-within {
+    background: rgba(128, 128, 128, 0.2);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    transform: scale(1.02);
+}
+
+.search-input {
+    background: transparent;
+    border: none;
+    outline: none;
+    color: #333333;
+    padding: 8px;
+    font-size: 16px;
+    width: 100%;
+    flex-grow: 1;
+    font-weight: bold;
+    font-family: '楷体', 'KaiTi', 'STKaiti', serif;
+}
+
+.search-input::placeholder {
+    color: rgba(51, 51, 51, 0.5);
+}
+
+.search-btn {
+    background: transparent;
+    border: none;
+    color: rgba(51, 51, 51, 0.8);
+    cursor: pointer;
+    padding: 5px 10px;
+    font-size: 14px;
+    transition: all 0.2s;
+    border-radius: 15px;
+    margin-left: 5px;
+}
+
+.search-btn:hover {
+    background: rgba(51, 51, 51, 0.1);
+    color: #333333;
+}
+
+/* 移动端隐藏搜索框 */
+@media (max-width: 768px) {
+    #search-container {
+        display: none !important;
+    }
+}
+
+/* 备案号样式 */
+#beian {
+    position: fixed;
+    bottom: 15px;
+    text-align: center;
+    width: 100%;
+    font-size: 12px;
+    color: rgba(51, 51, 51, 0.7);
+}
+
+#beian a {
+    color: rgba(51, 51, 51, 0.7);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+#beian a:hover {
+    color: #333333;
+    text-decoration: underline;
+}
+
+/* 响应式设计 */
+@media (max-width: 480px) {
+    #main-box {
+        width: 100%;
+    }
+
+    #headimg {
+        width: 150px;
+    }
+
+    #single-avatar {
+        width: 120px;
+        height: 120px;
+    }
+}
+
+/* 赏赐弹窗样式 */
+.reward-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+}
+
+.reward-modal.show {
+    display: flex;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.reward-content {
+    position: relative;
+    max-width: 90%;
+    max-height: 90%;
+    animation: scaleIn 0.3s ease;
+}
+
+@keyframes scaleIn {
+    from {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.reward-img {
+    max-width: 100%;
+    max-height: 80vh;
+    border-radius: 15px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+}
+
+/* PC端图片样式 */
+@media (min-width: 769px) {
+    .reward-img {
+        max-width: 500px;
+    }
+}
+
+/* 移动端图片样式 */
+@media (max-width: 768px) {
+    .reward-img {
+        max-width: 85vw;
+        max-height: 70vh;
+    }
+}
+
+.reward-close {
+    position: absolute;
+    top: -15px;
+    right: -15px;
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.9);
+    border: none;
+    border-radius: 50%;
+    font-size: 24px;
+    cursor: pointer;
+    color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.reward-close:hover {
+    background: #fff;
+    transform: rotate(90deg);
+}
+
+/* PC端显示，移动端隐藏 */
+@media (min-width: 769px) {
+    #main-box {
+        display: none !important;
+    }
+}
+
+/* 移动端显示，PC端隐藏 */
+@media (max-width: 768px) {
+    #pc-container {
+        display: none !important;
+    }
+
+    #main-box {
+        display: flex !important;
+    }
+}
+
+/* 移动端头像样式 */
+.single-avatar-mobile {
+    position: relative;
+    width: 150px;
+    height: 150px;
+    margin-bottom: 20px;
+}
+
+.single-avatar-mobile .avatar-img-common {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    transition: transform 0.3s ease-out;
+    cursor: pointer;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    will-change: transform;
+}
+
+/* PC端头像样式 */
+.pc-avatar {
+    position: relative;
+    width: 180px;
+    height: 180px;
+    margin-bottom: 25px;
+}
+
+.pc-avatar .avatar-img-common {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    transition: transform 0.3s ease-out;
+    cursor: pointer;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    will-change: transform;
+}
+
+/* 通用功能按钮容器 */
+.box-common {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+/* 支付方式选择样式 */
+#reward-selection {
+    display: flex;
+    gap: 30px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 20px;
+    animation: scaleIn 0.3s ease;
+}
+
+.pay-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.pay-item:hover {
+    transform: translateY(-5px);
+}
+
+.pay-icon {
+    width: 70px;
+    height: 70px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.qq-bg {
+    /*background: #28a745;*/
+    background: #fff;
+}
+
+.wechat-bg {
+    /*background: #28a745;*/
+    background: #fff;
+}
+
+.alipay-bg {
+    /*background: #1677ff;*/
+    background: #fff;
+}
+
+.pay-name {
+    color: #333;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.back-btn {
+    display: block;
+    margin: 15px auto 0;
+    padding: 8px 20px;
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    color: #333;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.back-btn:hover {
+    background: rgba(255, 255, 255, 0.4);
+}

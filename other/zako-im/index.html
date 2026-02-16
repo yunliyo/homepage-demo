@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>狸庐</title>
+    <link rel="icon" href="../../images/default.png" type="image/x-icon">
+    <link rel="stylesheet" href="./assets/about-0cdfd943.css" />
+    <style>
+        .nickname[data-astro-cid-j7pv25f6] {
+            font-size: 24px;
+            font-weight: 600;
+            color: #fe7bb5;
+            text-align: center;
+            margin: 15px 0 25px;
+            text-shadow: 0 2px 4px rgba(254, 123, 181, .2);
+            letter-spacing: 1px
+        }
+
+        .hitokoto-container[data-astro-cid-j7pv25f6] {
+            margin-top: 20px;
+            background: linear-gradient(135deg, rgba(254, 123, 181, .1) 0%, rgba(179, 177, 254, .1) 50%, rgba(255, 240, 245, .8) 100%);
+            border-radius: 20px;
+            border: 1px solid rgba(254, 123, 181, .2);
+            box-shadow: 0 8px 32px #fe7bb51a;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            overflow: hidden;
+            transition: all .4s cubic-bezier(.4, 0, .2, 1);
+            position: relative
+        }
+
+        .hitokoto-container[data-astro-cid-j7pv25f6]:before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #FE7BB5, #B3B1FE, #FE7BB5);
+            background-size: 200% 100%;
+            animation: shimmer 3s ease-in-out infinite
+        }
+
+        @keyframes shimmer {
+
+            0%,
+            to {
+                background-position: 200% 0
+            }
+
+            50% {
+                background-position: -200% 0
+            }
+        }
+
+        .hitokoto-container[data-astro-cid-j7pv25f6]:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px #fe7bb533;
+            border-color: #fe7bb54d
+        }
+
+        .hitokoto-header[data-astro-cid-j7pv25f6] {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 20px 12px;
+            border-bottom: 1px solid rgba(254, 123, 181, .1)
+        }
+
+        .hitokoto-icon[data-astro-cid-j7pv25f6] {
+            font-size: 18px;
+            margin-right: 8px
+        }
+
+        .hitokoto-title[data-astro-cid-j7pv25f6] {
+            font-size: 14px;
+            font-weight: 600;
+            color: #fe7bb5;
+            flex-grow: 1;
+            letter-spacing: .5px
+        }
+
+        .refresh-btn[data-astro-cid-j7pv25f6] {
+            background: linear-gradient(135deg, #FE7BB5, #B3B1FE);
+            border: none;
+            border-radius: 12px;
+            padding: 8px;
+            cursor: pointer;
+            transition: all .3s cubic-bezier(.4, 0, .2, 1);
+            color: #fff;
+            box-shadow: 0 2px 8px #fe7bb54d;
+            position: relative;
+            overflow: hidden
+        }
+
+        .refresh-btn[data-astro-cid-j7pv25f6]:before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, .3), transparent);
+            transition: left .5s
+        }
+
+        .refresh-btn[data-astro-cid-j7pv25f6]:hover:before {
+            left: 100%
+        }
+
+        .refresh-btn[data-astro-cid-j7pv25f6]:hover {
+            transform: scale(1.1) rotate(180deg);
+            box-shadow: 0 4px 16px #fe7bb566
+        }
+
+        .refresh-btn[data-astro-cid-j7pv25f6]:active {
+            transform: scale(.95) rotate(180deg)
+        }
+
+        .refresh-btn[data-astro-cid-j7pv25f6] svg[data-astro-cid-j7pv25f6] {
+            display: block;
+            transition: transform .3s ease
+        }
+
+        .hitokoto-content[data-astro-cid-j7pv25f6] {
+            padding: 16px 20px 20px
+        }
+
+        .hitokoto-text[data-astro-cid-j7pv25f6] {
+            font-size: 16px;
+            line-height: 1.5;
+            color: #333;
+            margin: 0 0 12px;
+            font-style: italic;
+            min-height: 24px;
+            transition: opacity .3s ease;
+            position: relative;
+            padding-left: 16px
+        }
+
+        .hitokoto-text[data-astro-cid-j7pv25f6]:before {
+            content: '"';
+            position: absolute;
+            left: 0;
+            top: -2px;
+            font-size: 24px;
+            color: #fe7bb5;
+            font-family: serif;
+            opacity: .6
+        }
+
+        .hitokoto-text[data-astro-cid-j7pv25f6]:after {
+            content: '"';
+            font-size: 24px;
+            color: #fe7bb5;
+            font-family: serif;
+            opacity: .6;
+            margin-left: 4px
+        }
+
+        .hitokoto-from[data-astro-cid-j7pv25f6] {
+            font-size: 13px;
+            color: #888;
+            text-align: right;
+            margin: 0;
+            font-weight: 500;
+            opacity: .8
+        }
+
+        .loading[data-astro-cid-j7pv25f6] {
+            opacity: .7
+        }
+
+        .loading[data-astro-cid-j7pv25f6] .refresh-btn[data-astro-cid-j7pv25f6] svg[data-astro-cid-j7pv25f6] {
+            animation: spin 1s linear infinite
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0)
+            }
+
+            to {
+                transform: rotate(360deg)
+            }
+        }
+
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+                transform: translateY(10px)
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0)
+            }
+        }
+
+        .hitokoto-container[data-astro-cid-j7pv25f6].fade-in {
+            animation: fadeIn .6s cubic-bezier(.4, 0, .2, 1)
+        }
+
+        @media (max-width: 768px) {
+            .nickname[data-astro-cid-j7pv25f6] {
+                font-size: 20px;
+                margin: 12px 0 20px
+            }
+
+            .hitokoto-container[data-astro-cid-j7pv25f6] {
+                margin: 15px 0;
+                border-radius: 16px
+            }
+
+            .hitokoto-header[data-astro-cid-j7pv25f6] {
+                padding: 14px 16px 10px
+            }
+
+            .hitokoto-content[data-astro-cid-j7pv25f6] {
+                padding: 14px 16px 16px
+            }
+
+            .hitokoto-text[data-astro-cid-j7pv25f6] {
+                font-size: 15px;
+                padding-left: 14px
+            }
+
+            .hitokoto-from[data-astro-cid-j7pv25f6] {
+                font-size: 12px
+            }
+
+            .refresh-btn[data-astro-cid-j7pv25f6] {
+                padding: 6px;
+                border-radius: 10px
+            }
+
+            .refresh-btn[data-astro-cid-j7pv25f6] svg[data-astro-cid-j7pv25f6] {
+                width: 14px;
+                height: 14px
+            }
+        }
+    </style>
+    <script type="module" src="./assets/hoisted.995857aa.js"></script>
+</head>
+
+<body>
+    <div class="navbar">
+        <div class="logo" id="logo"> <a href=""> <img src="../../images/default.png" alt="Logo"> </a> </div>
+        <div class="hamburger-menu" id="hamburger-menu">
+            <div class="hamburger-bar"></div>
+            <div class="hamburger-bar"></div>
+            <div class="hamburger-bar"></div>
+        </div>
+        <div class="desktop-menu">
+            <a href="" class="menu-link">首页</a>
+            <a href="https://www.liqiang.info" target="_blank" class="menu-link">个人网站</a>
+        </div>
+        <div class="menu" id="mobile-menu">
+            <a href="" class="menu-link">首页</a>
+            <a href="https://www.liqiang.info" target="_blank" class="menu-link">个人网站</a>
+        </div>
+    </div>
+    <div class="page active" id="home" data-astro-cid-j7pv25f6>
+        <div class="content" data-astro-cid-j7pv25f6> <img src="../../images/default.png" alt="Avatar" class="avatar" data-astro-cid-j7pv25f6>
+            <div class="nickname" data-astro-cid-j7pv25f6>韵狸</div>
+            <div class="about-content" data-astro-cid-j7pv25f6>
+                <h2 style="color: #FE7BB5;" data-astro-cid-j7pv25f6>一个热爱诗词书画的程序员</h2>
+                <h3 style="color: #B3B1FE;" data-astro-cid-j7pv25f6>馀事做诗人</h3>
+                <div class="hitokoto-container" data-astro-cid-j7pv25f6>
+                    <div class="hitokoto-header" data-astro-cid-j7pv25f6> <span class="hitokoto-icon"
+                            data-astro-cid-j7pv25f6>💭</span> <span class="hitokoto-title"
+                            data-astro-cid-j7pv25f6>今日一言</span> <button id="refresh-hitokoto" class="refresh-btn"
+                            title="换一句" data-astro-cid-j7pv25f6> <svg width="16" height="16" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" data-astro-cid-j7pv25f6>
+                                <polyline points="23 4 23 10 17 10" data-astro-cid-j7pv25f6></polyline>
+                                <polyline points="1 20 1 14 7 14" data-astro-cid-j7pv25f6></polyline>
+                                <path d="m3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"
+                                    data-astro-cid-j7pv25f6></path>
+                            </svg> </button> </div>
+                    <div class="hitokoto-content" data-astro-cid-j7pv25f6>
+                        <p id="hitokoto" class="hitokoto-text" data-astro-cid-j7pv25f6>加载中...</p>
+                        <p id="hitokoto-from" class="hitokoto-from" data-astro-cid-j7pv25f6></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer">
+            <div class="btn-container">
+                <a href="https://www.liqiang.info" class="btn" target="_blank">个人网站</a>
+                <a href="https://github.com/yunliyo" class="btn" target="_blank">Github</a>
+                <a href="mailto:yunliyo@foxmail.com" class="btn" target="_blank">交流合作</a>
+            </div>
+            <div>&copy; 2014-<script>document.write(new Date().getFullYear())</script> by 韵狸.</div>
+        </div>
+    </div>
+</body>
+
+</html>

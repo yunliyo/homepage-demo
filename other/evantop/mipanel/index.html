@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>韵狸的域名面板</title>
+    <link rel="stylesheet" href="./static/style.css">
+</head>
+<body>
+    <canvas id="bg-canvas"></canvas>
+    <button class="theme-toggle" onclick="toggleTheme()">🌗</button>
+    <div class="container">
+        <header class="header">
+            <h1>韵狸的域名面板</h1>
+        </header>
+        <section class="section">
+            <h2 class="section-title">正在使用的域名</h2>
+            <div class="cards-grid">
+                <a href="https://boe.icu" class="card" target="_blank">
+                    <div class="card-title">boe.icu</div>
+                    <div class="card-description">全球最棒的，我看见你啦 | Best On Earth, i see you</div>
+                </a>
+                <a href="https://liqiang.info" class="card" target="_blank">
+                    <div class="card-title">liqiang.info</div>
+                    <div class="card-description">狸庐 | 简约复古的个人网站</div>
+                </a>
+            </div>
+        </section>
+        <section class="section">
+            <h2 class="section-title">使用过的域名</h2>
+            <div id="sold-domains-container" class="cards-grid">
+                <!-- 域名卡片将通过JavaScript动态加载 -->
+            </div>
+        </section>
+        <footer class="footer">
+            <p>&copy; 2014-<script>document.write(new Date().getFullYear())</script> by 韵狸.</p>
+        </footer>
+    </div>
+    <script src="./static/script.js"></script>
+</body>
+</html>

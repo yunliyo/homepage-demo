@@ -1,0 +1,3 @@
+- Independent developer, **Coder.Yunli.**, 2018.07 - ?
+- Technical Writer(internship), **HUAWEI**, 2018.03 - 2018.06
+- Technical Writer(internship), **BOE**, 2017.09 - 2017.12

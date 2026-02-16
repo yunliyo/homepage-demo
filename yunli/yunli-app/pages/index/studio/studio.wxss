@@ -1,0 +1,167 @@
+/* 页面容器样式 */
+.container {
+  padding: 20rpx;
+  background-color: #f5f5d5;
+}
+
+/* 轮播图样式 */
+.swiper {
+  width: 100%;
+  height: 400rpx;
+  border-radius: 12rpx;
+  overflow: hidden;
+  margin-bottom: 30rpx;
+}
+
+.swiper-image {
+  width: 100%;
+  height: 100%;
+}
+
+.swiper-title {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  padding: 20rpx;
+  font-size: 32rpx;
+}
+
+/* 区块标题样式 */
+.section {
+  background-color: white;
+  border-radius: 12rpx;
+  padding: 30rpx;
+  margin-bottom: 30rpx;
+}
+
+.section-title {
+  font-size: 36rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 30rpx;
+  border-left: 8rpx solid #1890ff;
+  padding-left: 20rpx;
+}
+
+/* 产品服务样式 */
+.products {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.product-item {
+  width: 48%;
+  margin-bottom: 30rpx;
+  text-align: center;
+}
+
+.product-icon {
+  width: 100rpx;
+  height: 100rpx;
+  margin: 0 auto 20rpx;
+  display: block;
+}
+
+.product-title {
+  font-size: 32rpx;
+  color: #1890ff;
+  margin-bottom: 10rpx;
+}
+
+.product-desc {
+  font-size: 26rpx;
+  color: #666;
+}
+
+/* 关于我们样式 */
+.about-content {
+  font-size: 28rpx;
+  color: #666;
+  line-height: 1.5;
+  margin-bottom: 30rpx;
+}
+
+.contact-info {
+  margin-top: 20rpx;
+}
+
+.contact-item {
+  display: flex;
+  align-items: center;
+  padding: 20rpx 0;
+  border-bottom: 1rpx solid #eee;
+}
+
+.contact-icon {
+  width: 40rpx;
+  height: 40rpx;
+  margin-right: 20rpx;
+}
+
+/* 团队名单样式 */
+.members {
+  margin-top: 20rpx;
+  font-size: 28rpx;
+}
+
+/* 表头样式 */
+.member-header {
+  display: flex;
+  padding: 20rpx 0;
+  border-bottom: 2rpx solid #1890ff;
+  font-weight: bold;
+  color: #333;
+}
+
+/* 内容行样式 */
+.member-row {
+  display: flex;
+  align-items: center;
+  padding: 20rpx 0;
+  border-bottom: 1rpx solid #eee;
+}
+
+/* 列样式 - 固定宽度 */
+.member-header view,
+.member-row > view {
+  flex: none;
+  text-align: center;
+  padding: 0 10rpx;
+}
+
+.header-name,
+.member-name {
+  width: 100rpx;
+}
+
+.header-gender,
+.member-gender {
+  width: 100rpx;
+}
+
+.header-birth,
+.member-birth {
+  width: 180rpx;
+}
+
+.header-hometown,
+.member-hometown {
+  width: 100rpx;
+}
+
+.header-role,
+.member-role {
+  width: 100rpx;
+}
+
+.info {
+  color: #666;
+  font-size: 15px;
+  font-weight: lighter;
+  margin-top: 10px;
+  text-align: center;
+}

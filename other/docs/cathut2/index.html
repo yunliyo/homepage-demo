@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
+    <meta name="robots" content="noindex, nofollow">
+    <title>CatHut</title>
+    <link rel="icon" href="../../../images/default.png">
+    <link rel="stylesheet" href="./static/css/docute.css">
+</head>
+
+<body>
+    <div id="docute"></div>
+    <script src="./static/js/docute.js"></script>
+    <script>
+        new Docute({
+            title: 'CatHut',
+            layout: 'narrow',
+            nav: [{
+                    title: '主页',
+                    link: '/'
+                },
+                {
+                    title: '关于',
+                    link: '/about'
+                },
+                {
+                    title: 'GitHub',
+                    link: 'https://github.com/yunliyo'
+                },
+            ],
+            sidebar: [
+                // An external link
+                {
+                    title: '首页',
+                    link: '/'
+                },
+                // A sidebar item, with child links
+                {
+                    title: '02',
+                    children: [{
+                        title: '01',
+                        link: ''
+                    },{
+                        title: '02',
+                        link: ''
+                    },{
+                        title: '03',
+                        link: ''
+                    }]
+                },
+                {
+                    title: 'Github',
+                    link: 'https://github.com/yunliyo'
+                }
+            ]
+        })
+    </script>
+
+</body>
+
+</html>

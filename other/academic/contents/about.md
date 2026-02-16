@@ -1,0 +1,1 @@
+I'm Li qiang, dedicated to the research and development of intelligent early education machines, and committed to exploring solutions that combine traditional Chinese scholar-officials with overseas education.

@@ -1,0 +1,198 @@
+/* 重置样式 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background: linear-gradient(to bottom, #f0f8ff, #ffffff);
+    /* 蓝白渐变背景 */
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.main-content {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* 个人信息部分 */
+.profile-section {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.location {
+    margin: 10px 0;
+    color: #666;
+}
+
+.name {
+    color: #2c3e50;
+    font-weight: bold;
+}
+
+.bio {
+    margin: 15px 0;
+    color: #555;
+}
+
+.motto {
+    margin: 15px 0;
+    color: #7f8c8d;
+    font-style: italic;
+}
+
+.social-link {
+    display: inline-block;
+    padding: 8px 16px;
+    background: #333;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    margin: 10px 0;
+}
+
+.intro {
+    background-color: #fff8e1;
+    padding: 15px;
+    border-radius: 8px;
+    margin: 20px 0;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.highlight {
+    color: #3498db;
+    font-weight: bold;
+}
+
+/* 功能模块部分 */
+.function-section {
+    margin: 30px 0;
+}
+
+.function-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 15px;
+    padding: 15px;
+}
+
+.function-item {
+    text-align: center;
+}
+
+.function-link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    color: inherit;
+}
+
+.function-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    /* 椭圆形效果 */
+    object-fit: cover;
+    margin-bottom: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    background-color: #f8f9fa;
+    padding: 5px;
+}
+
+.function-title {
+    font-size: 14px;
+    margin: 5px 0;
+    color: #333;
+}
+
+.function-desc {
+    font-size: 12px;
+    color: #777;
+}
+
+/* 页脚部分 */
+.footer {
+    text-align: center;
+    margin-top: 20px;
+    padding: 10px;
+    color: #7f8c8d;
+    font-size: 14px;
+    border-top: 1px solid #eee;
+}
+
+.footer-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    /* 允许在小屏幕上换行 */
+}
+
+.icp-info {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    /* 在备案信息之间添加间距 */
+}
+
+.icp-info a {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    /* 移除链接下划线 */
+    color: #333;
+    /* 设置链接颜色 */
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .function-container {
+        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    }
+
+    .function-icon {
+        width: 50px;
+        height: 50px;
+    }
+
+    .function-title {
+        font-size: 13px;
+    }
+
+    .function-desc {
+        font-size: 11px;
+    }
+}
+
+@media (max-width: 480px) {
+    .function-container {
+        grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    }
+
+    .avatar {
+        width: 80px;
+        height: 80px;
+    }
+
+    .bio,
+    .intro {
+        font-size: 14px;
+    }
+}

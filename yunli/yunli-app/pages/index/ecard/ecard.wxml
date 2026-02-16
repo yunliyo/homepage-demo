@@ -1,0 +1,72 @@
+<!--index.wxml-->
+<navigation-bar id="navigationBar" title="联系我" back="{{true}}" home="{{true}}" color="black" background="#FFF"></navigation-bar>
+<scroll-view scrollY class="scrollarea" type="list">
+<view class="editor-window">
+  <view class="title-bar">
+    <view class="title-bar-row-1">
+      <view class="controls">
+        <view bindtap="onClose" class="control close"></view>
+        <view class="control minimize"></view>
+        <view bindtap="onMaximize" class="control maximize"></view>
+      </view>
+      <view class="title">yunli_business_card.json</view>
+    </view>
+  </view>
+  <view class="editor-content">
+    <view class="line-numbers">
+      <text>{{lineNumbers.join('\n')}}</text>
+    </view>
+    <view class="code-area">
+      <text wx:for="{{jsonLines}}" wx:key="index">{{item.text}}</text>
+      <text class="blinking-cursor">|</text>
+    </view>
+  </view>
+</view>
+<view class="card-container">
+  <view class="business-card">
+    <image class="avatar" src="/images/avatar.jpg" mode="aspectFill"></image>
+    <view class="content">
+      <view class="name">{{name}}</view>
+      <view class="company">{{company}}</view>
+      <view class="position">{{position}}</view>
+      <view class="description">{{description}}</view>
+      <view class="contact-list">
+        <view class="contact-item" wx:for="{{contacts}}" wx:key="label" bindtap="copyText" data-text="{{item.value}}">
+          {{item.label}}：{{item.value}}
+        </view>
+      </view>
+    </view>
+  </view>
+</view>
+<view class="product-container">
+  <view class="producttitle">{{producttitle}}</view>
+  <view class="product-info">
+    <view class="product-name">{{product.name}}</view>
+    <view class="product-price">{{product.price}}</view>
+    <view class="product-desc">{{product.desc}}</view>
+  </view>
+  <view class="product-features">
+    <view class="section-title">{{product.title}}</view>
+    <view class="feature-item" wx:for="{{product.features}}" wx:key="*this">
+      <view class="feature-icon">✓</view>
+      <view class="feature-text">{{item}}</view>
+    </view>
+  </view>
+</view>
+<view class="media-button">
+  <view class="media-title">{{mediatitle}}</view>
+  <block wx:for="{{mediaList}}" wx:key="id">
+    <view class="media-item">
+      <image class="media-icon" src="{{item.icon}}" bindtap="handleCopy" data-item="{{item}}"></image>
+      <text class="media-name">{{item.name}}</text>
+    </view>
+  </block>
+</view>
+<view class="text-box">
+  <text>{{textContent}}</text>
+</view>
+<view class="info">
+  <view class="yiyan">{{yiyan}}</view>
+  <view class="copyright">{{copyright}}</view>
+</view>
+</scroll-view>

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Yunli</title>
+    <link rel="icon" href="../../images/default.png" type="image/svg+xml">
+    <link rel="stylesheet" type="text/css" href="./static/styles.css">
+    <script>
+        window.loadStartTime = Date.now()
+    </script>
+    <link rel="stylesheet" href="https://fastly.jsdelivr.net/npm/@fortawesome/fontawesome-free@6/css/all.min.css">
+</head>
+
+<body>
+    <div class="loading-screen" id="loading-screen">
+        <div class="loading-content">
+            <div class="loading-spinner"></div>
+            <div class="loading-text">
+                <div class="loading-title">韵狸</div>
+                <div class="loading-text-uniform">君子大隐隐于菜市场。</div>
+                <div class="loading-text-uniform">正在加载...</div>
+            </div>
+        </div>
+    </div>
+    <div class="page-wrapper">
+        <div class="container">
+            <header>
+                <div class="header-content">
+                    <div class="title-container">
+                        <div class="title-wrapper">
+                            <h1>韵狸</h1>
+                        </div>
+                        <p class="subtitle">"馀事做诗人。"</p>
+                        <p class="subtitle poem-author">—— 韵狸</p>
+                    </div>
+                </div>
+            </header>
+            <main class="main-content">
+                <section class="card">
+                    <h2 class="card-title"><i class="fas fa-info-circle"></i>关于</h2>
+                    <div class="card-content">
+                        <article class="card-content">
+                            <p>欢迎来到韵狸的个人主页！</p><br>
+                            <p>邮箱: yunliyo@foxmail.com</p>
+                            <p>本站已运行 <span id="running-days"></span> 天</p>
+                        </article>
+                    </div>
+                </section>
+                <section class="card">
+                    <h2 class="card-title"><i class="fas fa-clock"></i>时间问候</h2>
+                    <div class="card-content time-container">
+                        <div class="current-date" id="current-date"></div>
+                        <div class="current-time" id="current-time"></div>
+                        <div class="greeting" id="greeting"></div>
+                    </div>
+                </section>
+                <section class="card">
+                    <h2 class="card-title"><i class="fas fa-cloud-sun"></i>天气信息</h2>
+                    <div class="card-content weather-container" id="weather-container">
+                        <div class="card-loading">加载中...</div>
+                    </div>
+                </section>
+                <section class="card">
+                    <h2 class="card-title"><i class="fas fa-link"></i>快捷链接</h2>
+                    <div class="card-content">
+                        <nav class="links-grid">
+                            <a href="https://www.liqiang.info" target="_blank" class="link-item"><i class="fa-solid fa-house"></i><span class="link-text"></span>狸庐</a>
+                            <a href="https://github.com/yunliyo" target="_blank" class="link-item"><i class="fa-brands fa-github"></i><span class="link-text"></span>Github</a>
+                        </nav>
+                    </div>
+                </section>
+                <section class="card">
+                    <h2 class="card-title"><i class="fas fa-code"></i>技术栈</h2>
+                    <div class="card-content tech-stack">
+                        <div class="tech-item"><img src="https://fastly.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" alt="HTML" class="tech-icon"><span>HTML</span></div>
+                        <div class="tech-item"><img src="https://fastly.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" alt="CSS" class="tech-icon"><span>CSS</span></div>
+                        <div class="tech-item"><img src="https://fastly.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" alt="JavaScript" class="tech-icon"><span>JavaScript</span></div>
+                        <div class="tech-item"><img src="https://fastly.jsdelivr.net/gh/devicons/devicon/icons/php/php-original.svg" alt="PHP" class="tech-icon"><span>PHP</span></div>
+                        <div class="tech-item"><img src="https://fastly.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg" alt="Java" class="tech-icon"><span>Java</span></div>
+                        <div class="tech-item"><img src="https://fastly.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" alt="Python" class="tech-icon"><span>Python</span></div>
+                        <div class="tech-item"><img src="https://fastly.jsdelivr.net/gh/devicons/devicon/icons/c/c-original.svg" alt="Java" class="tech-icon"><span>C</span></div>
+                        <div class="tech-item"><img src="https://fastly.jsdelivr.net/gh/devicons/devicon/icons/cplusplus/cplusplus-original.svg" alt="C++" class="tech-icon"><span>C++</span></div>
+                        <div class="tech-item"><img src="https://fastly.jsdelivr.net/gh/devicons/devicon/icons/csharp/csharp-original.svg" alt="C#" class="tech-icon"><span>C#</span></div>
+                        <div class="tech-item"><img src="https://fastly.jsdelivr.net/gh/devicons/devicon/icons/go/go-original.svg" alt="Go" class="tech-icon"><span>Go</span></div>
+                    </div>
+                </section>
+                <section class="card">
+                    <h2 class="card-title"><i class="fas fa-fire"></i>百度热榜</h2>
+                    <div class="card-content hotlist" id="baidu-hotlist">
+                        <div class="card-loading">加载中...</div>
+                    </div>
+                </section>
+                <section class="card">
+                    <h2 class="card-title"><i class="fab fa-bilibili"></i>B站热榜</h2>
+                    <div class="card-content hotlist" id="bilibili-hotlist">
+                        <div class="card-loading">加载中...</div>
+                    </div>
+                </section>
+                <section class="card">
+                    <h2 class="card-title"><i class="fas fa-earth"></i>友链接力</h2>
+                    <div class="card-content">
+                        <p>开往：友链接力！</p>
+                        <p>Destination：Friendship Link!</p>
+                        <p>转到：<a href="https://www.travellings.cn" target="_blank" class="footer-link">Travelling</a></p>
+                        <a href="https://www.travellings.cn/go.html" target="_blank" class="go-button"><span>出发!</span><i class="fas fa-external-link-alt"></i></a>
+                    </div>
+                </section>
+            </main>
+            <footer>
+                <p>© 2015-<span id="current-year"></span> <a href="https://www.liqiang.info" class="footer-link">Yunli</a> . All rights reserved.</p>
+                <p>Made with ❤️ by Yunli.</p>
+            </footer>
+        </div>
+    </div>
+    <button id="back-to-top">↑</button>
+    <script src="./static/script.js" defer></script>
+</body>
+
+</html>

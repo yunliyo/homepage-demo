@@ -1,0 +1,54 @@
+<navigation-bar id="navigationBar" title="狸庐" back="{{true}}" home="{{true}}" color="black" background="#FFF"></navigation-bar>
+<view class="about-container">
+  <!-- 简介部分 -->
+  <view class="section">
+    <view class="section-title">{{aboutData.title}}</view>
+    <view class="intro-content">
+      <text>{{aboutData.intro}}</text>
+    </view>
+  </view>
+  <!-- 使命和愿景 -->
+  <view class="section">
+    <view class="section-title">{{aboutData.missionVisionTitle}}</view>
+    <view class="mission-vision-container">
+      <view class="card" wx:for="{{aboutData.missionVision}}" wx:key="title">
+        <image class="card-icon" src="{{item.icon}}" mode="aspectFit"></image>
+        <view class="card-title">{{item.title}}</view>
+        <view class="card-content">{{item.content}}</view>
+      </view>
+    </view>
+  </view>
+  <!-- 发展历程 -->
+  <view class="section">
+    <view class="section-title">{{aboutData.historyTitle}}</view>
+    <view class="timeline">
+      <view class="timeline-item" wx:for="{{aboutData.history}}" wx:key="year">
+        <view class="timeline-dot"></view>
+        <view class="timeline-content">
+          <view class="timeline-year">{{item.year}}</view>
+          <view class="timeline-desc">{{item.desc}}</view>
+        </view>
+      </view>
+    </view>
+  </view>
+  <!-- 企业文化 -->
+  <view class="section">
+    <view class="section-title">{{aboutData.cultureTitle}}</view>
+    <view class="culture-grid">
+      <view class="culture-item" wx:for="{{aboutData.culture}}" wx:key="text">
+        <image class="culture-icon" src="{{item.icon}}" mode="aspectFit"></image>
+        <view class="culture-text">{{item.text}}</view>
+      </view>
+    </view>
+  </view>
+  <!-- 联系我们 -->
+  <view class="section">
+    <view class="section-title">{{aboutData.contactTitle}}</view>
+    <view class="contact-list">
+      <view class="contact-item" wx:for="{{aboutData.contact}}" wx:key="label">
+        <text class="contact-label">{{item.label}}</text>
+        <text class="contact-value">{{item.value}}</text>
+      </view>
+    </view>
+  </view>
+</view>

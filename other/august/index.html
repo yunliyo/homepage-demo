@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yunli</title>
+    <link rel="stylesheet" href="./static/css/style.css">
+</head>
+
+<body>
+    <div class="info">
+        <div class="status-bar"><span id="clock"></span><span style="opacity:0.2">|</span><span>Chongqing, China</span></div>
+        <div class="controls"><button class="circle-btn" onclick="playMusic()" id="mb">🎵<audio id="au" loop="" src="https://pub-6ffecbb5d3524200bb562b4cef698957.r2.dev/%E5%8F%91%E5%A6%82%E9%9B%AA.mp3"></audio></button><button class="circle-btn" onclick="toggleTheme()">🌗</button></div>
+    </div>
+    <div class="glass"><div class="marquee"><div>欢迎访问我的个人主页！元亨利贞，顺颂时祺！</div></div></div>
+    <div class="container">
+        <!-- 头部区域 -->
+        <div class="header">
+            <div class="avatar"></div>
+            <h1>幸会，我是韵狸</h1>
+            <p>一个热爱诗词书画的程序员</p>
+            <div class="language-switcher">
+                <button onclick="window.location.href=''" class="lang-btn active">
+                    <span>English</span>
+                </button>
+            </div>
+        </div>
+        <!-- 内容区域 -->
+        <div class="content">
+            <!-- 社交媒体部分 -->
+            <div class="section">
+                <h2 class="section-title">社交媒体</h2>
+                <p>我最常使用的社交媒体是：</p>
+                <ul class="social-links">
+                    <li><a href="https://www.bilibili.com" target="_blank" class="link">Bilibili</a></li>
+                    <li><a href="https://www.youtube.com" target="_blank" class="link">YouTube</a></li>
+                </ul>
+            </div>
+            <!-- 游戏喜好部分 -->
+            <div class="section">
+                <h2 class="section-title">游戏喜好</h2>
+                <p>我喜欢玩的游戏：</p>
+                <ul class="games-list">
+                    <li>《三国杀》<em>（最近刚退游）</em></li>
+                    <li>《和平精英》<em>（偶尔玩）</em></li>
+                    <li>单机/联机<em>（偶尔玩）</em></li>
+                </ul>
+            </div>
+            <!-- 项目部分 -->
+            <div class="section">
+                <h2 class="section-title">参与运营的项目</h2>
+                <ul class="projects-list">
+                    <li>1. 帅僧社区（建设中）</li>
+                    <li>2. 我的博客！👉 <a href="https://blog.test.com" target="_blank" class="link">blog.test.com</a></li>
+                    <li>3. 芙宁娜AI 👉 <a href="https://fu.test.com" target="_blank" class="link">fu.test.com</a></li>
+                </ul>
+            </div>
+            <div class="section">
+                <h2 class="section-title">朋友们</h2>
+                <ul class="projects-list">
+                    <li>FilmGod 的博客（超级厉害的摄影大师！）👉 <a href="https://film.augustby.com/?from=homepage" target="_blank" class="link">FilmGod.cn</a></li>
+                    <li>者干的博客👉 <a href="https://zhegans.cn" target="_blank" class="link">zhegans.cn</a></li>
+                    <li>还需要更多的好朋友…！</li>
+                </ul>
+            </div>
+            <!-- 联系方式部分 -->
+            <div class="section">
+                <h2 class="section-title">联系方式</h2>
+                <p>欢迎来自五湖四海的朋友！</p>
+                <ul class="contact-info">
+                    <li>Github: <a href="https://github.com/yunliyo" target="_blank" class="link">@Yunli</a></li>
+                    <li>eMail: <a href="mailto:yubnliyo@foxmail.com" target="_blank" class="link">yubnliyo@foxmail.com</a></li>
+                </ul>
+            </div>
+        </div>
+        <!-- 页脚区域 -->
+        <div class="footer">
+            <p>&copy; 2014-<script>document.write(new Date().getFullYear())</script> by 韵狸.</p>
+        </div>
+    </div>
+    <script src="./static/js/script.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,108 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #fff;
+
+    width: 380px;
+    margin: 0 auto;
+}
+
+.container {
+    position: relative;
+    max-width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    background: #fff;
+}
+
+/* 图片容器（居中显示） */
+.image-container {
+    position: absolute;
+    top: 35%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    /* 调整图片宽度占比 */
+    max-height: 100%;
+    /* 调整图片高度占比 */
+    overflow: hidden;
+}
+
+.image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* 保持图片比例并填充容器 */
+}
+
+/* 上半部分斜条（覆盖图片上半区） */
+.top-strip {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 28%;
+    /* 占图片高度的50% */
+    background-color: #fff;
+    /* 白色背景（与页面一致） */
+    transform: skewY(343deg);
+    /* 向下倾斜6度 */
+    transform-origin: top left;
+    /* 变换原点：左上角 */
+    z-index: 10;
+    /* 确保在图片上方 */
+}
+
+/* 下半部分斜条（覆盖图片下半区） */
+.bottom-strip {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+
+    width: 100%;
+    height: 25%;
+    /* 占图片高度的50% */
+    background-color: #fff;
+    /* 白色背景（与页面一致） */
+    transform: skewY(343deg);
+    /* 向上倾斜6度 */
+    transform-origin: bottom left;
+    /* 变换原点：左下角 */
+    z-index: 10;
+    /* 确保在图片上方 */
+}
+
+/* 文字样式（精确匹配原图位置） */
+.top-text {
+    font-family: 'Dancing Script', cursive;
+    /* 使用手写体字体 */
+    position: absolute;
+    top: 40px;
+    /* 距离顶部60px（可根据实际调整） */
+    left: 10px;
+    /* 距离左侧40px（可根据实际调整） */
+    font-size: 36px;
+    font-weight: bold;
+    color: #000;
+    z-index: 20;
+    /* 确保在斜条上方 */
+}
+
+.bottom-text {
+    font-family: 'Dancing Script', cursive;
+    /* 使用手写体字体 */
+    position: absolute;
+    bottom: 60px;
+    /* 距离底部60px（可根据实际调整） */
+    right: 10px;
+    /* 距离右侧40px（可根据实际调整） */
+    font-size: 36px;
+    font-weight: bold;
+    color: #000;
+    z-index: 20;
+    /* 确保在斜条上方 */
+}

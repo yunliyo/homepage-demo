@@ -1,0 +1,2 @@
+- Intelligent early education machine
+- Chinese traditional poetry creation

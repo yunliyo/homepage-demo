@@ -1,0 +1,109 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/html">
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="icon" type="image/png" href="../../../images/default.png" />
+    <title>Yunli</title>
+    <link rel="stylesheet" href="./assets/css/style.css" />
+    <link href="./assets/css/google-font.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="ScrollWrapper">
+        <header class="Header js-HasVH" data-vh="0.75">
+            <nav>
+                <a class="x" href="#about">
+                    <span>关于</span>
+                </a>
+                <a class="x" href="#contact">
+                    <span>联系</span>
+                </a>
+            </nav>
+            <div class="Scene">
+                <div class="v" role="presentation"></div>
+                <canvas class="Scene-stars" role="presentation"></canvas>
+                <canvas class="Scene-mountains" data-stop-on-scroll="true" role="presentation"></canvas>
+            </div>
+            <h1 class="h">
+                <span class="e d" aria-label="Lucas Bebber">
+                    <span class="c" aria-hidden="true">Yunli</span>
+                    <span class="b" aria-hidden="true">Yùnlí</span>
+                </span>
+                <span class="f d" aria-label="Creative Developer">
+                    <span class="c" aria-hidden="true">🙂 IoT</span>
+                    <span class="b" aria-hidden="true">DEV 🙃</span>
+                </span>
+                <div class="a js-Lazyload" role="presentation" data-image="./assets/img/separator-green.svg"></div>
+            </h1>
+        </header>
+        <main>
+            <div class="p">
+                <section>
+                    <h2 id="about">关于</h2>
+                    <p class="q">
+                        华为认证物联网高级工程师，丰富的项目经验，管理过小型团队。从硬件编程转到软件编程，热爱互联网行业并为之努力着！
+                        <br>写代码是酷爱，写诗词是热爱，写到宇宙充满爱。
+                    </p>
+
+                    <footer>
+                        <h2 id="contact">联系</h2>
+                        <div class="u">
+                            <div class="Contact-q">你可以给我发邮件</div>
+                            <a class="Email y"><strong>yunliyo</strong> at <strong>foxmail</strong> dot com</a>
+
+                            <div class="Contact-q">也可以在这里找到我</div>
+                            <div class="Social">
+                                <a class="y r" href="https://www.liqiang.info" target="_blank">
+                                    <strong>liqiang</strong>.info
+                                </a>
+                                <br />
+                                <a class="y r" href="https://www.liqiang.info" target="_blank">
+                                    www.<strong>liqiang</strong>.info
+                                </a>
+                                <br />
+                                <a class="y r" href="https://github.com/yunliyo" target="_blank">
+                                    https://<strong>github</strong>.com/<strong>yunliyo</strong>
+                                </a>
+                            </div>
+                        </div>
+                    </footer>
+                </section>
+            </div>
+            <div id="footer">
+                &copy; 2014-<script>document.write(new Date().getFullYear())</script> by <a href="#" target="_self">Yunli</a>.
+            </div>
+        </main>
+
+        <div class="s">
+            <canvas class="Scene-mountains t"></canvas>
+        </div>
+    </div>
+
+    <script id="vs" type="x-shader/vertex">
+        attribute vec3 position;void main(){gl_Position=vec4(position,1.0);}
+    </script>
+    <script id="fs" type="x-shader/fragment">
+        uniform float t; uniform float s; uniform float sunSize; uniform vec2 r; uniform sampler2D i; float power(float value,float p){ float f=floor(value); float r=value-f; if(r>0.5){ r=(r*2.0)-1.0; r=pow(r,1.0/p); r=(r/2.0)+0.5; }else{ r*=2.0; r=pow(r,p); r/=2.0; } return r+f; } vec3 getDisplacement(float dist){ float global=(dist*6.0)-t*0.9; float distortion=(sin(global*2.0-(t*0.5))+1.0)*0.55; float distorted=global-(distortion*0.45); float local=distorted-floor(distorted); float stripedDistance=mod(local*4.0,1.0); float striped=(power(local*4.0,12.0)+-0.4)/4.0; return vec3(striped,stripedDistance,local); } void main(){ vec2 pos=gl_FragCoord.xy/r; pos.y-=0.5/r.y; pos=vec2(pos.x,1.0-pos.y); if(pos.y>0.5){ float dist=(pos.y-0.5)/0.5; vec3 displacement=getDisplacement(dist); float w=displacement.x; pos.y+=w*0.35*dist*s; }else{ float sunDistance=(sunSize/r.x)*0.75; float falloff=2.5; falloff=1.0+falloff; float p=1.0-(abs(pos.x-0.5)/(sunDistance*falloff)); if(p>0.0){ float cutoff=1.0-(1.0/falloff); if(p>cutoff){ p=1.0; }else{ p=(p/cutoff); p=pow(p,2.0); p*=0.2; } pos.x+=sin((t*7.0)+(pos.y*150.0))*(sunDistance*0.1)*p*s; } } vec4 textureColor=texture2D(i,pos); float a=textureColor.a; if(a<1.0){ vec3 matte=vec3(1.0,0.92,0.85); float a2=a*1.0; float sunDistance=(sunSize/r.x)*0.85; float p=1.0-(abs(pos.x-0.5)/sunDistance); if(p>0.0){ a2=a*0.0; } textureColor=vec4((textureColor.rgb*a2)+(matte*(1.0-a2)),a); } gl_FragColor=vec4(textureColor.rgb*textureColor.a,textureColor.a); }
+    </script>
+    <script src="./assets/js/main.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+    <script type="application/javascript">
+        $(window).scroll(showMain);
+        showMain();
+
+        function showMain() {
+            let scrollTo = $(window).scrollTop();
+            if (scrollTo > 90) {
+                $('main').css('visibility', 'visible');
+            } else {
+                $('main').css('visibility', 'hidden');
+            }
+        }
+    </script>
+</body>
+
+</html>

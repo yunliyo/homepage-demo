@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1.0, shrink-to-fit=no, viewport-fit=cover">
+    <meta name="robots" content="noindex, nofollow">
+    <title>狸庐 - 免费知识分享平台 | 写代码是酷爱，写诗词是热爱，写到宇宙充满爱！</title>
+    <link rel="icon" href="../../../images/default.png" type="image/x-icon">
+    <style>
+        html,
+        body {
+            background-color: #f5f5d5;
+            margin: 0;
+            padding: 0;
+            color: #000000;
+            font-family: "Simsun";
+            font-weight: bolder;
+            font-size: 18px;
+        }
+
+        html {
+            position: relative;
+            min-height: 100%;
+        }
+
+        .app {
+            padding: 0 16px;
+            min-height: 100%;
+            margin-bottom: 66px;
+        }
+
+        .footer {
+            text-align: center;
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 16px;
+            width: 100%;
+        }
+
+        .website-title {
+            text-align: center;
+            font-size: 48px;
+            font-weight: bold;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .intro {
+            text-align: center;
+        }
+
+        .intro {
+            text-align: right;
+        }
+
+        .intro .intro-line2 {
+            margin-top: 8px;
+            color: #888888;
+        }
+
+        .intro-wrapper,
+        .product-wrapper,
+        .contact-wrapper {
+            display: flex;
+            justify-content: center;
+            margin-top: 24px;
+        }
+
+        .product-wrapper a,
+        .product-wrapper a:hover,
+        .product-wrapper a:visited,
+        .product-wrapper a:focus,
+        .contact-wrapper a,
+        .contact-wrapper a:hover,
+        .contact-wrapper a:visited,
+        .contact-wrapper a:focus {
+            color: #000000;
+            text-decoration: none;
+            border-bottom: 1px solid #666;
+        }
+
+        .product-wrapper ul,
+        .contact-wrapper ul {
+            padding-left: 32px;
+        }
+
+        .product-wrapper ul li,
+        .contact-wrapper ul li {
+            word-wrap: break-word;
+            margin: 8px 0;
+        }
+
+        .product .title,
+        .contact .title {
+            text-align: center;
+        }
+
+        .footer {
+            margin-top: 32px;
+        }
+
+        .footer .copyright,
+        .footer .copyright a,
+        .footer .copyright a:hover,
+        .footer .copyright a:visited,
+        .footer .copyright a:focus {
+            color: #353535;
+        }
+
+        .footer .copyright {
+            font-size: 13px;
+        }
+
+        .footer .copyright a {
+            text-decoration: none;
+            border-bottom: 1px solid #666;
+        }
+
+        @media only screen and (min-width: 600px) {
+            .website-title {
+                font-size: 64px;
+            }
+
+            .intro .intro-line1 {
+                font-size: 24px;
+            }
+
+            .intro-wrapper,
+            .product-wrapper,
+            .contact-wrapper {
+                margin-top: 24px;
+            }
+
+            .footer .copyright {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app">
+        <div class="main">
+            <h1 class="website-title">狸庐</h1>
+            <div class="intro-wrapper">
+                <h3 class="intro">
+                    <div class="intro-line1">一个随意拼凑的没有任何装饰的主页</div>
+                    <div class="intro-line2">-- 新手独立开发者</div>
+                </h3>
+            </div>
+            <div class="product-wrapper">
+                <div class="product">
+                    <h3 class="title">独立产品</h3>
+                    <ul>
+                        <li>
+                            <a href="" target="_blank">韵狸的个人主页: 馀事做诗人</a>
+                        </li>
+                        <li>
+                            <a href="" target="_blank">工作室官网: 精神自由，追求极致</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="contact-wrapper">
+                <div class="contact">
+                    <h3 class="title">联系方式</h3>
+                    <ul>
+                        <li>邮箱: <span id="contact-email"></span></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="footer">
+            <div class="copyright">
+                <p><span>© 2015-<span id="copyright-year"></span> by Yunli.</p>
+            </div>
+        </div>
+    </div>
+    <script>
+        (function (window, document) {
+            var year = new Date().getFullYear();
+            document.getElementById('copyright-year').innerText = year;
+            var email = ['yunliyo', 'foxmail.com'].join('@');
+            document.getElementById('contact-email').innerText = email;
+        })(window, document);
+    </script>
+
+</body>
+
+</html>
