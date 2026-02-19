@@ -7,10 +7,8 @@
 ```txt
 ./
 ├── images/（此处是子目录项目的图片资源）
-├── other/
-│   ├── ……（此处为其他作者的源码）
-├── yunli/
-│   ├── ……（此处为Yunli的源码）
+├── sites/
+│   ├── ……（此处为demo源码）
 ├── README.md
 ├── index.html
 └── LICENSE

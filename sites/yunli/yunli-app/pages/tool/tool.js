@@ -10,10 +10,10 @@ Page({
     ],
     // 图标导航数据
     iconNavs: [
-      { id: 1, icon: '/images/microchip-solid.png', name: 'AI对话', page: '/pages/index/tool/dialog/dialog' },
-      { id: 2, icon: '/images/microchip-solid.png', name: '图片生成', page: '/pages/index/tool/image/image' },
-      { id: 3, icon: '/images/microchip-solid.png', name: '翻译助手', page: '/pages/index/tool/translate/translate' },
-      { id: 4, icon: '/images/microchip-solid.png', name: '实用计算器', page: '/pages/index/tool/calculator/calculator' }
+      { id: 1, icon: '/images/microchip-solid.png', name: '翻译助手', page: '/pages/index/tool/translate/translate' },
+      { id: 2, icon: '/images/microchip-solid.png', name: '实用计算器', page: '/pages/index/tool/calculator/calculator' },
+      { id: 3, icon: '/images/microchip-solid.png', name: '韵律检测', page: '/pages/index/tool/calculator/calculator' },
+      { id: 4, icon: '/images/microchip-solid.png', name: '繁简转换', page: '/pages/index/tool/calculator/calculator' }
     ],
     // 卡片数据
     cards: [
