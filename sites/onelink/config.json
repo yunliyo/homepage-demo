@@ -1,7 +1,7 @@
 {
     "siteTitle": "韵狸 - 一个热爱诗词书画的程序员 | 馀事做诗人",
-    "siteIcon": "../../images/default.png",
-    "avatar": "../../images/default.png",
+    "siteIcon": "../../images/avatar.jpg",
+    "avatar": "../../images/avatar.jpg",
     "h1Title": "韵狸",
     "h2Title": "一个热爱诗词书画的程序员",
     "socialIcons": [
@@ -21,7 +21,7 @@
         },
         {
             "title": "赞赏",
-            "href": "../../images/default.png",
+            "href": "../../images/avatar.jpg",
             "target": "_blank",
             "icon": "fa fa-donate",
             "type": "qrcode"

@@ -127,7 +127,7 @@ body {
     border-radius: 50%;
     border: 4px solid white;
     margin: 0 auto 20px;
-    background-image: url("../../../../images/default.png");
+    background-image: url("../../../../images/avatar.jpg");
     background-size: cover;
     position: relative;
     z-index: 1;
