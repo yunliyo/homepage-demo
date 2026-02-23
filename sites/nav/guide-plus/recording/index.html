@@ -1,0 +1,2246 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Recorder Studio</title>
+    
+    <!-- Polyfill for process -->
+    <script>
+        window.process = { env: { NODE_ENV: 'production' } };
+    </script>
+    
+    <!-- React & ReactDOM -->
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        slate: { 850: '#1e293b', 900: '#0f172a', 950: '#020617' }
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.3s ease-out',
+                        'slide-up': 'slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1)'
+                    },
+                    keyframes: {
+                        fadeIn: { '0%': { opacity: '0' }, '100%': { opacity: '1' } },
+                        slideUp: { '0%': { transform: 'translateY(20px)', opacity: '0' }, '100%': { transform: 'translateY(0)', opacity: '1' } }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- Video Processing -->
+    <script src="https://cdn.jsdelivr.net/npm/mp4-muxer@5.1.0/build/mp4-muxer.min.js"></script>
+
+    <!-- ByteMD -->
+    <link rel="stylesheet" href="https://unpkg.com/bytemd@1.21.0/dist/index.min.css">
+    <script src="https://unpkg.com/bytemd@1.21.0/dist/index.umd.js"></script>
+    
+    <style>
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+        .dark ::-webkit-scrollbar-thumb { background: #475569; }
+        .dark ::-webkit-scrollbar-thumb:hover { background: #64748b; }
+
+        /* Range Input */
+        input[type=range] { -webkit-appearance: none; background: transparent; }
+        input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; height: 16px; width: 16px; border-radius: 50%; background: #0f172a; margin-top: -6px; box-shadow: 0 1px 3px rgba(0,0,0,0.3); transition: transform 0.1s; cursor: pointer; }
+        .dark input[type=range]::-webkit-slider-thumb { background: #f8fafc; box-shadow: 0 1px 3px rgba(0,0,0,0.5); }
+        input[type=range]::-webkit-slider-thumb:hover { transform: scale(1.2); }
+        input[type=range]::-webkit-slider-runnable-track { width: 100%; height: 4px; background: #e2e8f0; border-radius: 2px; }
+        .dark input[type=range]::-webkit-slider-runnable-track { background: #334155; }
+
+        /* ByteMD Customization */
+        .bytemd { height: 100% !important; border: none !important; }
+        .bytemd-toolbar { border-bottom: 1px solid #f1f5f9 !important; background-color: #f8fafc !important; padding: 0 12px !important; }
+        .bytemd-body { background-color: #ffffff; }
+        
+        /* ByteMD Dark Mode Override */
+        .dark .bytemd-toolbar { border-bottom: 1px solid #334155 !important; background-color: #1e293b !important; color: #e2e8f0 !important; }
+        .dark .bytemd-toolbar-icon { color: #e2e8f0 !important; }
+        .dark .bytemd-toolbar-icon:hover { background-color: #334155 !important; }
+        .dark .bytemd-body { background-color: #0f172a !important; color: #e2e8f0 !important; }
+        .dark .markdown-body { color: #e2e8f0 !important; }
+    </style>
+</head>
+<body class="bg-gray-50 text-slate-900 overflow-hidden">
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect, useRef, useMemo, useCallback } = React;
+        const { Video, Mic, Monitor, Settings, X, Download, Play, Pause, Plus, Trash2, ChevronLeft, Search, Edit2, Eye, FileText, MoreHorizontal, Moon, Sun, Github, Camera, Crop, Zap, Check, RotateCcw, Image: ImageIcon, Undo, Save } = (typeof lucide !== 'undefined' && lucide.icons) ? lucide.icons : lucide;
+        // Fix Mp4Muxer reference
+        const Mp4Muxer = window.Mp4Muxer;
+
+        // --- DB Helper ---
+        const dbHelper = {
+            dbName: 'RecorderDB',
+            version: 1,
+            init() {
+                return new Promise((resolve, reject) => {
+                    const request = indexedDB.open(this.dbName, this.version);
+                    request.onupgradeneeded = (e) => {
+                        const db = e.target.result;
+                        if (!db.objectStoreNames.contains('recordings')) {
+                            db.createObjectStore('recordings', { keyPath: 'id' });
+                        }
+                    };
+                    request.onsuccess = (e) => resolve(e.target.result);
+                    request.onerror = (e) => reject(e);
+                });
+            },
+            async getAll() {
+                const db = await this.init();
+                return new Promise((resolve, reject) => {
+                    const tx = db.transaction('recordings', 'readonly');
+                    const store = tx.objectStore('recordings');
+                    const request = store.getAll();
+                    request.onsuccess = () => resolve(request.result);
+                    request.onerror = () => reject(request.error);
+                });
+            },
+            async add(item) {
+                const db = await this.init();
+                return new Promise((resolve, reject) => {
+                    const tx = db.transaction('recordings', 'readwrite');
+                    const store = tx.objectStore('recordings');
+                    const request = store.add(item);
+                    request.onsuccess = () => resolve(request.result);
+                    request.onerror = () => reject(request.error);
+                });
+            },
+            async delete(id) {
+                const db = await this.init();
+                return new Promise((resolve, reject) => {
+                    const tx = db.transaction('recordings', 'readwrite');
+                    const store = tx.objectStore('recordings');
+                    const request = store.delete(id);
+                    request.onsuccess = () => resolve();
+                    request.onerror = () => reject(request.error);
+                });
+            },
+             async update(item) {
+                const db = await this.init();
+                return new Promise((resolve, reject) => {
+                    const tx = db.transaction('recordings', 'readwrite');
+                    const store = tx.objectStore('recordings');
+                    const request = store.put(item);
+                    request.onsuccess = () => resolve(request.result);
+                    request.onerror = () => reject(request.error);
+                });
+            }
+        };
+
+        // --- Components ---
+
+        const Icon = ({ icon, size = 20, className = "" }) => {
+            const ref = useRef(null);
+            useEffect(() => {
+                if (ref.current && icon) {
+                    ref.current.innerHTML = '';
+                    try {
+                        if (typeof lucide !== 'undefined' && lucide.createElement) {
+                            const svg = lucide.createElement(icon);
+                            svg.setAttribute('width', size);
+                            svg.setAttribute('height', size);
+                            if (className) {
+                                const existingClass = svg.getAttribute('class') || '';
+                                svg.setAttribute('class', (existingClass + ' ' + className).trim());
+                            }
+                            ref.current.appendChild(svg);
+                        } else if (Array.isArray(icon)) {
+                             const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+                             svg.setAttribute('width', size);
+                             svg.setAttribute('height', size);
+                             svg.setAttribute('viewBox', '0 0 24 24');
+                             svg.setAttribute('fill', 'none');
+                             svg.setAttribute('stroke', 'currentColor');
+                             svg.setAttribute('stroke-width', '2');
+                             svg.setAttribute('stroke-linecap', 'round');
+                             svg.setAttribute('stroke-linejoin', 'round');
+                             if (className) svg.setAttribute('class', className);
+                             icon.forEach(([tag, attrs]) => {
+                                 const el = document.createElementNS('http://www.w3.org/2000/svg', tag);
+                                 Object.entries(attrs || {}).forEach(([k, v]) => el.setAttribute(k, v));
+                                 svg.appendChild(el);
+                             });
+                             ref.current.appendChild(svg);
+                        } else if (typeof icon.toSvg === 'function') {
+                             const svg = icon.toSvg({ class: className, width: size, height: size });
+                             ref.current.innerHTML = svg;
+                        }
+                    } catch (e) { console.error("Icon render error", e); }
+                }
+            }, [icon, size, className]);
+            return <span ref={ref} className="flex items-center justify-center" />;
+        };
+
+        const Button = ({ children, onClick, variant = 'primary', className = '', icon, disabled = false }) => {
+            const baseStyle = "inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg font-medium transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-offset-1";
+            const variants = {
+                primary: "bg-slate-900 text-white hover:bg-slate-800 shadow-lg shadow-slate-900/20 focus:ring-slate-900 dark:bg-slate-700 dark:hover:bg-slate-600 dark:shadow-slate-900/40",
+                secondary: "bg-white text-slate-700 border border-slate-200 hover:bg-slate-50 hover:border-slate-300 shadow-sm focus:ring-slate-200 dark:bg-slate-800 dark:text-slate-200 dark:border-slate-700 dark:hover:bg-slate-700",
+                ghost: "text-slate-600 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-white",
+                danger: "bg-red-50 text-red-600 hover:bg-red-100 border border-red-100 dark:bg-red-900/20 dark:text-red-400 dark:border-red-900/30"
+            };
+            
+            return (
+                <button onClick={onClick} disabled={disabled} className={`${baseStyle} ${variants[variant]} ${className}`}>
+                    {icon && <Icon icon={icon} size={18} />}
+                    {children}
+                </button>
+            );
+        };
+
+        const Card = ({ title, children, actions, className = '', footer, noPadding = false }) => (
+            <div className={`bg-white rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition-all duration-300 flex flex-col overflow-hidden group ${className} dark:bg-slate-800 dark:border-slate-700`}>
+                {(title || actions) && (
+                    <div className="px-6 py-4 border-b border-slate-100 flex justify-between items-center bg-white/50 backdrop-blur-sm dark:border-slate-700 dark:bg-slate-800/50">
+                        {title && <h3 className="font-semibold text-slate-800 text-base dark:text-white">{title}</h3>}
+                        {actions && <div className="flex gap-2">{actions}</div>}
+                    </div>
+                )}
+                <div className={`${noPadding ? '' : 'p-6'} flex-grow relative`}>{children}</div>
+                {footer && (
+                    <div className="px-6 py-3 border-t border-slate-100 bg-gray-50/30 flex justify-between items-center gap-3 dark:border-slate-700 dark:bg-slate-900/30">
+                        {footer}
+                    </div>
+                )}
+            </div>
+        );
+
+        const Modal = ({ isOpen, onClose, title, children }) => {
+            if (!isOpen) return null;
+            return (
+                <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+                    <div className="absolute inset-0 bg-slate-900/20 backdrop-blur-sm transition-opacity" onClick={onClose}></div>
+                    <div className="bg-white rounded-2xl shadow-2xl w-full max-w-lg relative z-10 animate-slide-up border border-white/20 dark:bg-slate-800 dark:border-slate-700">
+                        <div className="flex justify-between items-center p-6 border-b border-slate-100 dark:border-slate-700">
+                            <h3 className="text-xl font-bold text-slate-900 dark:text-white">{title}</h3>
+                            <button onClick={onClose} className="text-slate-400 hover:text-slate-600 transition-colors bg-slate-50 p-2 rounded-full hover:bg-slate-100 dark:bg-slate-700 dark:hover:bg-slate-600 dark:text-slate-300">
+                                <Icon icon={X} size={20} />
+                            </button>
+                        </div>
+                        <div className="p-6">{children}</div>
+                    </div>
+                </div>
+            );
+        };
+
+        const Toggle = ({ label, checked, onChange }) => (
+            <div className="flex items-center justify-between cursor-pointer group" onClick={() => onChange(!checked)}>
+                <span className="text-sm font-medium text-slate-700 group-hover:text-slate-900 transition-colors dark:text-slate-300 dark:group-hover:text-white">{label}</span>
+                <div className={`w-11 h-6 flex items-center rounded-full p-1 transition-colors duration-300 ${checked ? 'bg-slate-900 dark:bg-blue-600' : 'bg-slate-200 dark:bg-slate-700'}`}>
+                    <div className={`bg-white w-4 h-4 rounded-full shadow-md transform transition-transform duration-300 ${checked ? 'translate-x-5' : ''}`}></div>
+                </div>
+            </div>
+        );
+
+        const Select = ({ label, value, onChange, options }) => (
+            <div className="space-y-1.5">
+                <label className="text-xs font-semibold text-slate-500 uppercase tracking-wider dark:text-slate-400">{label}</label>
+                <div className="relative">
+                    <select 
+                        value={value} 
+                        onChange={(e) => onChange(e.target.value)}
+                        className="w-full appearance-none bg-white border border-slate-200 text-slate-900 text-sm rounded-lg focus:ring-2 focus:ring-slate-900 focus:border-slate-900 block p-2.5 transition-shadow hover:border-slate-300 dark:bg-slate-800 dark:border-slate-700 dark:text-white dark:focus:ring-slate-500 dark:focus:border-slate-500"
+                    >
+                        {options.map(opt => <option key={opt.value} value={opt.value}>{opt.label}</option>)}
+                    </select>
+                    <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none text-slate-500">
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </div>
+                </div>
+            </div>
+        );
+
+        const ByteMDEditor = ({ value, onChange }) => {
+            const editorRef = useRef(null);
+            const instanceRef = useRef(null);
+
+            useEffect(() => {
+                if (!editorRef.current) return;
+                
+                const editor = new bytemd.Editor({
+                    target: editorRef.current,
+                    props: {
+                        value: value || '',
+                        locale: {
+                            // Simple Chinese localization override if needed, but ByteMD defaults are English.
+                            // For simplicity, we use default.
+                        }
+                    }
+                });
+
+                editor.$on('change', (e) => {
+                    onChange(e.detail.value);
+                });
+
+                instanceRef.current = editor;
+
+                return () => {
+                    editor.$destroy();
+                };
+            }, []);
+
+            useEffect(() => {
+                if (instanceRef.current) {
+                    instanceRef.current.$set({ value: value || '' });
+                }
+            }, [value]);
+
+            return <div ref={editorRef} className="h-full w-full" />;
+        };
+
+        // --- Views ---
+
+        const DashboardView = ({ recordings, onNewRecording, onSnapshot, onEdit, onDelete, onPreview, isRecording }) => {
+            const [searchTerm, setSearchTerm] = useState('');
+            
+            const filteredRecordings = recordings.filter(r => 
+                r.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
+                r.slug.toLowerCase().includes(searchTerm.toLowerCase())
+            );
+
+            return (
+                <div className="space-y-8 animate-fade-in pb-12">
+                    {/* Header & Search */}
+                    <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+                        <div className="relative max-w-lg w-full group">
+                            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <Icon icon={Search} className="text-slate-400 group-focus-within:text-slate-900 transition-colors dark:text-slate-500 dark:group-focus-within:text-slate-300" />
+                            </div>
+                            <input 
+                                type="text" 
+                                placeholder="搜索录屏或截图..." 
+                                className="block w-full pl-10 pr-3 py-3 border border-slate-200 rounded-xl leading-5 bg-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-900 focus:border-transparent sm:text-sm transition-all shadow-sm group-hover:shadow-md dark:bg-slate-800 dark:border-slate-700 dark:text-white dark:placeholder-slate-500 dark:focus:ring-slate-500"
+                                value={searchTerm}
+                                onChange={e => setSearchTerm(e.target.value)}
+                            />
+                        </div>
+                        <div className="flex gap-3">
+                            <Button onClick={onSnapshot} icon={Camera} className="shadow-lg hover:shadow-xl hover:scale-105 transition-transform py-3 px-6 bg-indigo-600 hover:bg-indigo-700 text-white border-transparent">
+                                屏幕截图
+                            </Button>
+                            <Button onClick={onNewRecording} icon={Video} disabled={isRecording} className="shadow-lg hover:shadow-xl hover:scale-105 transition-transform py-3 px-6">
+                                屏幕录制
+                            </Button>
+                        </div>
+                    </div>
+
+                    {/* Grid */}
+                    {filteredRecordings.length === 0 ? (
+                        <div className="text-center py-20 bg-white rounded-2xl border border-dashed border-slate-300 dark:bg-slate-800 dark:border-slate-700">
+                            <div className="mx-auto w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center mb-4 dark:bg-slate-700">
+                                <Icon icon={Video} size={32} className="text-slate-300 dark:text-slate-500" />
+                            </div>
+                            <h3 className="text-lg font-medium text-slate-900 dark:text-white">暂无内容</h3>
+                            <p className="text-slate-500 mt-1 dark:text-slate-400">开始您的第一次录制或截图</p>
+                        </div>
+                    ) : (
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            {filteredRecordings.map(rec => (
+                                <Card 
+                                    key={rec.id}
+                                    title={rec.title}
+                                    footer={
+                                        <>
+                                            <div className="flex gap-1">
+                                                <button onClick={() => onEdit(rec)} className="p-2 text-slate-500 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-colors dark:text-slate-400 dark:hover:text-white dark:hover:bg-slate-700" title="编辑">
+                                                    <Icon icon={Edit2} size={18} />
+                                                </button>
+                                                <button onClick={() => onDelete(rec.id)} className="p-2 text-slate-500 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors dark:text-slate-400 dark:hover:text-red-400 dark:hover:bg-red-900/20" title="删除">
+                                                    <Icon icon={Trash2} size={18} />
+                                                </button>
+                                            </div>
+                                            <button onClick={() => onPreview(rec)} className="text-sm font-medium text-slate-600 hover:text-slate-900 px-3 py-1.5 rounded-md hover:bg-slate-100 transition-colors dark:text-slate-400 dark:hover:text-white dark:hover:bg-slate-700">
+                                                预览
+                                            </button>
+                                        </>
+                                    }
+                                >
+                                    <div className="space-y-4">
+                                        <div className="flex items-center justify-between">
+                                            <div className="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400">
+                                                <Icon icon={rec.type === 'image' ? ImageIcon : FileText} size={14} />
+                                                <span className="font-mono truncate max-w-[120px]">{rec.slug}</span>
+                                            </div>
+                                            {rec.status === 'draft' && (
+                                                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-slate-100 text-slate-600 border border-slate-200 dark:bg-slate-700 dark:text-slate-300 dark:border-slate-600">
+                                                    草稿
+                                                </span>
+                                            )}
+                                        </div>
+                                        <div className="aspect-video bg-slate-100 rounded-lg overflow-hidden relative group cursor-pointer border border-slate-200 dark:bg-slate-900 dark:border-slate-700" onClick={() => onPreview(rec)}>
+                                            {rec.type === 'image' ? (
+                                                <img src={rec.url} className="w-full h-full object-contain bg-slate-50 dark:bg-slate-950" />
+                                            ) : (
+                                                <video src={rec.url} className="w-full h-full object-cover" />
+                                            )}
+                                            
+                                            <div className="absolute inset-0 bg-slate-900/0 group-hover:bg-slate-900/10 transition-colors flex items-center justify-center">
+                                                <div className="w-12 h-12 bg-white/90 rounded-full flex items-center justify-center shadow-lg opacity-0 group-hover:opacity-100 transform scale-75 group-hover:scale-100 transition-all duration-300 dark:bg-slate-800/90">
+                                                    <Icon icon={rec.type === 'image' ? Eye : Play} size={20} className="text-slate-900 ml-1 dark:text-white" />
+                                                </div>
+                                            </div>
+                                            {rec.duration && (
+                                                <div className="absolute bottom-2 right-2 bg-black/60 backdrop-blur-sm text-white text-[10px] px-2 py-1 rounded-md font-mono">
+                                                    {rec.duration}
+                                                </div>
+                                            )}
+                                        </div>
+                                        <div className="flex items-center text-xs text-slate-400 gap-2">
+                                            <span>{rec.date}</span>
+                                            <span>•</span>
+                                            <span>{rec.type === 'image' ? 'Image' : 'Video'}</span>
+                                        </div>
+                                    </div>
+                                </Card>
+                            ))}
+                        </div>
+                    )}
+                </div>
+            );
+        };
+
+        // --- Helpers ---
+        const Tooltip = ({ content, children }) => {
+            const [isVisible, setIsVisible] = useState(false);
+            return (
+                <div className="relative flex items-center" 
+                     onMouseEnter={() => setIsVisible(true)} 
+                     onMouseLeave={() => setIsVisible(false)}>
+                    {children}
+                    {isVisible && (
+                        <div className="absolute left-full ml-2 px-2 py-1 bg-slate-900 text-white text-xs rounded shadow-lg whitespace-nowrap z-50 animate-fade-in pointer-events-none">
+                            {content}
+                            <div className="absolute top-1/2 -left-1 -translate-y-1/2 border-4 border-transparent border-r-slate-900"></div>
+                        </div>
+                    )}
+                </div>
+            );
+        };
+
+        const ImageEditorView = ({ recording, onBack, onSave, theme, toggleTheme }) => {
+            const canvasRef = useRef(null);
+            const cropBoxRef = useRef(null);
+            const containerRef = useRef(null);
+            const [mode, setMode] = useState('view'); // view, crop, mosaic
+            const [cropRect, setCropRect] = useState(null);
+            const [isDragging, setIsDragging] = useState(false);
+            const startPosRef = useRef({ x: 0, y: 0 }); 
+            const dragStartRectRef = useRef(null); // Store rect at start of drag
+            const dragActionRef = useRef(null); // 'move', 'create', 'nw', 'n', 'ne', 'e', 'se', 's', 'sw', 'w'
+            
+            const [history, setHistory] = useState([]); // Array of ImageData
+            const [historyIndex, setHistoryIndex] = useState(-1);
+            const [scale, setScale] = useState(1);
+            const [brushSize, setBrushSize] = useState(20);
+            
+            // To prevent repetitive processing in same stroke
+            const processedBlocksRef = useRef(new Set());
+            const lastPosRef = useRef(null);
+            
+            // Initialize Crop Box
+            useEffect(() => {
+                if (mode === 'crop' && !cropRect && canvasRef.current) {
+                    const { width, height } = canvasRef.current;
+                    const padding = Math.min(width, height) * 0.1;
+                    setCropRect({
+                        x: padding,
+                        y: padding,
+                        w: width - padding * 2,
+                        h: height - padding * 2
+                    });
+                }
+            }, [mode]);
+
+            // Global Drag Listeners
+            useEffect(() => {
+                const handleWindowMove = (e) => {
+                    if (!isDragging) return;
+                    e.preventDefault(); // Prevent scrolling on touch
+                    
+                    const coords = getCoords(e);
+                    const action = dragActionRef.current;
+                    
+                    if (mode === 'crop' && cropRect) {
+                         const startX = startPosRef.current.x;
+                         const startY = startPosRef.current.y;
+                         const dx = coords.x - startX;
+                         const dy = coords.y - startY;
+                         const startRect = dragStartRectRef.current;
+
+                         let newRect = { ...startRect };
+
+                         // Bounds
+                         const maxW = canvasRef.current.width;
+                         const maxH = canvasRef.current.height;
+
+                         if (action === 'move') {
+                             newRect.x = Math.max(0, Math.min(maxW - newRect.w, startRect.x + dx));
+                             newRect.y = Math.max(0, Math.min(maxH - newRect.h, startRect.y + dy));
+                         } else if (action === 'create') {
+                             newRect.w = Math.abs(dx);
+                             newRect.h = Math.abs(dy);
+                             newRect.x = dx < 0 ? startX + dx : startX;
+                             newRect.y = dy < 0 ? startY + dy : startY;
+                         } else {
+                             // Resize logic
+                             if (action.includes('n')) {
+                                 const h = startRect.h - dy;
+                                 if (h > 10) { newRect.y = startRect.y + dy; newRect.h = h; }
+                             }
+                             if (action.includes('s')) {
+                                 newRect.h = Math.max(10, startRect.h + dy);
+                             }
+                             if (action.includes('w')) {
+                                 const w = startRect.w - dx;
+                                 if (w > 10) { newRect.x = startRect.x + dx; newRect.w = w; }
+                             }
+                             if (action.includes('e')) {
+                                 newRect.w = Math.max(10, startRect.w + dx);
+                             }
+                         }
+                         
+                         // Constrain to canvas
+                         if (newRect.x < 0) { newRect.w += newRect.x; newRect.x = 0; }
+                         if (newRect.y < 0) { newRect.h += newRect.y; newRect.y = 0; }
+                         if (newRect.x + newRect.w > maxW) newRect.w = maxW - newRect.x;
+                         if (newRect.y + newRect.h > maxH) newRect.h = maxH - newRect.y;
+
+                         // Optimization: Transient State
+                         // Store in ref and update DOM directly to avoid re-renders
+                         dragStartRectRef.current.transient = newRect;
+                         if (cropBoxRef.current) {
+                             cropBoxRef.current.style.left = `${newRect.x}px`;
+                             cropBoxRef.current.style.top = `${newRect.y}px`;
+                             cropBoxRef.current.style.width = `${newRect.w}px`;
+                             cropBoxRef.current.style.height = `${newRect.h}px`;
+                         }
+                    } else if (mode === 'mosaic') {
+                        applyMosaicPath(lastPosRef.current, coords);
+                        lastPosRef.current = coords;
+                    }
+                };
+
+                const handleWindowUp = () => {
+                    setIsDragging(false);
+                    dragActionRef.current = null;
+                    
+                    if (mode === 'crop' && dragStartRectRef.current?.transient) {
+                        // Commit transient state
+                        setCropRect(dragStartRectRef.current.transient);
+                        delete dragStartRectRef.current.transient;
+                    } else if (mode === 'mosaic') {
+                        saveHistory();
+                    }
+                };
+
+                if (isDragging) {
+                    window.addEventListener('mousemove', handleWindowMove);
+                    window.addEventListener('mouseup', handleWindowUp);
+                    window.addEventListener('touchmove', handleWindowMove, { passive: false });
+                    window.addEventListener('touchend', handleWindowUp);
+                }
+
+                return () => {
+                    window.removeEventListener('mousemove', handleWindowMove);
+                    window.removeEventListener('mouseup', handleWindowUp);
+                    window.removeEventListener('touchmove', handleWindowMove);
+                    window.removeEventListener('touchend', handleWindowUp);
+                };
+            }, [isDragging, mode]); // scale dependency is inside getCoords which reads ref/state? No, getCoords uses state `scale`.
+            // WARNING: getCoords uses `scale` state. If `scale` changes, `getCoords` in effect might be stale if effect doesn't depend on it.
+            // But dragging usually doesn't change scale.
+            // However, `getCoords` is defined outside effect.
+            // Better to use a ref for scale or include it in dependency.
+            // I will include `scale` in dependency array of this effect.
+
+            // Load initial image
+            useEffect(() => {
+                const canvas = canvasRef.current;
+                const ctx = canvas.getContext('2d');
+                const img = new Image();
+                img.src = recording.url;
+                img.onload = () => {
+                    canvas.width = img.width;
+                    canvas.height = img.height;
+                    ctx.drawImage(img, 0, 0);
+                    saveHistory();
+                    fitToScreen(img.width, img.height);
+                };
+            }, []);
+
+            const fitToScreen = (w, h) => {
+                if (!containerRef.current) return;
+                const cw = containerRef.current.clientWidth;
+                const ch = containerRef.current.clientHeight;
+                const padding = 40;
+                const availableW = cw - padding;
+                const availableH = ch - padding;
+                
+                const scaleW = availableW / w;
+                const scaleH = availableH / h;
+                const newScale = Math.min(scaleW, scaleH, 1); // Don't scale up initially
+                setScale(newScale);
+            };
+
+            const saveHistory = () => {
+                const canvas = canvasRef.current;
+                const ctx = canvas.getContext('2d');
+                const data = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                const newHistory = history.slice(0, historyIndex + 1);
+                newHistory.push(data);
+                if (newHistory.length > 20) newHistory.shift(); // Limit history
+                setHistory(newHistory);
+                setHistoryIndex(newHistory.length - 1);
+            };
+
+            const undo = () => {
+                if (historyIndex > 0) {
+                    const newIndex = historyIndex - 1;
+                    const data = history[newIndex];
+                    const canvas = canvasRef.current;
+                    const ctx = canvas.getContext('2d');
+                    canvas.width = data.width;
+                    canvas.height = data.height;
+                    ctx.putImageData(data, 0, 0);
+                    setHistoryIndex(newIndex);
+                    // Reset tool states
+                    setCropRect(null);
+                }
+            };
+
+            // --- Tool Logic ---
+            
+            const getCoords = (e) => {
+                const rect = canvasRef.current.getBoundingClientRect();
+                const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+                const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+                return {
+                    x: (clientX - rect.left) / scale,
+                    y: (clientY - rect.top) / scale
+                };
+            };
+
+            const startDrag = (e, action) => {
+                e.preventDefault();
+                e.stopPropagation();
+                
+                setIsDragging(true);
+                const coords = getCoords(e);
+                startPosRef.current = coords;
+                lastPosRef.current = coords;
+                dragActionRef.current = action;
+                
+                if (mode === 'crop') {
+                    if (action === 'create') {
+                         setCropRect({ x: coords.x, y: coords.y, w: 0, h: 0 });
+                         dragStartRectRef.current = { x: coords.x, y: coords.y, w: 0, h: 0 };
+                    } else {
+                         dragStartRectRef.current = { ...cropRect };
+                    }
+                } else if (mode === 'mosaic') {
+                    processedBlocksRef.current.clear();
+                    applyMosaicPath(coords, coords);
+                }
+            };
+            
+            const handleMouseDown = (e) => {
+                if (mode === 'view') return;
+                // If crop mode and clicking outside crop rect, start create?
+                // But we have default rect now.
+                // Let's say clicking on canvas starts 'create' only if we don't hit the box.
+                // But box handles this.
+                // So this handler is for "Canvas Background".
+                if (mode === 'crop') {
+                    // Clicking outside existing crop box resets it and starts new drag
+                    startDrag(e, 'create');
+                } else {
+                    startDrag(e, 'mosaic');
+                }
+            };
+
+            // We no longer need handleMouseMove/Up here as they are global now, 
+            // BUT we still need them attached to canvas for initial events? 
+            // No, the window listener is added when isDragging=true.
+            // So we only need onMouseDown on elements to START drag.
+            
+            // ... (keep applyMosaicPath and pixelateBlock)
+
+            const applyMosaicPath = (start, end) => {
+                 const canvas = canvasRef.current;
+                 const ctx = canvas.getContext('2d');
+                 const blockSize = 15;
+                 const { width, height } = canvas;
+                 
+                 const r = brushSize / 2;
+                 const minX = Math.floor(Math.min(start.x, end.x) - r);
+                 const minY = Math.floor(Math.min(start.y, end.y) - r);
+                 const maxX = Math.ceil(Math.max(start.x, end.x) + r);
+                 const maxY = Math.ceil(Math.max(start.y, end.y) + r);
+                 
+                 const x = Math.max(0, minX);
+                 const y = Math.max(0, minY);
+                 const w = Math.min(width, maxX) - x;
+                 const h = Math.min(height, maxY) - y;
+                 
+                 if (w <= 0 || h <= 0) return;
+                 
+                 // Optimization: Batch pixel processing to reduce GPU-CPU communication
+                 // Read once, modify in memory, write once
+                 const imageData = ctx.getImageData(x, y, w, h);
+                 const data = imageData.data;
+                 const sourceWidth = w;
+                 
+                 const startGx = Math.floor(x / blockSize) * blockSize;
+                 const startGy = Math.floor(y / blockSize) * blockSize;
+                 const endGx = Math.floor((x + w) / blockSize) * blockSize;
+                 const endGy = Math.floor((y + h) / blockSize) * blockSize;
+                 
+                 let dirty = false;
+
+                 for (let gx = startGx; gx <= endGx; gx += blockSize) {
+                     for (let gy = startGy; gy <= endGy; gy += blockSize) {
+                         const bcx = gx + blockSize/2;
+                         const bcy = gy + blockSize/2;
+                         
+                         // Distance to segment
+                         const l2 = (end.x - start.x)**2 + (end.y - start.y)**2;
+                         let distSq;
+                         if (l2 === 0) distSq = (bcx - start.x)**2 + (bcy - start.y)**2;
+                         else {
+                             let t = ((bcx - start.x) * (end.x - start.x) + (bcy - start.y) * (end.y - start.y)) / l2;
+                             t = Math.max(0, Math.min(1, t));
+                             distSq = (bcx - (start.x + t * (end.x - start.x)))**2 + (bcy - (start.y + t * (end.y - start.y)))**2;
+                         }
+                         
+                         if (distSq <= r*r) {
+                             const key = `${gx},${gy}`;
+                             if (!processedBlocksRef.current.has(key)) {
+                                 const bx = gx - x;
+                                 const by = gy - y;
+                                 
+                                 // Sample 5x5 center
+                                 const sampleSize = Math.min(blockSize, 5);
+                                 const offset = Math.floor((blockSize - sampleSize)/2);
+                                 
+                                 const sx = bx + offset;
+                                 const sy = by + offset;
+                                 
+                                 const validSx = Math.max(0, sx);
+                                 const validSy = Math.max(0, sy);
+                                 const validSw = Math.min(sampleSize, w - validSx);
+                                 const validSh = Math.min(sampleSize, h - validSy);
+                                 
+                                 let rSum=0, gSum=0, bSum=0, count=0;
+                                 
+                                 if (validSw > 0 && validSh > 0) {
+                                     for(let py = validSy; py < validSy + validSh; py++) {
+                                         for(let px = validSx; px < validSx + validSw; px++) {
+                                             const i = (py * sourceWidth + px) * 4;
+                                             rSum += data[i];
+                                             gSum += data[i+1];
+                                             bSum += data[i+2];
+                                             count++;
+                                         }
+                                     }
+                                     
+                                     if (count > 0) {
+                                         const avgR = Math.round(rSum/count);
+                                         const avgG = Math.round(gSum/count);
+                                         const avgB = Math.round(bSum/count);
+                                         
+                                         const fillX = Math.max(0, bx);
+                                         const fillY = Math.max(0, by);
+                                         const fillW = Math.min(blockSize, w - fillX);
+                                         const fillH = Math.min(blockSize, h - fillY);
+                                         
+                                         for(let py = fillY; py < fillY + fillH; py++) {
+                                             for(let px = fillX; px < fillX + fillW; px++) {
+                                                 const i = (py * sourceWidth + px) * 4;
+                                                 data[i] = avgR;
+                                                 data[i+1] = avgG;
+                                                 data[i+2] = avgB;
+                                             }
+                                         }
+                                         dirty = true;
+                                     }
+                                 }
+                                 processedBlocksRef.current.add(key);
+                             }
+                         }
+                     }
+                 }
+                 
+                 if (dirty) {
+                     ctx.putImageData(imageData, x, y);
+                 }
+            };
+
+            const confirmCrop = () => {
+                if (!cropRect || cropRect.w < 2 || cropRect.h < 2) return;
+                const canvas = canvasRef.current;
+                const ctx = canvas.getContext('2d');
+                
+                try {
+                    const imageData = ctx.getImageData(cropRect.x, cropRect.y, cropRect.w, cropRect.h);
+                    canvas.width = cropRect.w;
+                    canvas.height = cropRect.h;
+                    ctx.putImageData(imageData, 0, 0);
+                    setCropRect(null);
+                    setMode('view');
+                    saveHistory();
+                    fitToScreen(cropRect.w, cropRect.h);
+                } catch (e) {
+                    console.error("Crop failed", e);
+                }
+            };
+
+            const handleSave = async () => {
+                canvasRef.current.toBlob(async (blob) => {
+                    const newUrl = URL.createObjectURL(blob);
+                    const updatedRec = {
+                        ...recording,
+                        blob: blob,
+                        url: newUrl,
+                        date: new Date().toLocaleDateString()
+                    };
+                    
+                    try {
+                        await dbHelper.update(updatedRec);
+                        onSave(updatedRec); // Pass back updated record
+                    } catch (e) {
+                        console.error("Save failed", e);
+                        alert("保存失败");
+                    }
+                }, 'image/png');
+            };
+            
+            const handleDownload = () => {
+                 canvasRef.current.toBlob(blob => {
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = `screenshot-${Date.now()}.png`;
+                    a.click();
+                    URL.revokeObjectURL(url);
+                }, 'image/png');
+            };
+
+            return (
+                <div className="h-[calc(100vh-6rem)] flex flex-col gap-4 animate-fade-in">
+                    {/* Header */}
+                     <div className="flex items-center justify-between bg-white px-6 py-3 rounded-xl border border-slate-200 shadow-sm shrink-0 dark:bg-slate-800 dark:border-slate-700">
+                        <div className="flex items-center gap-4">
+                            <Button variant="ghost" onClick={onBack} icon={ChevronLeft}>返回</Button>
+                            <div className="h-6 w-px bg-slate-200 dark:bg-slate-700"></div>
+                            <div className="flex flex-col">
+                                <h2 className="font-bold text-slate-800 dark:text-white">图片编辑器</h2>
+                                <span className="text-xs text-slate-500 font-mono dark:text-slate-400">{recording.slug}</span>
+                            </div>
+                        </div>
+                         <div className="flex gap-2 items-center">
+                            <HeaderControls theme={theme} toggleTheme={toggleTheme} />
+                            <div className="w-px h-6 bg-slate-200 dark:bg-slate-700 mx-2"></div>
+                            <Button onClick={handleDownload} variant="ghost" icon={Download}>下载</Button>
+                            <Button onClick={handleSave} variant="primary" icon={Save}>保存并关闭</Button>
+                         </div>
+                    </div>
+
+                    {/* Editor Area */}
+                    <div className="flex-grow flex gap-6 overflow-hidden">
+                        {/* Toolbar */}
+                        <div className="w-16 flex flex-col items-center gap-4 bg-white py-4 rounded-xl border border-slate-200 shadow-sm dark:bg-slate-800 dark:border-slate-700 shrink-0 z-10">
+                             <Tooltip content="查看">
+                                 <button onClick={() => { setMode('view'); setCropRect(null); }} className={`p-3 rounded-xl transition-all ${mode === 'view' ? 'bg-slate-900 text-white shadow-lg' : 'text-slate-500 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-700'}`}>
+                                    <Icon icon={Eye} />
+                                </button>
+                             </Tooltip>
+                             <Tooltip content="裁剪">
+                                <button onClick={() => { setMode('crop'); setCropRect(null); }} className={`p-3 rounded-xl transition-all ${mode === 'crop' ? 'bg-slate-900 text-white shadow-lg' : 'text-slate-500 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-700'}`}>
+                                    <Icon icon={Crop} />
+                                </button>
+                             </Tooltip>
+                             <Tooltip content="打码">
+                                <button onClick={() => { setMode('mosaic'); setCropRect(null); }} className={`p-3 rounded-xl transition-all ${mode === 'mosaic' ? 'bg-slate-900 text-white shadow-lg' : 'text-slate-500 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-700'}`}>
+                                    <Icon icon={Zap} />
+                                </button>
+                             </Tooltip>
+                            <div className="h-px w-8 bg-slate-200 dark:bg-slate-700 my-2"></div>
+                            <Tooltip content="撤销">
+                                <button onClick={undo} disabled={historyIndex <= 0} className="p-3 rounded-xl text-slate-500 hover:bg-slate-100 disabled:opacity-30 disabled:cursor-not-allowed dark:text-slate-400 dark:hover:bg-slate-700">
+                                    <Icon icon={Undo} />
+                                </button>
+                            </Tooltip>
+                        </div>
+
+                        {/* Canvas Stage */}
+                        <div className="flex-grow bg-slate-100 rounded-xl overflow-hidden relative flex items-center justify-center border border-slate-200 shadow-inner dark:bg-slate-950 dark:border-slate-800" ref={containerRef}>
+                            
+                            {/* Brush Settings */}
+                            {mode === 'mosaic' && (
+                                <div className="absolute top-4 left-4 z-20 bg-white/90 backdrop-blur p-3 rounded-lg shadow-lg border border-slate-200 flex flex-col gap-2 w-48 dark:bg-slate-800/90 dark:border-slate-700">
+                                    <div className="flex justify-between text-xs text-slate-500 dark:text-slate-400">
+                                        <span>画笔大小</span>
+                                        <span>{brushSize}px</span>
+                                    </div>
+                                    <input 
+                                        type="range" 
+                                        min="10" 
+                                        max="100" 
+                                        value={brushSize} 
+                                        onChange={(e) => setBrushSize(Number(e.target.value))}
+                                        className="w-full h-1 bg-slate-200 rounded-lg appearance-none cursor-pointer dark:bg-slate-600 accent-slate-900 dark:accent-white"
+                                    />
+                                </div>
+                            )}
+
+                            {/* Crop Instructions */}
+                            {mode === 'crop' && !cropRect && (
+                                <div className="absolute top-4 left-1/2 -translate-x-1/2 z-20 bg-slate-900/80 text-white px-4 py-2 rounded-full text-sm font-medium shadow-lg pointer-events-none animate-fade-in">
+                                    拖动鼠标选择裁剪区域
+                                </div>
+                            )}
+
+                            <div className="relative shadow-2xl" style={{ transform: `scale(${scale})`, transformOrigin: 'center', transition: 'transform 0.1s', touchAction: 'none' }}>
+                                <canvas 
+                                    ref={canvasRef}
+                                    className={`bg-white cursor-${mode === 'view' ? 'default' : 'crosshair'}`}
+                                    style={{ touchAction: 'none' }}
+                                    onMouseDown={handleMouseDown}
+                                    onTouchStart={handleMouseDown}
+                                />
+                                {/* Crop Overlay & Mask */}
+                                {mode === 'crop' && (
+                                    <>
+                                        {!cropRect && <div className="absolute inset-0 bg-black/50 pointer-events-none" style={{ touchAction: 'none' }}></div>}
+                                        {cropRect && (
+                                            <div ref={cropBoxRef} className="absolute bg-transparent shadow-[0_0_0_9999px_rgba(0,0,0,0.5)]"
+                                                 style={{ 
+                                                     left: cropRect.x, 
+                                                     top: cropRect.y, 
+                                                     width: cropRect.w, 
+                                                     height: cropRect.h,
+                                                     pointerEvents: 'auto',
+                                                     touchAction: 'none'
+                                                 }}
+                                                 onMouseDown={(e) => startDrag(e, 'move')}
+                                                 onTouchStart={(e) => startDrag(e, 'move')}
+                                                 >
+                                                 {/* Border */}
+                                                 <div className="absolute inset-0 border-2 border-white pointer-events-none"></div>
+
+                                                 {/* Handles */}
+                                                 <div className="absolute top-0 left-0 w-4 h-4 bg-white border-2 border-indigo-600 rounded-full -translate-x-1/2 -translate-y-1/2 cursor-nw-resize z-20" onMouseDown={(e) => startDrag(e, 'nw')} onTouchStart={(e) => startDrag(e, 'nw')}></div>
+                                                 <div className="absolute top-0 right-0 w-4 h-4 bg-white border-2 border-indigo-600 rounded-full translate-x-1/2 -translate-y-1/2 cursor-ne-resize z-20" onMouseDown={(e) => startDrag(e, 'ne')} onTouchStart={(e) => startDrag(e, 'ne')}></div>
+                                                 <div className="absolute bottom-0 left-0 w-4 h-4 bg-white border-2 border-indigo-600 rounded-full -translate-x-1/2 translate-y-1/2 cursor-sw-resize z-20" onMouseDown={(e) => startDrag(e, 'sw')} onTouchStart={(e) => startDrag(e, 'sw')}></div>
+                                                 <div className="absolute bottom-0 right-0 w-4 h-4 bg-white border-2 border-indigo-600 rounded-full translate-x-1/2 translate-y-1/2 cursor-se-resize z-20" onMouseDown={(e) => startDrag(e, 'se')} onTouchStart={(e) => startDrag(e, 'se')}></div>
+                                                 
+                                                 <div className="absolute top-0 left-1/2 w-3 h-3 bg-white border border-indigo-600 rounded-full -translate-x-1/2 -translate-y-1/2 cursor-n-resize z-20" onMouseDown={(e) => startDrag(e, 'n')} onTouchStart={(e) => startDrag(e, 'n')}></div>
+                                                 <div className="absolute bottom-0 left-1/2 w-3 h-3 bg-white border border-indigo-600 rounded-full -translate-x-1/2 translate-y-1/2 cursor-s-resize z-20" onMouseDown={(e) => startDrag(e, 's')} onTouchStart={(e) => startDrag(e, 's')}></div>
+                                                 <div className="absolute left-0 top-1/2 w-3 h-3 bg-white border border-indigo-600 rounded-full -translate-x-1/2 -translate-y-1/2 cursor-w-resize z-20" onMouseDown={(e) => startDrag(e, 'w')} onTouchStart={(e) => startDrag(e, 'w')}></div>
+                                                 <div className="absolute right-0 top-1/2 w-3 h-3 bg-white border border-indigo-600 rounded-full translate-x-1/2 -translate-y-1/2 cursor-e-resize z-20" onMouseDown={(e) => startDrag(e, 'e')} onTouchStart={(e) => startDrag(e, 'e')}></div>
+
+                                                <div className="absolute -bottom-40 left-1/2 -translate-x-1/2 flex gap-16 pointer-events-auto z-30">
+                                                    <button className="bg-red-500 text-white px-16 py-8 rounded-full text-4xl font-extrabold shadow-2xl hover:bg-red-600 transition-colors flex items-center gap-6" onClick={(e) => { e.stopPropagation(); setCropRect(null); }}>
+                                                        取消
+                                                    </button>
+                                                    <button className="bg-green-600 text-white px-16 py-8 rounded-full text-4xl font-extrabold shadow-2xl hover:bg-green-700 transition-colors flex items-center gap-6" onClick={(e) => { e.stopPropagation(); confirmCrop(); }}>
+                                                        <Icon icon={Check} size={48}/> 确认
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        )}
+                                    </>
+                                )}
+                            </div>
+                            
+                            {/* Zoom Controls */}
+                            <div className="absolute bottom-6 right-6 flex items-center gap-2 bg-white/90 backdrop-blur p-2 rounded-lg shadow-lg border border-slate-200 dark:bg-slate-800/90 dark:border-slate-700 z-20">
+                                <button onClick={() => setScale(s => Math.max(0.1, s - 0.1))} className="p-1 hover:bg-slate-100 rounded dark:hover:bg-slate-700"><span className="text-lg font-bold text-slate-600 dark:text-slate-300">-</span></button>
+                                <span className="text-xs font-mono w-12 text-center text-slate-600 dark:text-slate-300">{Math.round(scale * 100)}%</span>
+                                <button onClick={() => setScale(s => Math.min(3, s + 0.1))} className="p-1 hover:bg-slate-100 rounded dark:hover:bg-slate-700"><span className="text-lg font-bold text-slate-600 dark:text-slate-300">+</span></button>
+                                <div className="w-px h-4 bg-slate-300 dark:bg-slate-600 mx-1"></div>
+                                <button onClick={() => {
+                                    if(canvasRef.current && containerRef.current) fitToScreen(canvasRef.current.width, canvasRef.current.height);
+                                }} className="text-xs text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white">适应</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        const EditorView = ({ recording, onBack, onSave, onExport, theme, toggleTheme }) => {
+            const [activeTab, setActiveTab] = useState('editor'); // editor, notes
+            const [isPlaying, setIsPlaying] = useState(false);
+            const [currentTime, setCurrentTime] = useState(0);
+            const [duration, setDuration] = useState(0);
+            const [keyframes, setKeyframes] = useState(recording.keyframes || []);
+            const [selectedKeyframeId, setSelectedKeyframeId] = useState(null);
+            const [trim, setTrim] = useState(recording.trim || { start: 0, end: 0 });
+            const [exportProgress, setExportProgress] = useState(0);
+            const [isExporting, setIsExporting] = useState(false);
+            const [markdown, setMarkdown] = useState(recording.notes || '# 视频备注\n\n在这里记录关于这个视频的笔记...');
+
+            const videoRef = useRef(null);
+            const timelineRef = useRef(null);
+            const isDraggingRef = useRef(false);
+            const draggingKeyframeIdRef = useRef(null);
+            const draggingTrimRef = useRef(null);
+
+            // Helpers
+            const formatTime = (s) => {
+                if (isNaN(s)) return "00:00";
+                const m = Math.floor(s / 60).toString().padStart(2, '0');
+                const sec = Math.floor(s % 60).toString().padStart(2, '0');
+                return `${m}:${sec}`;
+            };
+
+            useEffect(() => {
+                if (duration > 0 && trim.end === 0) {
+                    setTrim(prev => ({ ...prev, end: duration }));
+                }
+            }, [duration]);
+
+            const togglePlay = () => {
+                if (videoRef.current) {
+                    if (isPlaying) videoRef.current.pause();
+                    else videoRef.current.play();
+                    setIsPlaying(!isPlaying);
+                }
+            };
+
+            const handleTimeUpdate = () => {
+                if (videoRef.current) setCurrentTime(videoRef.current.currentTime);
+            };
+
+            // Keyframes Logic
+            const addKeyframe = () => {
+                const newKf = { id: Date.now(), time: currentTime, scale: 1.5, x: 0, y: 0 };
+                setKeyframes(prev => [...prev, newKf].sort((a,b) => a.time - b.time));
+                setSelectedKeyframeId(newKf.id);
+            };
+            const updateKeyframe = (id, updates) => {
+                setKeyframes(prev => prev.map(kf => kf.id === id ? { ...kf, ...updates } : kf));
+            };
+            const deleteKeyframe = (id) => {
+                setKeyframes(prev => prev.filter(kf => kf.id !== id));
+                setSelectedKeyframeId(null);
+            };
+            const selectedKeyframe = useMemo(() => keyframes.find(k => k.id === selectedKeyframeId), [keyframes, selectedKeyframeId]);
+
+            // Transform logic
+            const currentTransform = useMemo(() => {
+                if (keyframes.length === 0) return { scale: 1, x: 0, y: 0 };
+                const sorted = keyframes;
+                if (currentTime <= sorted[0].time) return sorted[0];
+                if (currentTime >= sorted[sorted.length-1].time) return sorted[sorted.length-1];
+                let prev = sorted[0], next = sorted[sorted.length-1];
+                for(let i=0; i<sorted.length-1; i++) {
+                    if (currentTime >= sorted[i].time && currentTime < sorted[i+1].time) {
+                        prev = sorted[i]; next = sorted[i+1]; break;
+                    }
+                }
+                const ratio = (currentTime - prev.time) / (next.time - prev.time);
+                return {
+                    scale: prev.scale + (next.scale - prev.scale) * ratio,
+                    x: prev.x + (next.x - prev.x) * ratio,
+                    y: prev.y + (next.y - prev.y) * ratio
+                };
+            }, [currentTime, keyframes]);
+
+            // Dragging Logic
+            const handleTimelineMouseDown = (e, type = null) => {
+                // Support Touch Events
+                const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+                
+                if (type) {
+                    e.stopPropagation();
+                    draggingTrimRef.current = type;
+                } else {
+                    if (draggingKeyframeIdRef.current) return;
+                    isDraggingRef.current = true;
+                }
+                handleTimelineMove(e);
+            };
+            
+            const handleTimelineMove = (e) => {
+                if (!timelineRef.current) return;
+                
+                const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+                const rect = timelineRef.current.getBoundingClientRect();
+                const pos = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width));
+                const time = pos * duration;
+
+                if (draggingTrimRef.current) {
+                    setTrim(prev => {
+                        let newTrim = { ...prev };
+                        if (draggingTrimRef.current === 'start') {
+                            newTrim.start = Math.min(time, prev.end - 0.5);
+                        } else {
+                            newTrim.end = Math.max(time, prev.start + 0.5);
+                        }
+                        return newTrim;
+                    });
+                } else if (draggingKeyframeIdRef.current) {
+                    // Dragging keyframe
+                    updateKeyframe(draggingKeyframeIdRef.current, { time });
+                } else if (isDraggingRef.current) {
+                    // Dragging playhead
+                    if (videoRef.current) videoRef.current.currentTime = time;
+                }
+            };
+
+            const handleTimelineMouseUp = () => {
+                isDraggingRef.current = false;
+                draggingKeyframeIdRef.current = null;
+                draggingTrimRef.current = null;
+            };
+
+            useEffect(() => {
+                window.addEventListener('mousemove', handleTimelineMove);
+                window.addEventListener('mouseup', handleTimelineMouseUp);
+                window.addEventListener('touchmove', handleTimelineMove, { passive: false });
+                window.addEventListener('touchend', handleTimelineMouseUp);
+                return () => {
+                    window.removeEventListener('mousemove', handleTimelineMove);
+                    window.removeEventListener('mouseup', handleTimelineMouseUp);
+                    window.removeEventListener('touchmove', handleTimelineMove);
+                    window.removeEventListener('touchend', handleTimelineMouseUp);
+                };
+            }, [duration, keyframes]);
+
+            return (
+                <div className="lg:h-[calc(100vh-6rem)] h-auto flex flex-col gap-4 animate-fade-in pb-20 lg:pb-0">
+                    {/* Top Bar */}
+                    <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between bg-white px-4 sm:px-6 py-3 rounded-xl border border-slate-200 shadow-sm shrink-0 gap-4 sm:gap-0 dark:bg-slate-800 dark:border-slate-700">
+                        <div className="flex items-center gap-4 w-full sm:w-auto justify-between sm:justify-start">
+                            <div className="flex items-center gap-4">
+                                <Button variant="ghost" onClick={onBack} icon={ChevronLeft} className="shrink-0">返回</Button>
+                                <div className="h-6 w-px bg-slate-200 dark:bg-slate-700 shrink-0"></div>
+                                <div className="flex flex-col min-w-0">
+                                    <h2 className="font-bold text-slate-800 truncate max-w-[150px] sm:max-w-xs dark:text-white">{recording.title}</h2>
+                                    <span className="text-xs text-slate-500 font-mono hidden sm:block dark:text-slate-400">{recording.slug}</span>
+                                </div>
+                            </div>
+                            {/* Mobile Theme Toggle */}
+                            <div className="sm:hidden">
+                                <HeaderControls theme={theme} toggleTheme={toggleTheme} />
+                            </div>
+                        </div>
+                        
+                        <div className="flex gap-2 items-center w-full sm:w-auto justify-end">
+                            <div className="hidden sm:block">
+                                <HeaderControls theme={theme} toggleTheme={toggleTheme} />
+                            </div>
+                            <div className="hidden sm:block w-px h-6 bg-slate-200 dark:bg-slate-700 mx-2"></div>
+                             <div className="flex bg-slate-100 rounded-lg p-1 mr-2 sm:mr-4 shrink-0 dark:bg-slate-900">
+                                <button onClick={() => setActiveTab('editor')} className={`px-2 sm:px-3 py-1.5 rounded-md text-xs sm:text-sm font-medium transition-all ${activeTab === 'editor' ? 'bg-white text-slate-900 shadow-sm dark:bg-slate-700 dark:text-white' : 'text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200'}`}>编辑</button>
+                                <button onClick={() => setActiveTab('notes')} className={`px-2 sm:px-3 py-1.5 rounded-md text-xs sm:text-sm font-medium transition-all ${activeTab === 'notes' ? 'bg-white text-slate-900 shadow-sm dark:bg-slate-700 dark:text-white' : 'text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200'}`}>备注</button>
+                            </div>
+                            <Button 
+                                onClick={() => {
+                                    setIsExporting(true);
+                                    onExport({ trim, keyframes, duration, url: recording.url, setProgress: setExportProgress })
+                                        .finally(() => setIsExporting(false));
+                                }} 
+                                disabled={isExporting} 
+                                icon={Download}
+                                className={`shrink-0 ${isExporting ? "opacity-80 cursor-wait" : ""}`}
+                            >
+                                {isExporting ? `${Math.round(exportProgress)}%` : <span className="hidden sm:inline">导出 MP4</span>}
+                                {!isExporting && <span className="sm:hidden">导出</span>}
+                            </Button>
+                        </div>
+                    </div>
+
+                    {activeTab === 'editor' ? (
+                        <div className="flex-grow grid grid-cols-1 lg:grid-cols-3 gap-6 lg:min-h-0">
+                            {/* Main Preview Area */}
+                            <div className="lg:col-span-2 flex flex-col gap-4 h-[60vh] lg:h-full lg:min-h-0">
+                                <div className="flex-grow bg-slate-950 rounded-xl overflow-hidden relative flex items-center justify-center border border-slate-800 shadow-inner group min-h-0">
+                                    <video 
+                                        ref={videoRef}
+                                        src={recording.url}
+                                        className="max-w-full max-h-full object-contain"
+                                        style={{ transform: `scale(${currentTransform.scale}) translate(${currentTransform.x}%, ${currentTransform.y}%)`, transition: isPlaying ? 'none' : 'transform 0.1s' }}
+                                        onLoadedMetadata={e => setDuration(e.target.duration)}
+                                        onTimeUpdate={handleTimeUpdate}
+                                        onEnded={() => setIsPlaying(false)}
+                                    />
+                                    <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-4 bg-slate-900/80 backdrop-blur text-white px-6 py-3 rounded-full opacity-0 group-hover:opacity-100 transition-opacity">
+                                        <button onClick={togglePlay}><Icon icon={isPlaying ? Pause : Play} /></button>
+                                        <span className="font-mono text-sm">{formatTime(currentTime)} / {formatTime(duration)}</span>
+                                    </div>
+                                </div>
+                                
+                                {/* Timeline */}
+                                <div className="bg-white p-4 rounded-xl border border-slate-200 h-28 relative select-none shrink-0 dark:bg-slate-800 dark:border-slate-700"
+                                     ref={timelineRef}
+                                     onMouseDown={handleTimelineMouseDown}
+                                     onTouchStart={handleTimelineMouseDown}
+                                     >
+                                    <div className="absolute inset-x-6 top-1/2 h-2 bg-slate-100 rounded-full overflow-visible dark:bg-slate-700">
+                                        {/* Trim Masks */}
+                                        <div className="absolute inset-y-0 left-0 bg-slate-300/50 z-10 rounded-l-full pointer-events-none dark:bg-slate-900/50" style={{ width: `${(trim.start/duration)*100}%` }}></div>
+                                        <div className="absolute inset-y-0 right-0 bg-slate-300/50 z-10 rounded-r-full pointer-events-none dark:bg-slate-900/50" style={{ left: `${(trim.end/duration)*100}%` }}></div>
+
+                                        {/* Trim Handles */}
+                                        <div 
+                                             className="absolute top-1/2 h-8 w-4 bg-white border border-slate-300 rounded-l-md cursor-ew-resize z-30 flex items-center justify-center group hover:border-blue-500 transition-colors dark:bg-slate-700 dark:border-slate-600"
+                                             style={{ left: `${(trim.start/duration)*100}%`, transform: 'translate(-100%, -50%)' }}
+                                             onMouseDown={(e) => handleTimelineMouseDown(e, 'start')}
+                                             onTouchStart={(e) => handleTimelineMouseDown(e, 'start')}
+                                             title={`开始: ${formatTime(trim.start)}`}
+                                        >
+                                            <div className="w-1 h-3 bg-slate-300 rounded-full group-hover:bg-blue-500 dark:bg-slate-500"></div>
+                                        </div>
+                                        <div 
+                                             className="absolute top-1/2 h-8 w-4 bg-white border border-slate-300 rounded-r-md cursor-ew-resize z-30 flex items-center justify-center group hover:border-blue-500 transition-colors dark:bg-slate-700 dark:border-slate-600"
+                                             style={{ left: `${(trim.end/duration)*100}%`, transform: 'translate(0, -50%)' }}
+                                             onMouseDown={(e) => handleTimelineMouseDown(e, 'end')}
+                                             onTouchStart={(e) => handleTimelineMouseDown(e, 'end')}
+                                             title={`结束: ${formatTime(trim.end)}`}
+                                        >
+                                            <div className="w-1 h-3 bg-slate-300 rounded-full group-hover:bg-blue-500 dark:bg-slate-500"></div>
+                                        </div>
+
+                                        <div className="h-full bg-slate-900/10 rounded-full dark:bg-white/20" style={{ width: `${(currentTime/duration)*100}%` }}></div>
+                                        
+                                        {/* Playhead */}
+                                        <div className="absolute top-1/2 w-4 h-4 bg-white border-2 border-red-500 rounded-full -translate-y-1/2 cursor-grab active:cursor-grabbing z-20" 
+                                             style={{ left: `calc(${(currentTime/duration)*100}% - 8px)` }}>
+                                             <div className="absolute top-full left-1/2 w-px h-8 bg-red-500/50 -translate-x-1/2 pointer-events-none"></div>
+                                        </div>
+
+                                        {/* Keyframe Dots */}
+                                        {keyframes.map(kf => (
+                                            <div key={kf.id} 
+                                                 className={`absolute top-1/2 w-3 h-3 rounded-full -translate-y-1/2 -ml-1.5 cursor-pointer z-10 transition-transform hover:scale-150 ${selectedKeyframeId === kf.id ? 'bg-blue-600 ring-2 ring-blue-200 dark:ring-blue-900' : 'bg-blue-400'}`}
+                                                 style={{ left: `${(kf.time/duration)*100}%` }}
+                                                 onMouseDown={(e) => { 
+                                                     e.stopPropagation(); 
+                                                     setSelectedKeyframeId(kf.id); 
+                                                     draggingKeyframeIdRef.current = kf.id;
+                                                     videoRef.current.currentTime = kf.time; 
+                                                 }}
+                                                 onTouchStart={(e) => {
+                                                     e.stopPropagation();
+                                                     setSelectedKeyframeId(kf.id);
+                                                     draggingKeyframeIdRef.current = kf.id;
+                                                     videoRef.current.currentTime = kf.time;
+                                                 }}
+                                            />
+                                        ))}
+                                    </div>
+                                    <div className="absolute bottom-2 left-6 right-6 flex justify-between text-[10px] text-slate-400 font-mono pointer-events-none">
+                                        <span>00:00</span>
+                                        <span>{formatTime(duration)}</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Properties Panel */}
+                            <Card title="关键帧属性" className="h-full">
+                                <div className="space-y-6">
+                                    <Button onClick={addKeyframe} variant="secondary" className="w-full" icon={Plus}>在此处添加关键帧</Button>
+                                    
+                                    {selectedKeyframe ? (
+                                        <div className="space-y-4 animate-fade-in bg-slate-50 p-4 rounded-lg border border-slate-100 dark:bg-slate-900 dark:border-slate-700">
+                                            <div className="flex justify-between items-center">
+                                                <span className="text-sm font-medium text-blue-600 dark:text-blue-400">时间点: {formatTime(selectedKeyframe.time)}</span>
+                                                <button onClick={() => deleteKeyframe(selectedKeyframe.id)} className="text-red-500 hover:bg-red-50 p-1 rounded dark:hover:bg-red-900/20"><Icon icon={Trash2} size={16}/></button>
+                                            </div>
+                                            <div className="space-y-3">
+                                                <div><label className="text-xs text-slate-500 dark:text-slate-400">缩放 (x{selectedKeyframe.scale.toFixed(1)})</label><input type="range" min="1" max="3" step="0.1" value={selectedKeyframe.scale} onChange={e => updateKeyframe(selectedKeyframe.id, {scale: parseFloat(e.target.value)})} className="w-full"/></div>
+                                                <div><label className="text-xs text-slate-500 dark:text-slate-400">X 偏移</label><input type="range" min="-50" max="50" value={selectedKeyframe.x} onChange={e => updateKeyframe(selectedKeyframe.id, {x: parseFloat(e.target.value)})} className="w-full"/></div>
+                                                <div><label className="text-xs text-slate-500 dark:text-slate-400">Y 偏移</label><input type="range" min="-50" max="50" value={selectedKeyframe.y} onChange={e => updateKeyframe(selectedKeyframe.id, {y: parseFloat(e.target.value)})} className="w-full"/></div>
+                                            </div>
+                                        </div>
+                                    ) : (
+                                        <div className="flex flex-col items-center justify-center py-10 text-slate-400">
+                                            <Icon icon={Settings} size={32} className="mb-2 opacity-50"/>
+                                            <p className="text-sm">选择或添加关键帧以编辑动画</p>
+                                        </div>
+                                    )}
+
+                                    <div className="border-t border-slate-100 pt-4 dark:border-slate-700">
+                                        <h4 className="text-xs font-bold text-slate-400 uppercase mb-3">关键帧列表</h4>
+                                        <div className="space-y-1 max-h-[300px] overflow-y-auto pr-2">
+                                            {keyframes.map(kf => (
+                                                <div key={kf.id} onClick={() => { setSelectedKeyframeId(kf.id); if(videoRef.current) videoRef.current.currentTime = kf.time; }}
+                                                     className={`flex items-center p-2 rounded-lg text-xs cursor-pointer transition-colors ${selectedKeyframeId === kf.id ? 'bg-slate-100 text-slate-900 font-bold border border-slate-200 dark:bg-slate-700 dark:text-white dark:border-slate-600' : 'text-slate-500 hover:bg-slate-50 border border-transparent dark:text-slate-400 dark:hover:bg-slate-800'}`}>
+                                                    <span className="font-mono">{formatTime(kf.time)}</span>
+                                                    <div className="ml-auto flex items-center gap-2">
+                                                        <span className="bg-slate-200 px-1.5 rounded text-[10px] dark:bg-slate-700 dark:text-slate-300">x{kf.scale}</span>
+                                                    </div>
+                                                </div>
+                                            ))}
+                                            {keyframes.length === 0 && <div className="text-xs text-slate-300 text-center py-2">无关键帧</div>}
+                                        </div>
+                                    </div>
+                                </div>
+                            </Card>
+                        </div>
+                    ) : (
+                        <div className="flex-grow bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden flex flex-col dark:bg-slate-800 dark:border-slate-700">
+                             <ByteMDEditor value={markdown} onChange={setMarkdown} />
+                        </div>
+                    )}
+                </div>
+            );
+        };
+
+        const HeaderControls = ({ theme, toggleTheme }) => (
+            <div className="flex items-center gap-2">
+                <a href="https://github.com/sky22333/tools" target="_blank" className="p-2 text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white transition-colors" title="GitHub">
+                    <Icon icon={Github} size={20} />
+                </a>
+                <button onClick={toggleTheme} className="p-2 text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white transition-colors" title={theme === 'dark' ? '切换亮色主题' : '切换暗色主题'}>
+                    <Icon icon={theme === 'dark' ? Sun : Moon} size={20} />
+                </button>
+            </div>
+        );
+
+        const App = () => {
+            const [view, setView] = useState('dashboard');
+            const [isSetupOpen, setIsSetupOpen] = useState(false);
+            const [isRecording, setIsRecording] = useState(false);
+            const [isStarting, setIsStarting] = useState(false);
+            const [theme, setTheme] = useState(() => {
+                if (typeof window !== 'undefined') {
+                    const saved = localStorage.getItem('theme');
+                    if (saved) return saved;
+                    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) return 'dark';
+                }
+                return 'light';
+            });
+
+            useEffect(() => {
+                if (theme === 'dark') {
+                    document.documentElement.classList.add('dark');
+                } else {
+                    document.documentElement.classList.remove('dark');
+                }
+                localStorage.setItem('theme', theme);
+            }, [theme]);
+
+            const toggleTheme = () => setTheme(t => t === 'light' ? 'dark' : 'light');
+            
+            // Mock Data
+            const [recordings, setRecordings] = useState([]);
+            const [activeRecording, setActiveRecording] = useState(null);
+
+            // Load recordings from IndexedDB
+            useEffect(() => {
+                const loadRecordings = async () => {
+                    try {
+                        const saved = await dbHelper.getAll();
+                        // Regenerate URLs for blobs
+                        const recovered = saved.map(rec => ({
+                            ...rec,
+                            url: URL.createObjectURL(rec.blob)
+                        }));
+                        // Sort by new to old
+                        recovered.sort((a, b) => b.id - a.id);
+                        setRecordings(recovered);
+                    } catch (err) {
+                        console.error("Failed to load recordings from DB:", err);
+                    }
+                };
+                loadRecordings();
+            }, []);
+
+            // Config State
+            const [config, setConfig] = useState(() => {
+                if (typeof window !== 'undefined') {
+                    const saved = localStorage.getItem('recorder_config');
+                    if (saved) {
+                        try { return JSON.parse(saved); } catch (e) { console.error("Config parse error", e); }
+                    }
+                }
+                return { micEnabled: true, systemAudioEnabled: true, micVolume: 1.0, resolution: '1080p', frameRate: '30', source: 'screen', facingMode: 'user' };
+            });
+
+            useEffect(() => {
+                localStorage.setItem('recorder_config', JSON.stringify(config));
+            }, [config]);
+
+            // Recording Logic
+            const mediaRecorderRef = useRef(null);
+            const audioContextRef = useRef(null);
+            const streamRef = useRef(null);
+            const timerRef = useRef(null);
+            const [recordingDuration, setRecordingDuration] = useState('00:00');
+            const [previewStream, setPreviewStream] = useState(null);
+
+            const startRecording = async () => {
+                if (isRecording || isStarting) return;
+                setIsStarting(true);
+                try {
+                    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                    audioContextRef.current = audioCtx;
+                    
+                    let mainStream;
+                    
+                    if (config.source === 'camera') {
+                        // Camera Recording
+                        const constraints = {
+                            video: { 
+                                facingMode: config.facingMode,
+                                width: config.resolution === '4k' ? 3840 : (config.resolution === '1080p' ? 1920 : 1280),
+                                height: config.resolution === '4k' ? 2160 : (config.resolution === '1080p' ? 1080 : 720),
+                                frameRate: parseInt(config.frameRate)
+                            },
+                            audio: config.micEnabled ? {
+                                echoCancellation: true,
+                                noiseSuppression: true
+                            } : false
+                        };
+                        mainStream = await navigator.mediaDevices.getUserMedia(constraints);
+                        setPreviewStream(mainStream);
+                    } else {
+                        // Screen Recording
+                        mainStream = await navigator.mediaDevices.getDisplayMedia({
+                            video: { frameRate: parseInt(config.frameRate) },
+                            audio: config.systemAudioEnabled
+                        });
+                        // Stop recording if user clicks "Stop Sharing" browser UI
+                        mainStream.getVideoTracks()[0].onended = stopRecording;
+                    }
+                    
+                    const dest = audioCtx.createMediaStreamDestination();
+                    const masterGain = audioCtx.createGain();
+                    masterGain.connect(dest);
+
+                    // Mix Audio Sources
+                    if (config.source === 'screen' && config.systemAudioEnabled && mainStream.getAudioTracks().length > 0) {
+                        const sysSource = audioCtx.createMediaStreamSource(mainStream);
+                        sysSource.connect(masterGain);
+                    }
+
+                    // For Screen Recording, Mic is separate stream. For Camera, audio is already in mainStream if requested.
+                    if (config.source === 'screen' && config.micEnabled) {
+                        try {
+                            const micStream = await navigator.mediaDevices.getUserMedia({ 
+                                audio: { echoCancellation: true, noiseSuppression: true } 
+                            });
+                            const micSource = audioCtx.createMediaStreamSource(micStream);
+                            const micGain = audioCtx.createGain();
+                            micGain.gain.value = config.micVolume;
+                            micSource.connect(micGain).connect(masterGain);
+                            
+                            // Combine tracks for cleanup later
+                            streamRef.current = new MediaStream([...mainStream.getTracks(), ...micStream.getTracks()]);
+                        } catch (e) {
+                            console.warn("Mic error", e);
+                            streamRef.current = mainStream;
+                        }
+                    } else if (config.source === 'camera' && config.micEnabled) {
+                        // For camera, if audio track exists, route it through gain node if we want volume control, 
+                        // but usually it's direct. To keep consistent architecture:
+                        if (mainStream.getAudioTracks().length > 0) {
+                            const micSource = audioCtx.createMediaStreamSource(mainStream);
+                             const micGain = audioCtx.createGain();
+                            micGain.gain.value = config.micVolume;
+                            micSource.connect(micGain).connect(masterGain);
+                        }
+                        streamRef.current = mainStream;
+                    } else {
+                        streamRef.current = mainStream;
+                    }
+
+                    // Final stream to record
+                    // For Camera: Use video from mainStream + mixed audio
+                    // For Screen: Use video from mainStream + mixed audio
+                    const finalStream = new MediaStream([
+                        ...mainStream.getVideoTracks(),
+                        ...dest.stream.getAudioTracks()
+                    ]);
+
+                    const recorder = new MediaRecorder(finalStream, {
+                        mimeType: MediaRecorder.isTypeSupported('video/webm;codecs=vp9') ? 'video/webm;codecs=vp9' : 'video/webm'
+                    });
+
+                    const chunks = [];
+                    recorder.ondataavailable = e => { if (e.data.size > 0) chunks.push(e.data); };
+                    recorder.onstop = async () => {
+                        const blob = new Blob(chunks, { type: 'video/webm' });
+                        const url = URL.createObjectURL(blob);
+                        const newRec = {
+                            id: Date.now(),
+                            title: `${config.source === 'camera' ? '摄像头录像' : '我的录屏'} ${recordings.length + 1}`,
+                            slug: `/recordings/${config.source === 'camera' ? 'camera' : 'screen'}-${Date.now().toString().slice(-4)}`,
+                            date: new Date().toLocaleDateString(),
+                            duration: recordingDuration,
+                            status: 'draft',
+                            type: 'video',
+                            url: url,
+                            blob: blob,
+                            notes: ''
+                        };
+                        
+                        await dbHelper.add(newRec); // Save to DB
+                        
+                        setRecordings(prev => [newRec, ...prev]);
+                        setActiveRecording(newRec);
+                        setIsRecording(false);
+                        setPreviewStream(null);
+                        setIsSetupOpen(false);
+                        setView('editor');
+                        if (streamRef.current) streamRef.current.getTracks().forEach(t => t.stop());
+                        if (audioContextRef.current) audioContextRef.current.close();
+                        if (timerRef.current) clearInterval(timerRef.current);
+                    };
+
+                    recorder.start();
+                    mediaRecorderRef.current = recorder;
+                    setIsRecording(true);
+                    setIsSetupOpen(false);
+                    
+                    const startTime = Date.now();
+                    timerRef.current = setInterval(() => {
+                        const diff = Math.floor((Date.now() - startTime) / 1000);
+                        const m = Math.floor(diff / 60).toString().padStart(2, '0');
+                        const s = (diff % 60).toString().padStart(2, '0');
+                        setRecordingDuration(`${m}:${s}`);
+                    }, 1000);
+
+                } catch (err) {
+                    console.error(err);
+                    alert("启动录制失败: " + err.message);
+                } finally {
+                    setIsStarting(false);
+                }
+            };
+
+            const stopRecording = () => {
+                if (mediaRecorderRef.current && mediaRecorderRef.current.state !== 'inactive') {
+                    mediaRecorderRef.current.stop();
+                }
+            };
+            
+            const handleSnapshot = async () => {
+                try {
+                    const stream = await navigator.mediaDevices.getDisplayMedia({
+                        video: { 
+                            width: { ideal: 3840 },
+                            height: { ideal: 2160 }, 
+                            frameRate: 30 
+                        },
+                        audio: false,
+                        preferCurrentTab: false
+                    });
+                    
+                    const track = stream.getVideoTracks()[0];
+                    
+                    const video = document.createElement('video');
+                    video.autoplay = true;
+                    video.muted = true;
+                    video.srcObject = stream;
+                    
+                    // Robust waiting mechanism
+                    await new Promise((resolve, reject) => {
+                        let timeout = setTimeout(() => reject(new Error("Video load timeout")), 5000);
+                        video.onloadedmetadata = () => {
+                            clearTimeout(timeout);
+                            video.play().then(resolve).catch(reject);
+                        };
+                        // In case metadata is already loaded
+                        if (video.readyState >= 1) {
+                            clearTimeout(timeout);
+                            video.play().then(resolve).catch(reject);
+                        }
+                    });
+
+                    // Wait for actual frame data (fix for black screen)
+                    await new Promise(resolve => {
+                        let attempts = 0;
+                        const check = () => {
+                            attempts++;
+                            // Check if video has dimensions and data (HAVE_CURRENT_DATA = 2)
+                            if (video.readyState >= 2 && video.videoWidth > 0) {
+                                // Extra buffer to ensure frame is rendered and not black
+                                setTimeout(resolve, 500); 
+                            } else if (attempts > 50) { // 5 seconds max
+                                console.warn("Timeout waiting for video data");
+                                resolve();
+                            } else {
+                                setTimeout(check, 100);
+                            }
+                        };
+                        check();
+                    });
+                    
+                    const canvas = document.createElement('canvas');
+                    canvas.width = video.videoWidth;
+                    canvas.height = video.videoHeight;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(video, 0, 0);
+                    
+                    track.stop();
+                    video.srcObject = null;
+                    video.remove();
+                    
+                    canvas.toBlob(async (blob) => {
+                         if (!blob) {
+                             alert("截图生成失败");
+                             return;
+                         }
+                         const url = URL.createObjectURL(blob);
+                         const newRec = {
+                            id: Date.now(),
+                            title: `网页截图 ${recordings.length + 1}`,
+                            slug: `/snapshots/img-${Date.now().toString().slice(-4)}`,
+                            date: new Date().toLocaleDateString(),
+                            status: 'draft',
+                            type: 'image',
+                            url: url,
+                            blob: blob,
+                            notes: ''
+                        };
+                        
+                        await dbHelper.add(newRec);
+                        setRecordings(prev => [newRec, ...prev]);
+                        setActiveRecording(newRec);
+                        setView('image-editor');
+                    }, 'image/png');
+
+                } catch (err) {
+                    console.error("Snapshot failed", err);
+                    if (err.name !== 'NotAllowedError') {
+                        alert("截图失败: " + err.message);
+                    }
+                }
+            };
+
+            const handleExport = async ({ trim, keyframes, duration, url, setProgress }) => {
+                if (!url) return;
+                setProgress(0);
+                
+                try {
+                    const video = document.createElement('video');
+                    video.src = url;
+                    video.muted = true;
+                    await new Promise(r => { video.onloadedmetadata = r; });
+                    
+                    const audioCtx = new AudioContext();
+                    const ab = await (await fetch(url)).arrayBuffer();
+                    const audioBuffer = await audioCtx.decodeAudioData(ab);
+                    await audioCtx.close();
+
+                    // Resolution Logic (Intelligent Adaptation)
+                    // Auto-adapt to host resolution aspect ratio to avoid stretching
+                    const sourceWidth = video.videoWidth;
+                    const sourceHeight = video.videoHeight;
+                    const sourceAspectRatio = sourceWidth / sourceHeight;
+
+                    let maxW, maxH;
+                    if (config.resolution === '4k') { maxW = 3840; maxH = 2160; }
+                    else if (config.resolution === '1080p') { maxW = 1920; maxH = 1080; }
+                    else if (config.resolution === '720p') { maxW = 1280; maxH = 720; }
+                    else { maxW = sourceWidth; maxH = sourceHeight; }
+
+                    let targetWidth = maxW;
+                    let targetHeight = maxH;
+
+                    // Fit source into bounding box while maintaining aspect ratio
+                    if (sourceWidth > 0 && sourceHeight > 0) {
+                        if (sourceWidth / maxW > sourceHeight / maxH) {
+                             // Width is the limiting factor
+                             targetWidth = maxW;
+                             targetHeight = Math.round(maxW / sourceAspectRatio);
+                        } else {
+                             // Height is the limiting factor
+                             targetHeight = maxH;
+                             targetWidth = Math.round(maxH * sourceAspectRatio);
+                        }
+                    }
+
+                    // Ensure even dimensions for codecs
+                    targetWidth = targetWidth % 2 === 0 ? targetWidth : targetWidth - 1;
+                    targetHeight = targetHeight % 2 === 0 ? targetHeight : targetHeight - 1;
+                    
+                    const targetFps = parseInt(config.frameRate) || 30;
+                    
+                    // --- Worker Code ---
+                    const workerCode = `
+                        importScripts("https://cdn.jsdelivr.net/npm/mp4-muxer@5.1.0/build/mp4-muxer.min.js");
+
+                        let canvas, gl, muxer, videoEncoder, audioEncoder;
+                        let writableStream = null;
+                        let frameCounter = 0;
+
+                        // Vertex Shader: Applies Scale and Translation
+                        const vsSource = \`
+                            attribute vec2 a_position;
+                            attribute vec2 a_texCoord;
+                            varying vec2 v_texCoord;
+                            uniform vec2 u_scale;
+                            uniform vec2 u_translation;
+                            
+                            void main() {
+                                // Scale is around center (0,0), then translate
+                                vec2 scaled = a_position * u_scale;
+                                vec2 translated = scaled + u_translation;
+                                gl_Position = vec4(translated, 0, 1);
+                                v_texCoord = a_texCoord;
+                            }
+                        \`;
+
+                        const fsSource = \`
+                            precision mediump float;
+                            varying vec2 v_texCoord;
+                            uniform sampler2D u_texture;
+                            
+                            void main() {
+                                gl_FragColor = texture2D(u_texture, v_texCoord);
+                            }
+                        \`;
+
+                        function initWebGL(width, height) {
+                            canvas = new OffscreenCanvas(width, height);
+                            gl = canvas.getContext('webgl');
+                            if (!gl) throw new Error("WebGL not supported in Worker");
+
+                            // Create Shaders
+                            const vs = gl.createShader(gl.VERTEX_SHADER);
+                            gl.shaderSource(vs, vsSource);
+                            gl.compileShader(vs);
+                            if (!gl.getShaderParameter(vs, gl.COMPILE_STATUS)) throw new Error(gl.getShaderInfoLog(vs));
+
+                            const fs = gl.createShader(gl.FRAGMENT_SHADER);
+                            gl.shaderSource(fs, fsSource);
+                            gl.compileShader(fs);
+                            if (!gl.getShaderParameter(fs, gl.COMPILE_STATUS)) throw new Error(gl.getShaderInfoLog(fs));
+
+                            const program = gl.createProgram();
+                            gl.attachShader(program, vs);
+                            gl.attachShader(program, fs);
+                            gl.linkProgram(program);
+                            if (!gl.getProgramParameter(program, gl.LINK_STATUS)) throw new Error(gl.getProgramInfoLog(program));
+                            gl.useProgram(program);
+
+                            // Buffers
+                            const positions = new Float32Array([
+                                -1.0, -1.0,
+                                 1.0, -1.0,
+                                -1.0,  1.0,
+                                 1.0,  1.0,
+                            ]);
+                            const texCoords = new Float32Array([
+                                0.0, 1.0,
+                                1.0, 1.0,
+                                0.0, 0.0,
+                                1.0, 0.0,
+                            ]);
+
+                            const pBuf = gl.createBuffer();
+                            gl.bindBuffer(gl.ARRAY_BUFFER, pBuf);
+                            gl.bufferData(gl.ARRAY_BUFFER, positions, gl.STATIC_DRAW);
+                            const aPos = gl.getAttribLocation(program, 'a_position');
+                            gl.enableVertexAttribArray(aPos);
+                            gl.vertexAttribPointer(aPos, 2, gl.FLOAT, false, 0, 0);
+
+                            const tBuf = gl.createBuffer();
+                            gl.bindBuffer(gl.ARRAY_BUFFER, tBuf);
+                            gl.bufferData(gl.ARRAY_BUFFER, texCoords, gl.STATIC_DRAW);
+                            const aTex = gl.getAttribLocation(program, 'a_texCoord');
+                            gl.enableVertexAttribArray(aTex);
+                            gl.vertexAttribPointer(aTex, 2, gl.FLOAT, false, 0, 0);
+
+                            // Texture
+                            const texture = gl.createTexture();
+                            gl.bindTexture(gl.TEXTURE_2D, texture);
+                            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+                            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+                            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+                            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+
+                            return { program, texture };
+                        }
+
+                        self.onmessage = async (e) => {
+                            const { type, data } = e.data;
+
+                            if (type === 'init') {
+                                try {
+                                    const { width, height, fps, fileHandle, audioConfig } = data;
+                                    
+                                    // 1. Setup Output Target (Streaming IO)
+                                    let target;
+                                    if (fileHandle) {
+                                        writableStream = await fileHandle.createWritable();
+                                        target = new Mp4Muxer.FileSystemWritableFileStreamTarget(writableStream);
+                                    } else {
+                                        // Fallback for mobile/unsupported: In-Memory
+                                        target = new Mp4Muxer.ArrayBufferTarget();
+                                    }
+
+                                    // 2. Setup Muxer
+                                    muxer = new Mp4Muxer.Muxer({
+                                        target: target,
+                                        video: { codec: 'avc', width, height },
+                                        audio: { codec: 'aac', numberOfChannels: audioConfig.numberOfChannels, sampleRate: audioConfig.sampleRate },
+                                        fastStart: fileHandle ? false : 'in-memory' // Fragmented/Streaming for disk, In-Memory for fallback
+                                    });
+
+                                    // 3. Setup Encoders
+                                    videoEncoder = new VideoEncoder({
+                                        output: (chunk, meta) => muxer.addVideoChunk(chunk, meta),
+                                        error: e => self.postMessage({ type: 'error', message: e.message })
+                                    });
+                                    videoEncoder.configure({
+                                        codec: 'avc1.4d0033',
+                                        width, height,
+                                        bitrate: 10_000_000,
+                                        framerate: fps
+                                    });
+
+                                    audioEncoder = new AudioEncoder({
+                                        output: (chunk, meta) => muxer.addAudioChunk(chunk, meta),
+                                        error: e => self.postMessage({ type: 'error', message: e.message })
+                                    });
+                                    audioEncoder.configure({
+                                        codec: 'mp4a.40.2', 
+                                        numberOfChannels: audioConfig.numberOfChannels, 
+                                        sampleRate: audioConfig.sampleRate, 
+                                        bitrate: 128000
+                                    });
+
+                                    // 4. Setup WebGL
+                                    self.webgl = initWebGL(width, height);
+                                    self.width = width;
+                                    self.height = height;
+
+                                    self.postMessage({ type: 'ready' });
+
+                                } catch (err) {
+                                    self.postMessage({ type: 'error', message: err.message });
+                                }
+                            }
+
+                            if (type === 'encode-audio') {
+                                // Audio Streaming: Receive chunks of PCM data
+                                const { planarData, format, sampleRate, numberOfFrames, timestamp } = data;
+                                const audioData = new AudioData({
+                                    format,
+                                    sampleRate,
+                                    numberOfFrames,
+                                    numberOfChannels: planarData.length,
+                                    timestamp,
+                                    data: (() => {
+                                        // Flatten planar data for AudioData (interleaved or planar depending on format)
+                                        // WebCodecs AudioData usually expects one buffer.
+                                        // For 'f32-planar', we concatenate the channels.
+                                        const totalLen = planarData[0].length * planarData.length;
+                                        const buffer = new Float32Array(totalLen);
+                                        for (let i = 0; i < planarData.length; i++) {
+                                            buffer.set(planarData[i], i * planarData[0].length);
+                                        }
+                                        return buffer;
+                                    })()
+                                });
+                                audioEncoder.encode(audioData);
+                                audioData.close();
+                            }
+
+                            if (type === 'encode-video') {
+                                const { frame, transform, timestamp, keyFrame } = data;
+                                
+                                // GPU Acceleration: Render to OffscreenCanvas
+                                const { program, texture } = self.webgl;
+                                gl.activeTexture(gl.TEXTURE0);
+                                gl.bindTexture(gl.TEXTURE_2D, texture);
+                                gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, frame);
+                                
+                                const uScale = gl.getUniformLocation(program, 'u_scale');
+                                const uTrans = gl.getUniformLocation(program, 'u_translation');
+                                
+                                // Transform logic (scale, x, y are passed from main thread)
+                                // UI x/y are percentages (-50 to 50). WebGL Clip Space is -1 to 1.
+                                // Scale is 1.0 to 3.0.
+                                gl.uniform2f(uScale, transform.scale, transform.scale);
+                                gl.uniform2f(uTrans, transform.x / 50.0, -transform.y / 50.0); // Flip Y for WebGL
+                                
+                                gl.viewport(0, 0, self.width, self.height);
+                                gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+
+                                // Create VideoFrame from Canvas
+                                const newFrame = new VideoFrame(canvas, { timestamp });
+                                videoEncoder.encode(newFrame, { keyFrame });
+                                newFrame.close();
+                                frame.close(); // Close original frame
+                                
+                                self.postMessage({ type: 'progress', value: 1 }); // Increment progress
+                            }
+
+                            if (type === 'flush') {
+                                await videoEncoder.flush();
+                                await audioEncoder.flush();
+                                muxer.finalize();
+                                
+                                if (writableStream) {
+                                    await writableStream.close();
+                                }
+
+                                videoEncoder.close();
+                                audioEncoder.close();
+                                
+                                if (muxer.target instanceof Mp4Muxer.ArrayBufferTarget) {
+                                    self.postMessage({ type: 'done', buffer: muxer.target.buffer });
+                                } else {
+                                    self.postMessage({ type: 'done' });
+                                }
+                            }
+                        };
+                    `;
+
+                    // Create Worker
+                    const blob = new Blob([workerCode], { type: 'application/javascript' });
+                    const worker = new Worker(URL.createObjectURL(blob));
+
+                    // File System Access API (Streaming IO)
+                    let fileHandle = null;
+                    if ('showSaveFilePicker' in window) {
+                        try {
+                            fileHandle = await window.showSaveFilePicker({
+                                suggestedName: `video-${Date.now()}.mp4`,
+                                types: [{ description: 'MP4 Video', accept: { 'video/mp4': ['.mp4'] } }],
+                            });
+                        } catch (e) {
+                            console.log("User cancelled or API not supported, falling back to in-memory");
+                        }
+                    }
+
+                    // Init Worker
+                    worker.postMessage({
+                        type: 'init',
+                        data: {
+                            width: targetWidth, 
+                            height: targetHeight,
+                            fps: targetFps,
+                            fileHandle: fileHandle,
+                            audioConfig: { numberOfChannels: audioBuffer.numberOfChannels, sampleRate: audioBuffer.sampleRate }
+                        }
+                    });
+
+                    await new Promise((resolve, reject) => {
+                        worker.onmessage = e => {
+                            if (e.data.type === 'ready') resolve();
+                            if (e.data.type === 'error') reject(new Error(e.data.message));
+                        };
+                    });
+
+                    // --- Streaming Process ---
+                    
+                    // Audio Streaming (Chunk by Chunk)
+                    const trimStart = trim?.start || 0;
+                    const trimEnd = (trim?.end && trim.end > 0) ? trim.end : duration;
+                    const exportDuration = Math.max(0, trimEnd - trimStart);
+                    
+                    const audioChunkSize = audioBuffer.sampleRate; // 1s chunks
+                    const startSample = Math.floor(trimStart * audioBuffer.sampleRate);
+                    const endSample = Math.floor(trimEnd * audioBuffer.sampleRate);
+                    const totalSamples = endSample - startSample;
+
+                    for (let i = 0; i < totalSamples; i += audioChunkSize) {
+                        const size = Math.min(audioChunkSize, totalSamples - i);
+                        const currentSampleIndex = startSample + i;
+                        const planarData = [];
+                        for (let ch = 0; ch < audioBuffer.numberOfChannels; ch++) {
+                            const channelData = audioBuffer.getChannelData(ch);
+                            const chunk = new Float32Array(size);
+                            chunk.set(channelData.subarray(currentSampleIndex, currentSampleIndex + size));
+                            planarData.push(chunk);
+                        }
+                        
+                        worker.postMessage({
+                            type: 'encode-audio',
+                            data: {
+                                planarData,
+                                format: 'f32-planar',
+                                sampleRate: audioBuffer.sampleRate,
+                                numberOfFrames: size,
+                                timestamp: (i / audioBuffer.sampleRate) * 1e6
+                            }
+                        }, planarData.map(f32 => f32.buffer)); // Transfer buffers
+                    }
+
+                    // Video Streaming (Frame by Frame)
+                    const fps = 30;
+                    const totalFrames = Math.floor(exportDuration * fps);
+                    let processedFrames = 0;
+
+                    worker.onmessage = e => {
+                        if (e.data.type === 'progress') {
+                            processedFrames++;
+                            setProgress(Math.round((processedFrames / totalFrames) * 100));
+                        }
+                        if (e.data.type === 'done') {
+                            if (e.data.buffer) {
+                                // Fallback Download
+                                const blob = new Blob([e.data.buffer], { type: 'video/mp4' });
+                                const url = URL.createObjectURL(blob);
+                                const a = document.createElement('a');
+                                a.href = url;
+                                a.download = `exported-video-${Date.now()}.mp4`;
+                                a.click();
+                            }
+                            setProgress(100);
+                            worker.terminate();
+                        }
+                        if (e.data.type === 'error') {
+                            console.error("Worker Error:", e.data.message);
+                            alert("导出出错: " + e.data.message);
+                            worker.terminate();
+                        }
+                    };
+
+                    for (let i = 0; i < totalFrames; i++) {
+                        const timeRelativeToStart = i / targetFps;
+                        const actualTime = trimStart + timeRelativeToStart;
+
+                        video.currentTime = actualTime;
+                        await new Promise(r => { 
+                            const onSeek = () => { video.removeEventListener('seeked', onSeek); r(); };
+                            video.addEventListener('seeked', onSeek);
+                        });
+                        
+                        // Wait for frame to be ready (ensure repaint)
+                        // Using createImageBitmap or new VideoFrame from video element
+                        const frame = new VideoFrame(video, { timestamp: timeRelativeToStart * 1e6 });
+
+                        // Calculate Transform
+                        let scale = 1, x = 0, y = 0;
+                        if (keyframes.length > 0) {
+                             const sorted = keyframes;
+                             let prev = sorted[0], next = sorted[sorted.length-1];
+                             if (actualTime > sorted[0].time && actualTime < sorted[sorted.length-1].time) {
+                                for(let k=0; k<sorted.length-1; k++) {
+                                    if (actualTime >= sorted[k].time && actualTime < sorted[k+1].time) {
+                                        prev = sorted[k]; next = sorted[k+1]; break;
+                                    }
+                                }
+                             }
+                             if (actualTime <= sorted[0].time) { prev=sorted[0]; next=sorted[0]; }
+                             if (actualTime >= sorted[sorted.length-1].time) { prev=sorted[sorted.length-1]; next=sorted[sorted.length-1]; }
+
+                             const ratio = (next.time === prev.time) ? 0 : (actualTime - prev.time) / (next.time - prev.time);
+                             scale = prev.scale + (next.scale - prev.scale) * ratio;
+                             x = prev.x + (next.x - prev.x) * ratio;
+                             y = prev.y + (next.y - prev.y) * ratio;
+                        }
+
+                        worker.postMessage({
+                            type: 'encode-video',
+                            data: {
+                                frame,
+                                transform: { scale, x, y },
+                                timestamp: timeRelativeToStart * 1e6,
+                                keyFrame: i % targetFps === 0
+                            }
+                        }, [frame]); // Transfer Frame
+
+                        // Yield to main thread to prevent UI freezing
+                        await new Promise(r => setTimeout(r, 0));
+                    }
+
+                    worker.postMessage({ type: 'flush' });
+
+                } catch (err) {
+                    console.error(err);
+                    alert("导出失败: " + err.message);
+                }
+            };
+
+            return (
+                <div className="h-screen flex flex-col overflow-hidden font-sans text-slate-900 bg-gray-50 selection:bg-slate-900 selection:text-white dark:bg-slate-900 dark:text-white">
+                    {view === 'dashboard' && (
+                        <div className="flex-1 overflow-y-auto w-full">
+                            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                                <div className="mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                                    <div>
+                                        <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white">在线录屏工作室</h1>
+                                        <p className="text-slate-500 mt-1 dark:text-slate-400">一站式网页录屏、截图、编辑工具</p>
+                                    </div>
+                                    <HeaderControls theme={theme} toggleTheme={toggleTheme} />
+                                </div>
+                                <DashboardView 
+                                    recordings={recordings} 
+                                    onNewRecording={() => setIsSetupOpen(true)}
+                                    onSnapshot={handleSnapshot}
+                                    onEdit={(rec) => { setActiveRecording(rec); setView(rec.type === 'image' ? 'image-editor' : 'editor'); }}
+                                    onDelete={async (id) => {
+                                        await dbHelper.delete(id);
+                                        setRecordings(prev => prev.filter(r => r.id !== id));
+                                    }}
+                                    onPreview={(rec) => { setActiveRecording(rec); setView(rec.type === 'image' ? 'image-editor' : 'editor'); }}
+                                    isRecording={isRecording}
+                                />
+                            </div>
+                        </div>
+                    )}
+
+                    {view === 'editor' && activeRecording && (
+                        <div className="flex-1 w-full max-w-[1920px] mx-auto px-4 py-4 overflow-y-auto lg:overflow-hidden">
+                            <EditorView 
+                                recording={activeRecording} 
+                                onBack={() => { setView('dashboard'); setActiveRecording(null); }}
+                                onSave={() => { setView('dashboard'); }}
+                                onExport={handleExport}
+                                theme={theme}
+                                toggleTheme={toggleTheme}
+                            />
+                        </div>
+                    )}
+                    
+                    {view === 'image-editor' && activeRecording && (
+                         <div className="flex-1 w-full max-w-[1920px] mx-auto px-4 py-4 overflow-hidden">
+                            <ImageEditorView
+                                recording={activeRecording}
+                                onBack={() => { setView('dashboard'); setActiveRecording(null); }}
+                                onSave={(updated) => { 
+                                    setRecordings(prev => prev.map(r => r.id === updated.id ? updated : r));
+                                    setView('dashboard'); 
+                                }}
+                                theme={theme}
+                                toggleTheme={toggleTheme}
+                            />
+                        </div>
+                    )}
+
+                    {/* Setup Modal */}
+                    <Modal isOpen={isSetupOpen} onClose={() => setIsSetupOpen(false)} title="开始新的录制">
+                        <div className="space-y-6">
+                            <div className="space-y-4">
+                                {/* Source Selection */}
+                                <div className="space-y-1.5">
+                                    <label className="text-xs font-semibold text-slate-500 uppercase tracking-wider dark:text-slate-400">录制来源</label>
+                                    <div className="grid grid-cols-2 gap-2">
+                                        <button 
+                                            onClick={() => setConfig({...config, source: 'screen'})}
+                                            className={`flex items-center justify-center gap-2 p-3 rounded-xl border transition-all ${config.source === 'screen' ? 'bg-slate-900 text-white border-slate-900 dark:bg-blue-600 dark:border-blue-600' : 'bg-white text-slate-700 border-slate-200 hover:border-slate-300 dark:bg-slate-800 dark:text-slate-300 dark:border-slate-700'}`}
+                                        >
+                                            <Icon icon={Monitor} size={20} />
+                                            <span className="font-medium">屏幕录制</span>
+                                        </button>
+                                        <button 
+                                            onClick={() => setConfig({...config, source: 'camera'})}
+                                            className={`flex items-center justify-center gap-2 p-3 rounded-xl border transition-all ${config.source === 'camera' ? 'bg-slate-900 text-white border-slate-900 dark:bg-blue-600 dark:border-blue-600' : 'bg-white text-slate-700 border-slate-200 hover:border-slate-300 dark:bg-slate-800 dark:text-slate-300 dark:border-slate-700'}`}
+                                        >
+                                            <Icon icon={Camera} size={20} />
+                                            <span className="font-medium">摄像头</span>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                {config.source === 'camera' && (
+                                    <div className="space-y-1.5 animate-fade-in">
+                                        <label className="text-xs font-semibold text-slate-500 uppercase tracking-wider dark:text-slate-400">摄像头方向</label>
+                                        <div className="grid grid-cols-2 gap-2">
+                                            <button 
+                                                onClick={() => setConfig({...config, facingMode: 'user'})}
+                                                className={`p-2 text-sm rounded-lg border transition-all ${config.facingMode === 'user' ? 'bg-slate-100 border-slate-300 text-slate-900 font-medium dark:bg-slate-700 dark:border-slate-500 dark:text-white' : 'bg-white border-slate-200 text-slate-600 dark:bg-slate-800 dark:border-slate-700 dark:text-slate-400'}`}
+                                            >
+                                                前置 (User)
+                                            </button>
+                                            <button 
+                                                onClick={() => setConfig({...config, facingMode: 'environment'})}
+                                                className={`p-2 text-sm rounded-lg border transition-all ${config.facingMode === 'environment' ? 'bg-slate-100 border-slate-300 text-slate-900 font-medium dark:bg-slate-700 dark:border-slate-500 dark:text-white' : 'bg-white border-slate-200 text-slate-600 dark:bg-slate-800 dark:border-slate-700 dark:text-slate-400'}`}
+                                            >
+                                                后置 (Env)
+                                            </button>
+                                        </div>
+                                    </div>
+                                )}
+
+                                <div className="h-px bg-slate-100 dark:bg-slate-700 my-2"></div>
+
+                                <Toggle label="启用麦克风" checked={config.micEnabled} onChange={v => setConfig({...config, micEnabled: v})} />
+                                {config.micEnabled && (
+                                    <div className="animate-fade-in">
+                                        <label className="text-xs font-semibold text-slate-500 uppercase mb-1 block">麦克风音量</label>
+                                        <input type="range" min="0" max="2" step="0.1" value={config.micVolume} onChange={e => setConfig({...config, micVolume: parseFloat(e.target.value)})} className="w-full" />
+                                    </div>
+                                )}
+                                
+                                {config.source === 'screen' && (
+                                    <Toggle label="录制系统声音" checked={config.systemAudioEnabled} onChange={v => setConfig({...config, systemAudioEnabled: v})} />
+                                )}
+
+                                <Select label="分辨率" value={config.resolution} onChange={v => setConfig({...config, resolution: v})} options={[
+                                    {value: '1080p', label: '1080p (FHD)'},
+                                    {value: '720p', label: '720p (HD)'},
+                                    {value: '4k', label: '4k (UHD)'}
+                                ]} />
+                                 <Select label="帧率" value={config.frameRate} onChange={v => setConfig({...config, frameRate: v})} options={[
+                                    {value: '30', label: '30 FPS'},
+                                    {value: '60', label: '60 FPS'}
+                                ]} />
+                            </div>
+                            
+                            <div className="pt-4 flex justify-end gap-3">
+                                <Button variant="ghost" onClick={() => setIsSetupOpen(false)} disabled={isStarting}>取消</Button>
+                                <Button onClick={startRecording} icon={Video} className="bg-slate-900 text-white hover:bg-slate-800" disabled={isStarting}>
+                                    {isStarting ? '启动中...' : '开始录制'}
+                                </Button>
+                            </div>
+                        </div>
+                    </Modal>
+
+                    {/* Recording Overlay */}
+                    {isRecording && (
+                        <>
+                             {/* Camera Preview */}
+                             {previewStream && config.source === 'camera' && (
+                                <div className="fixed inset-0 z-40 bg-black">
+                                    <video
+                                        ref={ref => { if (ref && previewStream) ref.srcObject = previewStream; }}
+                                        autoPlay
+                                        muted
+                                        playsInline
+                                        className={`w-full h-full object-cover ${config.facingMode === 'user' ? 'scale-x-[-1]' : ''}`}
+                                    />
+                                </div>
+                             )}
+
+                             <div className="fixed bottom-8 right-8 bg-slate-900 text-white p-4 rounded-2xl shadow-2xl flex items-center gap-6 animate-slide-up z-50 border border-slate-700">
+                                <div className="flex items-center gap-3">
+                                    <div className="w-3 h-3 bg-red-500 rounded-full animate-pulse"></div>
+                                    <span className="font-mono font-medium text-lg">{recordingDuration}</span>
+                                </div>
+                                <div className="h-8 w-px bg-slate-700"></div>
+                                <button onClick={stopRecording} className="bg-white text-slate-900 px-4 py-2 rounded-lg font-bold hover:bg-slate-100 transition-colors shadow-lg">
+                                    停止录制
+                                </button>
+                            </div>
+                        </>
+                    )}
+                </div>
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
