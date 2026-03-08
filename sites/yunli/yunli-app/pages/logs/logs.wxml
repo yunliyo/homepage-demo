@@ -1,0 +1,7 @@
+<!--index.wxml-->
+<navigation-bar id="navigationBar" title="狸庐" back="{{true}}" home="{{true}}" color="black" background="#FFF"></navigation-bar>
+<scroll-view class="scrollarea" scroll-y type="list">
+  <view class="container">
+    狸庐
+  </view>
+</scroll-view>

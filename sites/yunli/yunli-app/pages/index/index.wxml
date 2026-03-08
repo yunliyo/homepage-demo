@@ -1,0 +1,28 @@
+<navigation-bar id="navigationBar" title="狸庐" back="{{true}}" home="{{true}}" color="black" background="#FFF"></navigation-bar>
+<scroll-view class="scrollarea" scroll-y type="list">
+  <view class="profile-container">
+    <image class="avatar" src="{{avatar}}" mode="aspectFill"></image>
+    <text class="nickname">{{nickname}}</text>
+    <text class="bio">{{bio}}</text>
+    <view class="social-icons">
+      <image src="/images/qq.png" bindtap="copyText" data-text="{{socials.qq}}"></image>
+      <image src="/images/weixin.png" bindtap="copyText" data-text="{{socials.wechat}}"></image>
+      <image src="/images/github.png" bindtap="copyURL" data-text="{{socials.github}}"></image>
+      <image src="/images/mail.png" bindtap="copyURL" data-text="{{socials.email}}"></image>
+    </view>
+    <view class="links-container">
+      <block wx:for="{{buttons}}" wx:key="index">
+        <view
+        class="link-item"
+        bindtap="{{item.copyText ? 'copyText' : 'navigateTo'}}"
+        data-text="{{item.copyText}}"
+        data-url="{{item.navigateTo}}"
+        ><text>{{item.text}}</text></view>
+      </block>
+    </view>
+    <view class="info">
+      <view class="yiyan">{{yiyan}}</view>
+      <view class="copyright" >{{copyright}}</view>
+    </view>
+  </view>
+</scroll-view>

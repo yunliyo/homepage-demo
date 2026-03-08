@@ -1,0 +1,73 @@
+<navigation-bar id="navigationBar" title="趣玩" back="{{true}}" home="{{true}}" color="black" background="#FFF"></navigation-bar>
+<view class="tool-container">
+  <!-- 轮播图板块 -->
+  <view class="banner-section">
+    <swiper
+      class="banner-swiper"
+      indicator-dots="{{true}}"
+      indicator-color="rgba(0, 0, 0, 0.3)"
+      indicator-active-color="#d4a5c4"
+      autoplay="{{true}}"
+      interval="3000"
+      circular="{{true}}"
+    >
+      <swiper-item 
+        wx:for="{{banners}}" 
+        wx:key="id" 
+        class="banner-item"
+        bindtap="onBannerTap"
+        data-item="{{item}}"
+      >
+        <image class="banner-image" src="{{item.image}}" mode="aspectFill"></image>
+        <view class="banner-title">{{item.title}}</view>
+      </swiper-item>
+    </swiper>
+  </view>
+  <!-- 图标导航板块 -->
+  <view class="icon-nav-section">
+    <view class="icon-nav-title">{{iconNavTitle}}</view>
+    <view class="icon-nav-list">
+      <view 
+        class="icon-nav-item" 
+        wx:for="{{iconNavs}}" 
+        wx:key="id"
+        bindtap="onIconNavTap"
+        data-item="{{item}}"
+      >
+        <view class="icon-nav-icon">
+          <image src="{{item.icon}}" mode="aspectFit"></image>
+        </view>
+        <text class="icon-nav-name">{{item.name}}</text>
+      </view>
+    </view>
+  </view>
+  <!-- 卡片板块 -->
+  <view class="card-section">
+    <view class="card-title">{{cardTitle}}</view>
+    <view class="card-list">
+      <view 
+        class="card-item {{item.appId ? 'card-external' : ''}}" 
+        wx:for="{{cards}}" 
+        wx:key="id"
+        bindtap="onCardTap"
+        data-item="{{item}}"
+      >
+        <view class="card-image">
+          <image src="{{item.image}}" mode="aspectFill"></image>
+          <view class="card-badge" wx:if="{{item.appId}}">小程序</view>
+        </view>
+        <view class="card-content">
+          <view class="card-name">{{item.title}}</view>
+          <view class="card-desc">{{item.desc}}</view>
+        </view>
+      </view>
+    </view>
+  </view>
+  <!-- 即将上线更多工具 -->
+  <view class="more-section">
+    <view class="more-content">
+      <text class="more-text">即将上线更多工具</text>
+      <text class="more-desc">敬请期待</text>
+    </view>
+  </view>
+</view>

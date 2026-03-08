@@ -1,0 +1,70 @@
+/* index.wxss */
+page {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.scrollarea {
+  background: #f5f5d5;
+  font-family: "SimSun", "宋体", serif;
+  flex: 1;
+  overflow-y: auto;
+}
+
+.profile-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 20px;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.nickname {
+  font-size: 30px;
+  font-weight: bolder;
+  margin-top: 30px;
+  margin-bottom: 50px;
+  color: #000;
+  letter-spacing: 0.5px;
+}
+
+.links-container {
+  width: 100%;
+  max-width: 320px;
+}
+
+.link-item {
+  background-color: transparent;
+  border: 1.5px solid rgba(0,0,0);
+  border-radius: 28px;
+  padding: 18px;
+  margin-bottom: 16px;
+  text-align: center;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.link-item:active {
+  transform: scale(0.96);
+  background-color: rgba(0,0,0,0.03);
+}
+
+.link-item text {
+  font-size: 18px;
+  color: #000;
+  font-weight: bold;
+  letter-spacing: 0.3px;
+}
+
+.info {
+  margin-top: 20px;
+  font-size: 15px;
+  color: #666;
+  font-weight: lighter;
+  text-align: center;
+}
+
+.yiyan {
+  margin-bottom: 10px;
+}
