@@ -50,7 +50,7 @@
 <view class="modal-overlay" wx:if="{{showAbout}}" bindtap="closeAbout">
   <view class="modal-content modal-text-content" catchtap="stopPropagation">
     <view class="modal-title">关于</view>
-    <text class="modal-text">狸庐始创于2018年7月，是由独立开发者韵狸打造的诗意平台。</text>
+    <text class="modal-text">狸庐始创于2018年7月，是由个人开发者韵狸打造的诗意平台。</text>
     <view class="modal-close" bindtap="closeAbout">关闭</view>
   </view>
 </view>

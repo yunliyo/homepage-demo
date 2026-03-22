@@ -181,7 +181,7 @@ Page({
     // 关于我们
     aboutUs: {
       title: '关于我们',
-      content: '狸庐始创于2018年7月，是由独立开发者韵狸打造的诗意平台。',
+      content: '狸庐始创于2018年7月，是由个人开发者韵狸打造的诗意平台。',
       address: '中国重庆市渝中区大溪沟街道华福巷36号',
       phone: '13896074726',
       email: 'yunliyo@foxmail.com'

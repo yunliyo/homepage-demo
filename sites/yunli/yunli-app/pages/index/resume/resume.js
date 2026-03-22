@@ -67,7 +67,7 @@ Page({
       }
     ],
     workExperience: [
-      { company: '自由职业', position: '独立开发者', time: '2018.07-至今', description: '轻创业，设计、产品、技术、运营、市场、销售、法务、财税，什么都干' },
+      { company: '自由职业', position: '个人开发者', time: '2018.07-至今', description: '轻创业，设计、产品、技术、运营、市场、销售、法务、财税，什么都干' },
       { company: '华为', position: '技术文档工程师', time: '2018.03-2018.06', description: '实习' },
       { company: '京东方', position: '技术文档工程师', time: '2017.09-2017.12', description: '实习' }
     ],

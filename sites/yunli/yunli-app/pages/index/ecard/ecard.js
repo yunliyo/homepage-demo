@@ -15,10 +15,10 @@ Page({
     formattedJson: "",
     lineNumbers: [],
     showCursor: !0,
-    textContent: '狸庐始创于2018年7月，是由独立开发者韵狸打造的诗意平台.',
+    textContent: '狸庐始创于2018年7月，是由个人开发者韵狸打造的诗意平台.',
     name: '韵狸',
     company: '自由职业',
-    position: '独立开发者 & 诗人',
+    position: '个人开发者 & 诗人',
     description: '一个热爱诗词书画的程序员。',
     contacts: [
       { label: 'QQ', value: '1598712209' },

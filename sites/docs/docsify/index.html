@@ -1,0 +1,387 @@
+<!doctype html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1.0, shrink-to-fit=no, viewport-fit=cover">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="keywords" content="personal website,blog,note,poetry,iot,ict,technologies,communication,sensor,network,computer,electronic,embedded,One-man Company,One-man Enterprise,Super individual">
+  <meta name="description" content="A coder who loves poetry">
+  <title>狸庐</title>
+  <link rel="icon" href="./assets/icon/avatar.jpg" type="image/x-icon">
+  <!-- yunliyo主题css -->
+  <link rel="stylesheet" href="./assets/css/yunliyo.css">
+  <!-- 默认主题css -->
+  <!--link rel="stylesheet" href="./assets/css/vue.css"-->
+  <!--link rel="stylesheet" href="./assets/css/buble.css"-->
+  <!--link rel="stylesheet" href="./assets/css/dark.css"-->
+  <!--link rel="stylesheet" href="./assets/css/pure.css"-->
+  <!--link rel="stylesheet" href="./assets/css/dolphin.css"-->
+  <!-- simple主题css -->
+  <!--link rel="stylesheet" href="./assets/css/theme-simple.css"-->
+  <!--link rel="stylesheet" href="./assets/css/theme-simple-dark.css"-->
+  <!--link rel="stylesheet" href="./assets/css/theme-default.css"-->
+  <!-- beautiful主题css -->
+  <!--link rel="stylesheet" href="./assets/css/darkly.css"-->
+  <!--link rel="stylesheet" href="./assets/css/darcula.css"-->
+  <!--link rel="stylesheet" href="./assets/css/github.css"-->
+  <!--link rel="stylesheet" href="./assets/css/98.css"-->
+  <!--link rel="stylesheet" href="./assets/css/xp.css"-->
+  <!--link rel="stylesheet" href="./assets/css/vista.css"-->
+  <!-- prism主题css -->
+  <!--link rel="stylesheet" href="./assets/css/prism-github.css"-->
+  <!--link rel="stylesheet" href="./assets/css/prism-onedark.css"-->
+  <!-- Main.css-->
+  <link rel="stylesheet" href="./assets/css/theme-main.css">
+  <!-- Markdown样式 -->
+  <link rel="stylesheet" href="./assets/css/github.min.css">
+  <link rel="stylesheet" href="./assets/css/markdown.css">
+  <!--link rel="stylesheet" href="./assets/css/original-markdown.css"-->
+  <!-- 侧边栏样式 -->
+  <link rel="stylesheet" href="./assets/css/sidebar-folder.min.css">
+  <!-- 数学公式引擎样式 -->
+  <link rel="stylesheet" href="./assets/css/katex.min.css">
+  <!-- FontAwesome CSS -->
+  <!-- 使用方法：":fas fa-home fa-fw: " -->
+  <link rel="stylesheet" href="./assets/css/fontawesome/fontawesome.css" />
+  <link rel="stylesheet" href="//unpkg.com/@fortawesome/fontawesome-free/css/brands.css" />
+  <link rel="stylesheet" href="//unpkg.com/@fortawesome/fontawesome-free/css/regular.css" />
+  <link rel="stylesheet" href="//unpkg.com/@fortawesome/fontawesome-free/css/solid.css" />
+  <!-- 横幅通知样式 -->
+  <link rel="stylesheet" href="./assets/css/top-banner-plugin.css"/>
+  <!-- Gitalk -->
+  <!--link rel="stylesheet" href="./assets/css/gitalk.css"-->
+  <!--script src="./assets/js/gitalk.min.js"></script-->
+  <style>
+    :root {
+      /* Tab blocks */
+      --docsifytabs-border-color: #777;
+      --docsifytabs-border-px: 1px;
+      --docsifytabs-border-radius-px: ;
+      --docsifytabs-margin: 1.5em 0;
+
+      /* Tabs */
+      --docsifytabs-tab-background: #F8F2F5;
+      --docsifytabs-tab-background--active: var(--docsifytabs-content-background);
+      --docsifytabs-tab-color: #666;
+      --docsifytabs-tab-color--active: inherit;
+      --docsifytabs-tab-highlight-px: 3px;
+      --docsifytabs-tab-highlight-color: var(--theme-color, currentColor);
+      --docsifytabs-tab-padding: 0.6em 1em;
+
+      /* Tab content */
+      --docsifytabs-content-background: inherit;
+      --docsifytabs-content-padding: 1.5rem;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app"></div>
+  <!--div id="gitalk-container"></div-->
+  <script>
+    window.$docsify = {
+      // auth
+      auth: {
+      enable: true,
+      use: "yunliyo",
+      password: "8387b14414f9016a786a1a9a50a988efd17174f0b99057aee6996150a23fb915", // md5密码
+      title: "内容已加密，请输入密码：",
+      paths: ["/article"]
+      },
+
+      /*标识*/
+      logo: './assets/icon/logo.png',
+      name: '狸庐',
+      repo: 'https://github.com/yunliyo',
+      
+      /*主页*/
+      homepage: 'README.md',
+
+      /*侧边栏*/
+      loadSidebar: true,
+      alias: {
+        '/.*/_sidebar.md': '/_sidebar.md'
+      },
+
+      /*导航栏*/
+      loadNavbar: '_navbar.md',
+
+      /*封面*/
+      onlyCover: false,
+      coverpage: ['/'],
+
+      /*页脚*/
+      loadFooter: true,
+      loadFooter: '_footer.md',
+
+      /*主题色*/
+      themeColor: '#8d4bbb',/*#F8F2F5*/
+      auto2top: true,
+      maxLevel: 5,
+      subMaxLevel: 5,
+
+      // 搜索插件
+      executeScript: true,
+      search: {
+        depth: 3,
+        noData: 'No results!',
+        placeholder: '输入关键字搜索'
+      },
+
+      // 底部Top按钮
+      scrollToTop: {
+        auto: true,
+        text: 'Top',
+        right: 15,
+        bottom: 15,
+        offset: 500
+      },
+
+      // 标签卡
+      tabs: {
+        persist: true,
+        sync: true,
+        theme: 'classic',
+        tabComments: true,
+        tabHeadings: true
+      },
+
+      // 文本高亮
+      'flexible-alerts': {
+        style: 'flat',
+        note: {
+          label: "信息"
+        },
+        tip: {
+          label: "提示"
+        },
+        warning: {
+          label: "注意"
+        },
+        attention: {
+          label: "切记"
+        }
+      },
+
+      // Twitter-emoji表情
+      function (hook, vm) {
+        hook.doneEach(function () {
+          twemoji.parse(document);
+        });
+      },
+
+      // 流程图绘制
+      plantuml: {
+        skin: 'classic', //default or classic
+        serverPath: '',
+        renderSvgAsObject: true,
+      },
+
+      //分享插件
+      share: {
+        facebook: true,
+        twitter: true,
+        reddit: true,
+        linkedin: true,
+        whatsapp: true,
+        telegram: true,
+      },
+
+      // 字数插件
+      count: {
+        countable: true,
+        position: 'top',
+        margin: '10px',
+        float: 'left',
+        fontsize: '0.9em',
+        color: 'rgb(90,90,90)',
+        language: 'chinese',
+        localization: {
+          words: "",
+          minute: ""
+        },
+        isExpected: true,
+      },
+
+      markdown: {
+        code: function (code, lang) {
+          var renderer_func = function (code, lang, base = null) {
+            var pdf_renderer = function (code, lang, verify) {
+              function unique_id_generator() {
+                function rand_gen() {
+                  return Math.floor((Math.random() + 1) * 65536).toString(16).substring(1);
+                }
+                return rand_gen() + rand_gen() + '-' + rand_gen() + '-' + rand_gen() + '-' + rand_gen() + '-' +
+                  rand_gen() + rand_gen() + rand_gen();
+              }
+              if (lang && !lang.localeCompare('pdf', 'en', {
+                  sensitivity: 'base'
+                })) {
+                if (verify) {
+                  return true;
+                } else {
+                  var divId = "markdown_code_pdf_container_" + unique_id_generator().toString();
+                  var container_list = new Array();
+                  if (localStorage.getItem('pdf_container_list')) {
+                    container_list = JSON.parse(localStorage.getItem('pdf_container_list'));
+                  }
+                  container_list.push({
+                    "pdf_location": code,
+                    "div_id": divId
+                  });
+                  localStorage.setItem('pdf_container_list', JSON.stringify(container_list));
+                  return (
+                    '<div style="margin-top:' + PDF_MARGIN_TOP + '; margin-bottom:' + PDF_MARGIN_BOTTOM +
+                    ';" id="' + divId + '">' +
+                    '<a href="' + code + '"> Link </a> to ' + code +
+                    '</div>'
+                  );
+                }
+              }
+              return false;
+            }
+            if (pdf_renderer(code, lang, true)) {
+              return pdf_renderer(code, lang, false);
+            }
+            /* SECTION START: Put other custom code rendering functions here
+            	i.e. If the language of the code block is LaTex, 
+            	put the code below to replace original code block with the text: 
+            	'Using LaTex is much better than handwriting!' inside a div container.
+
+            	if (lang == "latex") {
+            		return ('<div class="container">Using LaTex is much better than handwriting!</div>');
+            	}
+
+            SECTION END */
+            return (base ? base : this.origin.code.apply(this, arguments));
+          }
+          return some_custom_results;
+        }
+      },
+
+      // 横幅通知
+      /*topBanner: {
+        content: "Welcome to Yunli's blog!",
+        defaultTag: 'span',
+        position: 'fixed',
+        backgroundColor: '#deebff',
+        zIndex: 99,
+        textColor: '#091E42',
+        linkColor: '#091E42',
+        textAlign: 'center',
+      },*/
+
+      // 备案信息
+      /*beian: {
+        ICP: "",
+        NISMSP: {
+          number: "",
+          url: "http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=",
+          id: "00000000000000"
+        },
+      },*/
+
+      /*Gitalk*/
+      gitalk: {
+        clientID: '',
+        clientSecret: '',
+        repo: 'gitalk-comment',
+        owner: 'yunliyo',
+        admin: ['yunliyo']
+      },
+    };
+  </script>
+  <!-- js start -->
+  <script src="./assets/js/main.js"></script>
+  <script src="./assets/js/docsify.min.js"></script>
+  <script src="./assets/js/docsify-themeable.min.js"></script>
+  <!-- Twitter emoji -->
+  <script src="./assets/js/twemoji.min.js"></script>
+  <!-- emoji -->
+  <script src="./assets/js/emoji.min.js"></script>
+  <!-- 返回顶部按钮 -->
+  <script src="./assets/js/docsify-scroll-to-top.min.js"></script>
+  <!-- 标签卡 -->
+  <script src="./assets/js/docsify-tabs.min.js"></script>
+  <!-- 流程图绘制 -->
+  <script src="./assets/js/docsify-plantuml.min.js"></script>
+  <!-- 代码复制 -->
+  <script src="./assets/js/docsify-copy-code.min.js"></script>
+  <!-- 文本高亮 -->
+  <script src="./assets/js/docsify-plugin-flexible-alerts.min.js"></script>
+  <!-- 外链脚本 -->
+  <script src="./assets/js/external-script.min.js"></script>
+  <!-- 图片缩放 -->
+  <script src="./assets/js/zoom-image.min.js"></script>
+  <!-- 文本高亮 -->
+  <script src="./assets/js/prism-bash.min.js"></script>
+  <!-- 侧边栏 -->
+  <script src="./assets/js/docsify-sidebar-collapse.min.js"></script>
+  <!-- 分章节按钮 -->
+  <script src="./assets/js/docsify-pagination.min.js"></script>
+  <!-- 搜索插件 -->
+  <script src="./assets/js/docsify-search.js"></script>
+  <!-- 页脚信息 -->
+  <script src="./assets/js/docsify-footer.min.js"></script>
+  <!-- 分享插件 -->
+  <script src="./assets/js/docsify-share.js"></script>
+  <!-- 字数插件 -->
+  <script src="./assets/js/docsify-countable.min.js"></script>
+  <!-- 数学公式引擎插件 -->
+  <script src="./assets/js/docsify-katex.min.js"></script>
+  <script src="./assets/js/docsify-katex-marked@4.js"></script>
+  <script src="./assets/js/docsify-katex-cdn.js"></script>
+  <!-- FontAwesome插件 -->
+  <script src="./assets/js/docsify-fontawesome.min.js"></script>
+  <!-- 横幅通知插件 -->
+  <script src="./assets/js/docsify-top-banner-plugin.js"></script>
+  <!-- PDF插入 -->
+  <script src="./assets/js/pdfobject.min.js"></script>
+  <script src="./assets/js/docsify-pdf-embed.js"></script>
+  <!-- auth认证 -->
+  <script src="./assets/js/sha256.min.js"></script>
+  <script src="./assets/js/docsify-auth.min.js"></script>
+  <!-- 备案信息 -->
+  <script src="./assets/js/beian.min.js"></script>
+  <!-- Gitalk -->
+  <script src="./assets/js/docsify-gitalk-plugin.min.js"></script>
+  <script src="./assets/js/docsify-gitalk.min.js"></script>
+  <script>
+    var gitalk = new Gitalk({
+      clientID: 'Ov23liDyZOQz9bvQ8o3U',
+      clientSecret: 'bf8e43f1229aeb9e2600957276e202da4acddbdb',
+      repo: '',
+      owner: '',
+      admin: [''],
+      id: location.href,
+      number: -1,
+      labels: ['Gitalk'],
+      title: document.title,
+      body: location.href + header.meta[description],
+      language: zh - TW,
+      perPage: 10,
+      distractionFreeMode: true,
+      pagerDirection: 'last',
+      createIssueManually: true,
+      flipMoveOptions: {
+        staggerDelayBy: 150,
+        appearAnimation: 'accordionVertical',
+        enterAnimation: 'accordionVertical',
+        leaveAnimation: 'accordionVertical',
+      },
+      enableHotKey: true,
+    })
+    gitalk.render('gitalk-container')
+  </script>
+  <!-- 离线模式 -->
+  <script>
+    if (typeof navigator.serviceWorker !== 'undefined') {
+      navigator.serviceWorker.register('sw.js')
+    }
+  </script>
+  <!-- js end -->
+</body>
+
+</html>
