@@ -1,0 +1,1200 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hi, I'm Yunli</title>
+    <!-- 根据用户区域加载不同的CDN资源 -->
+    <script>
+        // 检测用户是否来自中国
+        function isFromChina() {
+            const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+            return timezone.includes("Asia/Shanghai") ||
+                timezone.includes("Asia/Chongqing") ||
+                timezone.includes("Asia/Harbin") ||
+                timezone.includes("Asia/Urumqi");
+        }
+
+        // 根据用户区域动态加载字体
+        function loadFonts() {
+            const link = document.createElement('link');
+            link.rel = 'stylesheet';
+
+            if (isFromChina()) {
+                // 中国用户使用国内CDN
+                link.href = 'https://fonts.font.im/css2?family=Lora:wght@400;700&display=swap';
+            } else {
+                // 国外用户使用Google Fonts
+                link.href = 'https://fonts.googleapis.com/css2?family=Lora:wght@400;700&display=swap';
+            }
+
+            document.head.appendChild(link);
+        }
+
+        // 加载字体
+        loadFonts();
+    </script>
+
+    <!-- Font Awesome 图标库 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --primary-color: #39c5bb;
+            --gradient-start: #a8d8ea;
+            --gradient-end: #f7f9fb;
+            --text-color: #333;
+            --secondary-text: #666;
+            --card-bg: rgba(255, 255, 255, 0.9);
+            --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            --avatar-shadow: 0 8px 25px rgba(57, 197, 187, 0.3);
+        }
+
+        [data-theme="dark"] {
+            --primary-color: #39c5bb;
+            --gradient-start: #1a1e2e;
+            --gradient-end: #2c3e50;
+            --text-color: #f5f5f5;
+            --secondary-text: #cccccc;
+            --card-bg: rgba(30, 40, 50, 0.8);
+            --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+            --avatar-shadow: 0 8px 25px rgba(57, 197, 187, 0.4);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Lora', serif;
+            min-height: 100vh;
+            background: linear-gradient(135deg, var(--gradient-start), var(--primary-color), var(--gradient-end));
+            color: var(--text-color);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.5s ease;
+            overflow-x: hidden;
+            position: relative;
+            padding: 2rem 1rem 5rem 1rem;
+            /* 增加左右padding确保边距 */
+        }
+
+        .container {
+            max-width: 1200px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem;
+            /* 减少padding避免超出 */
+            height: auto;
+            min-height: calc(100vh - 8rem);
+            /* 考虑body的padding */
+            margin: 0;
+            /* 移除margin避免超出 */
+            perspective: 1500px;
+            box-sizing: border-box;
+            /* 确保padding计算在内 */
+        }
+
+        .card {
+            display: flex;
+            width: 100%;
+            /* 改为100%，通过max-width控制 */
+            max-width: 800px;
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            box-shadow: var(--card-shadow);
+            overflow: hidden;
+            transition: transform 0.3s ease;
+            padding: 2rem 0;
+            transform-style: preserve-3d;
+            perspective: 1000px;
+            transform: rotateX(0deg) rotateY(0deg);
+            will-change: transform;
+            box-sizing: border-box;
+            /* 确保padding计算在内 */
+            margin: 0 auto;
+            /* 居中对齐 */
+        }
+
+        .card-content {
+            display: flex;
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
+        }
+
+        .left-column {
+            flex: 3;
+            padding: 3rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            transition: transform 0.3s ease;
+            transform-style: preserve-3d;
+            backface-visibility: visible;
+        }
+
+        .right-column {
+            flex: 2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 3rem;
+            position: relative;
+            transition: transform 0.3s ease;
+            transform-style: preserve-3d;
+            backface-visibility: visible;
+        }
+
+        .avatar-container {
+            position: relative;
+            width: 420px;
+            height: 420px;
+            perspective: 1000px;
+        }
+
+        /* 中大屏幕时图片尺寸调整为40% */
+        @media (min-width: 769px) {
+            .avatar-container {
+                width: 168px;
+                height: 168px;
+            }
+        }
+
+        .avatar-card {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transition: transform 0.8s;
+            transform-style: preserve-3d;
+        }
+
+        .avatar-container:hover .avatar-card {
+            transform: rotateY(180deg);
+        }
+
+        .avatar-front,
+        .avatar-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: var(--avatar-shadow);
+        }
+
+        .avatar-back {
+            transform: rotateY(180deg);
+        }
+
+        .avatar-front img,
+        .avatar-back img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        h1 {
+            font-size: 40px;
+            margin-bottom: 1.5rem;
+            color: var(--primary-color);
+            font-weight: 700;
+        }
+
+        .subtitle {
+            font-size: 20px;
+            color: var(--secondary-text);
+            margin-bottom: 2.5rem;
+            line-height: 1.6;
+        }
+
+        p {
+            margin-bottom: 2rem;
+            line-height: 1.8;
+            font-size: 1.1rem;
+        }
+
+        .links {
+            margin-top: 2.5rem;
+        }
+
+        .links a {
+            display: inline-block;
+            margin-right: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            font-size: 1.1rem;
+        }
+
+        .links a:hover {
+            transform: translateY(-3px);
+            text-shadow: 0 5px 15px rgba(57, 197, 187, 0.3);
+        }
+
+        footer {
+            position: fixed;
+            /* 改为固定定位 */
+            bottom: 1rem;
+            left: 1rem;
+            font-size: 12px;
+            color: white;
+            /* 改为白色 */
+            opacity: 0.9;
+            /* 增加不透明度 */
+            z-index: 1000;
+            /* 确保在最上层 */
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+            /* 添加文字阴影增强可读性 */
+        }
+
+        footer a {
+            color: white;
+            /* 链接颜色为白色 */
+            text-decoration: none;
+            transition: opacity 0.3s ease;
+        }
+
+        footer a:hover {
+            opacity: 0.7;
+            text-decoration: underline;
+        }
+
+        .theme-toggle {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            background: transparent;
+            border: none;
+            color: var(--text-color);
+            font-size: 1.5rem;
+            cursor: pointer;
+            z-index: 100;
+            transition: all 0.3s ease;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .theme-toggle:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            transform: rotate(15deg);
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .card {
+                flex-direction: row;
+                height: auto;
+                max-height: none;
+                /* 移除最大高度限制 */
+                width: 100%;
+                max-width: 600px;
+                /* 中等屏幕适当减小最大宽度 */
+                align-items: center;
+            }
+
+            .container {
+                padding: 1rem;
+                height: auto;
+                min-height: calc(100vh - 6rem);
+                /* 调整最小高度 */
+                margin: 0;
+            }
+
+            .left-column,
+            .right-column {
+                padding: 1.5rem;
+            }
+
+            .left-column {
+                flex: 2;
+            }
+
+            .right-column {
+                flex: 1;
+                padding-left: 0;
+            }
+
+            .avatar-container {
+                width: 120px;
+                height: 120px;
+            }
+
+            h1 {
+                font-size: 28px;
+            }
+
+            .subtitle {
+                font-size: 16px;
+                margin-bottom: 1.5rem;
+            }
+
+            p {
+                font-size: 15px;
+                margin-bottom: 1.5rem;
+            }
+
+            .links {
+                word-wrap: break-word;
+                word-break: break-word;
+                font-size: 15px;
+            }
+        }
+
+        /* 小屏幕优化 - 隐藏图片，文字居中 */
+        @media (max-width: 480px) {
+            body {
+                padding: 1rem 0.5rem 6rem 0.5rem;
+                /* 减少padding */
+            }
+
+            .container {
+                min-height: auto;
+                margin: 0;
+                padding: 0.5rem;
+            }
+
+            .card {
+                flex-direction: column;
+                width: 100%;
+                max-width: 400px;
+                /* 小屏幕限制最大宽度 */
+                padding: 1rem 0;
+                max-height: none;
+            }
+
+            /* 隐藏图片部分 */
+            .right-column {
+                display: none !important;
+                /* 完全隐藏图片列 */
+            }
+
+            .left-column {
+                order: 1;
+                /* 确保文字在唯一位置 */
+                flex: 1;
+                /* 占据全部空间 */
+                padding: 1.5rem 2rem;
+                text-align: center;
+                width: 100%;
+                /* 确保占满宽度 */
+            }
+
+            .profile-header {
+                display: block;
+                text-align: center;
+                margin-bottom: 1.5rem;
+            }
+
+            .profile-header h1 {
+                margin-bottom: 1rem;
+                font-size: 26px;
+                line-height: 1.2;
+            }
+
+            .subtitle {
+                font-size: 16px;
+                margin-bottom: 1.5rem;
+                text-align: center;
+            }
+
+            p {
+                font-size: 15px;
+                line-height: 1.7;
+                text-align: center;
+                /* 改为居中对齐 */
+                margin-bottom: 1.5rem;
+            }
+
+            .links {
+                text-align: center;
+                margin-top: 2rem;
+            }
+
+            .links a {
+                display: inline-block;
+                margin: 0.5rem 0.75rem;
+                font-size: 16px;
+            }
+
+            .theme-toggle {
+                top: 1rem;
+                right: 1rem;
+                position: fixed;
+                z-index: 1001;
+            }
+
+            footer {
+                bottom: 0.5rem;
+                left: 0.5rem;
+                font-size: 11px;
+                max-width: calc(100vw - 3rem);
+                line-height: 1.3;
+            }
+        }
+
+        /* 超小屏幕优化 */
+        @media (max-width: 360px) {
+            .card {
+                width: 100%;
+                max-width: 350px;
+                /* 限制超小屏幕最大宽度 */
+            }
+
+            .left-column {
+                padding: 1rem 1.5rem;
+            }
+
+            h1 {
+                font-size: 22px;
+            }
+
+            .subtitle {
+                font-size: 14px;
+            }
+
+
+
+            .links a {
+                font-size: 15px;
+                margin: 0.4rem 0.5rem;
+            }
+        }
+
+        /* 辅助元素和样式 */
+        .profile-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+        }
+
+        .profile-header h1 {
+            margin-bottom: 0;
+        }
+
+        @media (max-width: 480px) {
+            .profile-header {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+
+        /* 用户信息样式 */
+        p {
+            font-size: 14px;
+
+            color: var(--secondary-text);
+            margin-top: 0.5rem;
+            line-height: 1.5;
+        }
+
+        p span {
+            display: inline-block;
+            margin-right: 0.5rem;
+        }
+    </style>
+</head>
+
+<body>
+    <button class="theme-toggle" id="themeToggle">
+        <i class="fas fa-sun"></i>
+    </button>
+
+    <div class="container">
+        <div class="card">
+            <div class="card-content">
+                <div class="left-column">
+                    <div class="user-info" id="userInfo">
+                        <span id="ipInfo">Hi,there</span>
+                        <span id="uaInfo">(An error occurred.)</span>
+                        Welcome!
+                    </div>
+                    <br>
+                    <div class="profile-header">
+                        <h1>I'm Yunli</h1>
+                    </div>
+                    <div class="subtitle">
+                        Chinese · Developer · Poet
+                    </div>
+                    <div class="links">
+                        <a href="https://" class="link">Blog</a>
+                        <a href="https://" class="link">Github</a>
+                        <a href="https://" class="link">About</a>
+                        <a href="https://" class="link">Device</a>
+                        <a href="mailto:" class="link">Email</a>
+                    </div>
+                </div>
+                <div class="right-column">
+                    <div class="avatar-container">
+                        <div class="avatar-card">
+                            <div class="avatar-front">
+                                <img src="../../images/avatar.jpg" alt="headimg">
+                            </div>
+                            <div class="avatar-back">
+                                <img src="../../images/avatar.jpg" alt="personalpic">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        &copy; 2026 by Yunli.
+    </footer>
+
+    <script>
+        // 主题切换功能
+        const themeToggle = document.getElementById('themeToggle');
+        const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+
+        // 安全地使用localStorage
+        function safeGetItem(key) {
+            try {
+                return localStorage.getItem(key);
+            } catch (e) {
+                return null;
+            }
+        }
+
+        function safeSetItem(key, value) {
+            try {
+                localStorage.setItem(key, value);
+            } catch (e) {
+                // 出错时静默失败
+                console.log("无法访问localStorage，可能是沙箱限制");
+            }
+        }
+
+        // 检查本地存储中的主题首选项
+        const currentTheme = safeGetItem('theme');
+        if (currentTheme === 'dark') {
+            document.body.setAttribute('data-theme', 'dark');
+            themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+        } else if (currentTheme === 'light') {
+            document.body.removeAttribute('data-theme');
+            themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+        } else {
+            // 如果没有存储的首选项，则使用系统首选项
+            if (prefersDarkScheme.matches) {
+                document.body.setAttribute('data-theme', 'dark');
+                themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+            }
+        }
+
+        // 主题切换点击事件
+        themeToggle.addEventListener('click', function () {
+            if (document.body.hasAttribute('data-theme')) {
+                document.body.removeAttribute('data-theme');
+                safeSetItem('theme', 'light');
+                themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+            } else {
+                document.body.setAttribute('data-theme', 'dark');
+                safeSetItem('theme', 'dark');
+                themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+            }
+        });
+
+        // 监听系统主题变化
+        prefersDarkScheme.addEventListener('change', function (e) {
+            if (e.matches) {
+                document.body.setAttribute('data-theme', 'dark');
+                themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+                safeSetItem('theme', 'dark');
+            } else {
+                document.body.removeAttribute('data-theme');
+                themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+                safeSetItem('theme', 'light');
+            }
+        });
+
+        // 获取用户IP和位置信息
+        function fetchUserLocation() {
+            fetch('https://ipinfo.io/json?token=85cb5151c14d54')
+                .then(response => response.json())
+                .then(data => {
+                    const ip = data.ip || 'Unknown IP';
+                    const city = data.city || 'Unknown City';
+                    const region = data.region || 'Unknown Region';
+                    const country = data.country ? getCountryName(data.country) : 'Unknown Country';
+                    const org = data.org || 'Unknown ISP';
+
+                    document.getElementById('ipInfo').textContent =
+                        `Hi there. ${ip} from ${city}, ${region}, ${country} with`;
+                }) //ISP: ${org}
+                .catch(error => {
+                    console.error('Error fetching IP info:', error);
+                    document.getElementById('ipInfo').textContent =
+                        'Hi,there. Visitor with';
+                });
+        }
+
+
+        // 国家代码转国家名称
+        function getCountryName(code) {
+            const countryNames = {
+                'AF': 'Afghanistan',
+                'AX': 'Åland Islands',
+                'AL': 'Albania',
+                'DZ': 'Algeria',
+                'AS': 'American Samoa',
+                'AD': 'Andorra',
+                'AO': 'Angola',
+                'AI': 'Anguilla',
+                'AQ': 'Antarctica',
+                'AG': 'Antigua and Barbuda',
+                'AR': 'Argentina',
+                'AM': 'Armenia',
+                'AW': 'Aruba',
+                'AU': 'Australia',
+                'AT': 'Austria',
+                'AZ': 'Azerbaijan',
+                'BS': 'Bahamas',
+                'BH': 'Bahrain',
+                'BD': 'Bangladesh',
+                'BB': 'Barbados',
+                'BY': 'Belarus',
+                'BE': 'Belgium',
+                'BZ': 'Belize',
+                'BJ': 'Benin',
+                'BM': 'Bermuda',
+                'BT': 'Bhutan',
+                'BO': 'Bolivia',
+                'BQ': 'Bonaire',
+                'BA': 'Bosnia and Herzegovina',
+                'BW': 'Botswana',
+                'BV': 'Bouvet Island',
+                'BR': 'Brazil',
+                'IO': 'British Indian Ocean Territory',
+                'BN': 'Brunei Darussalam',
+                'BG': 'Bulgaria',
+                'BF': 'Burkina Faso',
+                'BI': 'Burundi',
+                'CV': 'Cabo Verde',
+                'KH': 'Cambodia',
+                'CM': 'Cameroon',
+                'CA': 'Canada',
+                'KY': 'Cayman Islands',
+                'CF': 'Central African Republic',
+                'TD': 'Chad',
+                'CL': 'Chile',
+                'CN': 'China',
+                'CX': 'Christmas Island',
+                'CC': 'Cocos Islands',
+                'CO': 'Colombia',
+                'KM': 'Comoros',
+                'CD': 'Congo (Democratic Republic)',
+                'CG': 'Congo',
+                'CK': 'Cook Islands',
+                'CR': 'Costa Rica',
+                'CI': "Côte d'Ivoire",
+                'HR': 'Croatia',
+                'CU': 'Cuba',
+                'CW': 'Curaçao',
+                'CY': 'Cyprus',
+                'CZ': 'Czech Republic',
+                'DK': 'Denmark',
+                'DJ': 'Djibouti',
+                'DM': 'Dominica',
+                'DO': 'Dominican Republic',
+                'EC': 'Ecuador',
+                'EG': 'Egypt',
+                'SV': 'El Salvador',
+                'GQ': 'Equatorial Guinea',
+                'ER': 'Eritrea',
+                'EE': 'Estonia',
+                'SZ': 'Eswatini',
+                'ET': 'Ethiopia',
+                'FK': 'Falkland Islands',
+                'FO': 'Faroe Islands',
+                'FJ': 'Fiji',
+                'FI': 'Finland',
+                'FR': 'France',
+                'GF': 'French Guiana',
+                'PF': 'French Polynesia',
+                'TF': 'French Southern Territories',
+                'GA': 'Gabon',
+                'GM': 'Gambia',
+                'GE': 'Georgia',
+                'DE': 'Germany',
+                'GH': 'Ghana',
+                'GI': 'Gibraltar',
+                'GR': 'Greece',
+                'GL': 'Greenland',
+                'GD': 'Grenada',
+                'GP': 'Guadeloupe',
+                'GU': 'Guam',
+                'GT': 'Guatemala',
+                'GG': 'Guernsey',
+                'GN': 'Guinea',
+                'GW': 'Guinea-Bissau',
+                'GY': 'Guyana',
+                'HT': 'Haiti',
+                'HM': 'Heard Island and McDonald Islands',
+                'VA': 'Holy See',
+                'HN': 'Honduras',
+                'HK': 'Hong Kong',
+                'HU': 'Hungary',
+                'IS': 'Iceland',
+                'IN': 'India',
+                'ID': 'Indonesia',
+                'IR': 'Iran',
+                'IQ': 'Iraq',
+                'IE': 'Ireland',
+                'IM': 'Isle of Man',
+                'IL': 'Israel',
+                'IT': 'Italy',
+                'JM': 'Jamaica',
+                'JP': 'Japan',
+                'JE': 'Jersey',
+                'JO': 'Jordan',
+                'KZ': 'Kazakhstan',
+                'KE': 'Kenya',
+                'KI': 'Kiribati',
+                'KP': 'North Korea',
+                'KR': 'South Korea',
+                'KW': 'Kuwait',
+                'KG': 'Kyrgyzstan',
+                'LA': 'Laos',
+                'LV': 'Latvia',
+                'LB': 'Lebanon',
+                'LS': 'Lesotho',
+                'LR': 'Liberia',
+                'LY': 'Libya',
+                'LI': 'Liechtenstein',
+                'LT': 'Lithuania',
+                'LU': 'Luxembourg',
+                'MO': 'Macao',
+                'MG': 'Madagascar',
+                'MW': 'Malawi',
+                'MY': 'Malaysia',
+                'MV': 'Maldives',
+                'ML': 'Mali',
+                'MT': 'Malta',
+                'MH': 'Marshall Islands',
+                'MQ': 'Martinique',
+                'MR': 'Mauritania',
+                'MU': 'Mauritius',
+                'YT': 'Mayotte',
+                'MX': 'Mexico',
+                'FM': 'Micronesia',
+                'MD': 'Moldova',
+                'MC': 'Monaco',
+                'MN': 'Mongolia',
+                'ME': 'Montenegro',
+                'MS': 'Montserrat',
+                'MA': 'Morocco',
+                'MZ': 'Mozambique',
+                'MM': 'Myanmar',
+                'NA': 'Namibia',
+                'NR': 'Nauru',
+                'NP': 'Nepal',
+                'NL': 'Netherlands',
+                'NC': 'New Caledonia',
+                'NZ': 'New Zealand',
+                'NI': 'Nicaragua',
+                'NE': 'Niger',
+                'NG': 'Nigeria',
+                'NU': 'Niue',
+                'NF': 'Norfolk Island',
+                'MK': 'North Macedonia',
+                'MP': 'Northern Mariana Islands',
+                'NO': 'Norway',
+                'OM': 'Oman',
+                'PK': 'Pakistan',
+                'PW': 'Palau',
+                'PS': 'Palestine',
+                'PA': 'Panama',
+                'PG': 'Papua New Guinea',
+                'PY': 'Paraguay',
+                'PE': 'Peru',
+                'PH': 'Philippines',
+                'PN': 'Pitcairn',
+                'PL': 'Poland',
+                'PT': 'Portugal',
+                'PR': 'Puerto Rico',
+                'QA': 'Qatar',
+                'RE': 'Réunion',
+                'RO': 'Romania',
+                'RU': 'Russia',
+                'RW': 'Rwanda',
+                'BL': 'Saint Barthélemy',
+                'SH': 'Saint Helena',
+                'KN': 'Saint Kitts and Nevis',
+                'LC': 'Saint Lucia',
+                'MF': 'Saint Martin',
+                'PM': 'Saint Pierre and Miquelon',
+                'VC': 'Saint Vincent and the Grenadines',
+                'WS': 'Samoa',
+                'SM': 'San Marino',
+                'ST': 'Sao Tome and Principe',
+                'SA': 'Saudi Arabia',
+                'SN': 'Senegal',
+                'RS': 'Serbia',
+                'SC': 'Seychelles',
+                'SL': 'Sierra Leone',
+                'SG': 'Singapore',
+                'SX': 'Sint Maarten',
+                'SK': 'Slovakia',
+                'SI': 'Slovenia',
+                'SB': 'Solomon Islands',
+                'SO': 'Somalia',
+                'ZA': 'South Africa',
+                'GS': 'South Georgia and the South Sandwich Islands',
+                'SS': 'South Sudan',
+                'ES': 'Spain',
+                'LK': 'Sri Lanka',
+                'SD': 'Sudan',
+                'SR': 'Suriname',
+                'SJ': 'Svalbard and Jan Mayen',
+                'SE': 'Sweden',
+                'CH': 'Switzerland',
+                'SY': 'Syria',
+                'TW': 'Taiwan',
+                'TJ': 'Tajikistan',
+                'TZ': 'Tanzania',
+                'TH': 'Thailand',
+                'TL': 'Timor-Leste',
+                'TG': 'Togo',
+                'TK': 'Tokelau',
+                'TO': 'Tonga',
+                'TT': 'Trinidad and Tobago',
+                'TN': 'Tunisia',
+                'TR': 'Turkey',
+                'TM': 'Turkmenistan',
+                'TC': 'Turks and Caicos Islands',
+                'TV': 'Tuvalu',
+                'UG': 'Uganda',
+                'UA': 'Ukraine',
+                'AE': 'United Arab Emirates',
+                'GB': 'United Kingdom',
+                'US': 'United States',
+                'UM': 'United States Minor Outlying Islands',
+                'UY': 'Uruguay',
+                'UZ': 'Uzbekistan',
+                'VU': 'Vanuatu',
+                'VE': 'Venezuela',
+                'VN': 'Vietnam',
+                'VG': 'Virgin Islands (British)',
+                'VI': 'Virgin Islands (U.S.)',
+                'WF': 'Wallis and Futuna',
+                'EH': 'Western Sahara',
+                'YE': 'Yemen',
+                'ZM': 'Zambia',
+                'ZW': 'Zimbabwe'
+            };
+            return countryNames[code] || code;
+        }
+
+        // 解析用户代理字符串
+        function parseUserAgent() {
+            const ua = navigator.userAgent;
+            let os = 'Unknown OS';
+            let browser = 'Unknown Browser';
+
+            // 检测操作系统
+            if (/Windows NT 10\.0/.test(ua)) os = 'Windows 10/11';
+            else if (/Windows NT 6\.3/.test(ua)) os = 'Windows 8.1';
+            else if (/Windows NT 6\.2/.test(ua)) os = 'Windows 8';
+            else if (/Windows NT 6\.1/.test(ua)) os = 'Windows 7';
+            else if (/Windows NT 6\.0/.test(ua)) os = 'Windows Vista';
+            else if (/Windows NT 5\.1/.test(ua)) os = 'Windows XP';
+            else if (/Windows NT 5\.0/.test(ua)) os = 'Windows 2000';
+            else if (/Windows Server/.test(ua)) os = 'Windows Server';
+            else if (/Win98/.test(ua)) os = 'Windows 98';
+            else if (/Win95/.test(ua)) os = 'Windows 95';
+            else if (/Win16/.test(ua)) os = 'Windows 3.11';
+            else if (/Macintosh.*Mac OS X 14/.test(ua)) os = 'macOS Sonoma';
+            else if (/Macintosh.*Mac OS X 13/.test(ua)) os = 'macOS Ventura';
+            else if (/Macintosh.*Mac OS X 12/.test(ua)) os = 'macOS Monterey';
+            else if (/Macintosh.*Mac OS X 11/.test(ua)) os = 'macOS Big Sur';
+            else if (/Macintosh.*Mac OS X 10_15/.test(ua)) os = 'macOS Catalina';
+            else if (/Macintosh.*Mac OS X 10_14/.test(ua)) os = 'macOS Mojave';
+            else if (/Macintosh.*Mac OS X 10_13/.test(ua)) os = 'macOS High Sierra';
+            else if (/Macintosh.*Mac OS X 10_12/.test(ua)) os = 'macOS Sierra';
+            else if (/Macintosh.*Mac OS X 10_11/.test(ua)) os = 'OS X El Capitan';
+            else if (/Macintosh.*Mac OS X 10_10/.test(ua)) os = 'OS X Yosemite';
+            else if (/Macintosh.*Mac OS X 10_9/.test(ua)) os = 'OS X Mavericks';
+            else if (/Macintosh.*Mac OS X 10_8/.test(ua)) os = 'OS X Mountain Lion';
+            else if (/Macintosh.*Mac OS X 10_7/.test(ua)) os = 'OS X Lion';
+            else if (/Macintosh.*Mac OS X 10_6/.test(ua)) os = 'OS X Snow Leopard';
+            else if (/Macintosh.*Mac OS X 10_5/.test(ua)) os = 'OS X Leopard';
+            else if (/Macintosh.*Mac OS X/.test(ua)) os = 'macOS';
+            else if (/Linux aarch64/.test(ua)) os = 'Linux (ARM64)';
+            else if (/Linux armv7l/.test(ua)) os = 'Linux (ARMv7)';
+            else if (/Linux armv8l/.test(ua)) os = 'Linux (ARMv8)';
+            else if (/Linux x86_64/.test(ua)) os = 'Linux (x64)';
+            else if (/Linux i[3-6]86/.test(ua)) os = 'Linux (x86)';
+            else if (/Ubuntu/.test(ua)) os = 'Ubuntu';
+            else if (/Debian/.test(ua)) os = 'Debian';
+            else if (/Fedora/.test(ua)) os = 'Fedora';
+            else if (/CentOS/.test(ua)) os = 'CentOS';
+            else if (/Red Hat/.test(ua)) os = 'Red Hat Enterprise Linux';
+            else if (/Arch Linux/.test(ua)) os = 'Arch Linux';
+            else if (/Manjaro/.test(ua)) os = 'Manjaro Linux';
+            else if (/Deepin/.test(ua)) os = 'Deepin';
+            else if (/Linux Mint/.test(ua)) os = 'Linux Mint';
+            else if (/elementary OS/.test(ua)) os = 'elementary OS';
+            else if (/Zorin OS/.test(ua)) os = 'Zorin OS';
+            else if (/Pop!_OS/.test(ua)) os = 'Pop!_OS';
+            else if (/Linux/.test(ua)) os = 'Linux';
+            else if (/Android 14/.test(ua)) os = 'Android 14 (Upside Down Cake)';
+            else if (/Android 13/.test(ua)) os = 'Android 13 (Tiramisu)';
+            else if (/Android 12/.test(ua)) os = 'Android 12 (Snow Cone)';
+            else if (/Android 11/.test(ua)) os = 'Android 11 (Red Velvet Cake)';
+            else if (/Android 10/.test(ua)) os = 'Android 10 (Q)';
+            else if (/Android 9/.test(ua)) os = 'Android 9 (Pie)';
+            else if (/Android 8\.1/.test(ua)) os = 'Android 8.1 (Oreo)';
+            else if (/Android 8\.0/.test(ua)) os = 'Android 8.0 (Oreo)';
+            else if (/Android 7/.test(ua)) os = 'Android 7 (Nougat)';
+            else if (/Android 6/.test(ua)) os = 'Android 6 (Marshmallow)';
+            else if (/Android 5/.test(ua)) os = 'Android 5 (Lollipop)';
+            else if (/Android/.test(ua)) os = 'Android';
+            else if (/CrOS/.test(ua)) os = 'Chrome OS';
+            else if (/iPhone OS 17_/.test(ua)) os = 'iOS 17';
+            else if (/iPhone OS 16_/.test(ua)) os = 'iOS 16';
+            else if (/iPhone OS 15_/.test(ua)) os = 'iOS 15';
+            else if (/iPhone OS 14_/.test(ua)) os = 'iOS 14';
+            else if (/iPhone OS 13_/.test(ua)) os = 'iOS 13';
+            else if (/iPhone OS 12_/.test(ua)) os = 'iOS 12';
+            else if (/iPhone OS 11_/.test(ua)) os = 'iOS 11';
+            else if (/iPhone OS 10_/.test(ua)) os = 'iOS 10';
+            else if (/iPhone OS 9_/.test(ua)) os = 'iOS 9';
+            else if (/iPhone OS/.test(ua)) os = 'iOS';
+            else if (/iPad.*OS 17/.test(ua)) os = 'iPadOS 17';
+            else if (/iPad.*OS 16/.test(ua)) os = 'iPadOS 16';
+            else if (/iPad.*OS 15/.test(ua)) os = 'iPadOS 15';
+            else if (/iPad.*OS 14/.test(ua)) os = 'iPadOS 14';
+            else if (/iPad.*OS 13/.test(ua)) os = 'iPadOS 13';
+            else if (/iPad.*OS/.test(ua)) os = 'iPadOS';
+            else if (/watchOS 10/.test(ua)) os = 'watchOS 10';
+            else if (/watchOS 9/.test(ua)) os = 'watchOS 9';
+            else if (/watchOS 8/.test(ua)) os = 'watchOS 8';
+            else if (/watchOS/.test(ua)) os = 'watchOS';
+            else if (/tvOS 17/.test(ua)) os = 'tvOS 17';
+            else if (/tvOS 16/.test(ua)) os = 'tvOS 16';
+            else if (/tvOS 15/.test(ua)) os = 'tvOS 15';
+            else if (/tvOS/.test(ua)) os = 'tvOS';
+            else if (/SymbianOS/.test(ua)) os = 'Symbian OS';
+            else if (/Series 60/.test(ua)) os = 'Symbian S60';
+            else if (/BlackBerry/.test(ua)) os = 'BlackBerry OS';
+            else if (/BB10/.test(ua)) os = 'BlackBerry 10';
+            else if (/RIM Tablet OS/.test(ua)) os = 'BlackBerry Tablet OS';
+            else if (/FreeBSD/.test(ua)) os = 'FreeBSD';
+            else if (/OpenBSD/.test(ua)) os = 'OpenBSD';
+            else if (/NetBSD/.test(ua)) os = 'NetBSD';
+            else if (/SunOS/.test(ua)) os = 'Solaris';
+            else if (/AIX/.test(ua)) os = 'AIX';
+            else if (/HP-UX/.test(ua)) os = 'HP-UX';
+            else if (/IRIX/.test(ua)) os = 'IRIX';
+            else if (/OS\/2/.test(ua)) os = 'OS/2';
+            else if (/BeOS/.test(ua)) os = 'BeOS';
+            else if (/QNX/.test(ua)) os = 'QNX';
+            else if (/PlayStation 5/.test(ua)) os = 'PlayStation 5';
+            else if (/PlayStation 4/.test(ua)) os = 'PlayStation 4';
+            else if (/PlayStation Vita/.test(ua)) os = 'PlayStation Vita';
+            else if (/PlayStation/.test(ua)) os = 'PlayStation';
+            else if (/Xbox One/.test(ua)) os = 'Xbox One';
+            else if (/Xbox Series X/.test(ua)) os = 'Xbox Series X';
+            else if (/Xbox/.test(ua)) os = 'Xbox';
+            else if (/Nintendo Switch/.test(ua)) os = 'Nintendo Switch';
+            else if (/Nintendo 3DS/.test(ua)) os = 'Nintendo 3DS';
+            else if (/Nintendo WiiU/.test(ua)) os = 'Nintendo Wii U';
+            else if (/Nintendo Wii/.test(ua)) os = 'Nintendo Wii';
+            else if (/Nintendo DSi/.test(ua)) os = 'Nintendo DSi';
+            else if (/Nintendo DS/.test(ua)) os = 'Nintendo DS';
+
+            // 检测浏览器
+            if (/Firefox\//.test(ua)) {
+                browser = 'Firefox';
+                if (/FxiOS\//.test(ua)) browser = 'Firefox iOS';
+                else if (/Focus\//.test(ua)) browser = 'Firefox Focus';
+            } else if (/Edg\//.test(ua)) browser = 'Microsoft Edge';
+            else if (/EdgA\//.test(ua)) browser = 'Microsoft Edge (Android)';
+            else if (/EdgiOS\//.test(ua)) browser = 'Microsoft Edge (iOS)';
+            else if (/OPR\//.test(ua)) browser = 'Opera';
+            else if (/Opera/.test(ua)) browser = 'Opera';
+            else if (/SamsungBrowser\//.test(ua)) browser = 'Samsung Internet';
+            else if (/UCBrowser\//.test(ua)) browser = 'UC Browser';
+            else if (/UCWEB\//.test(ua)) browser = 'UC Browser';
+            else if (/YaBrowser\//.test(ua)) browser = 'Yandex Browser';
+            else if (/Vivaldi\//.test(ua)) browser = 'Vivaldi';
+            else if (/Brave\//.test(ua)) browser = 'Brave';
+            else if (/Chrome\//.test(ua)) {
+                browser = 'Chrome';
+                if (/CriOS\//.test(ua)) browser = 'Chrome (iOS)';
+                else if (/HeadlessChrome\//.test(ua)) browser = 'Chrome (Headless)';
+                else if (/GSA\//.test(ua)) browser = 'Google App';
+            } else if (/Safari\//.test(ua)) {
+                browser = 'Safari';
+                if (/Mobile\/.+Safari\//.test(ua)) browser = 'Mobile Safari';
+            } else if (/Trident\//.test(ua)) browser = 'Internet Explorer';
+            else if (/MSIE/.test(ua)) browser = 'Internet Explorer';
+            else if (/Maxthon/.test(ua)) browser = 'Maxthon';
+            else if (/QQBrowser\//.test(ua)) browser = 'QQ Browser';
+            else if (/MQQBrowser\//.test(ua)) browser = 'QQ Browser Mobile';
+            else if (/MicroMessenger\//.test(ua)) browser = 'WeChat';
+            else if (/WeiBo\//.test(ua)) browser = 'Weibo';
+            else if (/BaiduHD\//.test(ua)) browser = 'Baidu Browser HD';
+            else if (/Baidu/.test(ua)) browser = 'Baidu Browser';
+            else if (/2345Explorer\//.test(ua)) browser = '2345 Explorer';
+            else if (/LieBaoFast\//.test(ua)) browser = 'LieBao Browser';
+            else if (/Quark\//.test(ua)) browser = 'Quark Browser';
+            else if (/MiuiBrowser\//.test(ua)) browser = 'MIUI Browser';
+            else if (/HuaweiBrowser\//.test(ua)) browser = 'Huawei Browser';
+            else if (/HBPC\//.test(ua)) browser = 'Huawei Browser PC';
+            else if (/HONOR Browser\//.test(ua)) browser = 'HONOR Browser';
+            else if (/OppoBrowser\//.test(ua)) browser = 'Oppo Browser';
+            else if (/VivoBrowser\//.test(ua)) browser = 'Vivo Browser';
+            else if (/Via\//.test(ua)) browser = 'Via';
+            else if (/DuckDuckGo\//.test(ua)) browser = 'DuckDuckGo Browser';
+            else if (/Focus\//.test(ua)) browser = 'Firefox Focus';
+            else if (/Klarna\//.test(ua)) browser = 'Klarna App';
+            else if (/Instagram/.test(ua)) browser = 'Instagram App';
+            else if (/Facebook/.test(ua)) browser = 'Facebook App';
+            else if (/Twitter/.test(ua)) browser = 'Twitter App';
+            else if (/LinkedIn/.test(ua)) browser = 'LinkedIn App';
+            else if (/Pinterest/.test(ua)) browser = 'Pinterest App';
+            else if (/Snapchat/.test(ua)) browser = 'Snapchat App';
+            else if (/TikTok/.test(ua)) browser = 'TikTok App';
+            else if (/Electron\//.test(ua)) browser = 'Electron App';
+            else if (/Coc Coc\//.test(ua)) browser = 'Cốc Cốc Browser';
+            else if (/Silk\//.test(ua)) browser = 'Amazon Silk';
+            else if (/Kindle\//.test(ua)) browser = 'Kindle Browser';
+            else if (/NokiaBrowser\//.test(ua)) browser = 'Nokia Browser';
+            else if (/BlackBerry/.test(ua)) browser = 'BlackBerry Browser';
+            else if (/PlayStation/.test(ua)) browser = 'PlayStation Browser';
+            else if (/Xbox/.test(ua)) browser = 'Xbox Browser';
+            else if (/Nintendo/.test(ua)) browser = 'Nintendo Browser';
+
+            document.getElementById('uaInfo').textContent =
+                `${browser} on ${os}.`;
+        }
+
+        // 改进的3D卡片效果
+        document.addEventListener('DOMContentLoaded', function () {
+            const card = document.querySelector('.card');
+            const cardContent = document.querySelector('.card-content');
+            let rotateX = 0;
+            let rotateY = 0;
+            let currentRotationX = 0; // 当前X轴旋转角度
+            let isAnimating = false;
+            let lastWheelTime = 0;
+            const wheelCooldown = 100; // 滚轮事件节流时间（毫秒）
+            let cumulativeRotation = 0; // 累计滚动量
+
+            // 鼠标移动时卡片倾斜效果
+            card.addEventListener('mousemove', function (e) {
+                if (isAnimating) return; // 如果正在执行滚轮动画，不进行倾斜
+
+                // 获取鼠标在卡片上的相对位置
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left; // 鼠标X坐标相对于卡片
+                const y = e.clientY - rect.top; // 鼠标Y坐标相对于卡片
+
+                // 计算倾斜角度（相对于卡片中心点）
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                const angleY = (centerX - x) / 25; // 除以的数值越大，倾斜效果越小
+                const angleX = (y - centerY) / 25;
+
+                // 应用3D变换
+                rotateX = angleX;
+                rotateY = angleY;
+                updateCardTransform();
+            });
+
+            // 鼠标离开卡片时恢复原状
+            card.addEventListener('mouseleave', function () {
+                if (isAnimating) return;
+
+                // 使用动画平滑过渡回原始状态
+                rotateX = 0;
+                rotateY = 0;
+                updateCardTransform();
+            });
+
+            // 优化的滚轮事件处理 - 卡片绕X轴旋转
+            card.addEventListener('wheel', function (e) {
+                e.preventDefault(); // 防止页面滚动
+
+                const now = Date.now();
+                if (now - lastWheelTime < wheelCooldown) return; // 滚轮事件节流
+                lastWheelTime = now;
+
+                if (isAnimating) return;
+
+                // 累积滚动量，只有当达到一定阈值才触发旋转
+                cumulativeRotation += e.deltaY;
+                const threshold = 100; // 滚动阈值
+
+                if (Math.abs(cumulativeRotation) < threshold) return;
+
+                isAnimating = true;
+
+                // 根据累积的滚动方向确定旋转方向
+                const direction = cumulativeRotation > 0 ? 1 : -1;
+                cumulativeRotation = 0; // 重置累积量
+
+                const startRotation = currentRotationX;
+                const targetRotation = currentRotationX + (direction * 360); // 一次旋转360度
+
+                // 动画计时
+                const duration = 1000; // 毫秒
+                const startTime = Date.now();
+
+                function animate() {
+                    const elapsed = Date.now() - startTime;
+                    const progress = Math.min(elapsed / duration, 1);
+
+                    // 使用缓动函数使动画更平滑
+                    const easeProgress = 0.5 - Math.cos(progress * Math.PI) / 2;
+
+                    // 计算当前旋转角度
+                    currentRotationX = startRotation + (targetRotation - startRotation) * easeProgress;
+
+                    // 更新卡片变换 - 内容随卡片一起旋转
+                    updateCardTransform();
+
+                    if (progress < 1) {
+                        requestAnimationFrame(animate);
+                    } else {
+                        // 动画结束
+                        // 注意：我们不再对currentRotationX取模，这样卡片可以持续旋转而不会回到原位
+                        isAnimating = false;
+                    }
+                }
+
+                animate();
+            });
+
+            // 更新卡片的变换样式
+            function updateCardTransform() {
+                card.style.transform = `rotateX(${rotateX + currentRotationX}deg) rotateY(${rotateY}deg)`;
+            }
+
+            // 获取用户信息
+            fetchUserLocation();
+            parseUserAgent();
+        });
+    </script>
+</body>
+
+</html>
