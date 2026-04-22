@@ -9,8 +9,6 @@
 ├── images/
 ├── sites/
 │   ├── ……（此处为个人主页demo源码）
-├── skills/
-│   ├── ……（此处为AI agent skills demo）
 ├── README.md
 ├── index.html
 └── LICENSE

@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>工作室</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <!-- GSAP 动画库 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    
+    <!-- Tailwind 配置 -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#000000',
+                        secondary: '#333333',
+                        light: '#FFFFFF',
+                        gray: {
+                            light: '#F5F5F5',
+                            medium: '#E0E0E0',
+                            dark: '#666666'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif']
+                    },
+                    transitionProperty: {
+                        'height': 'height',
+                        'spacing': 'margin, padding'
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .text-balance {
+                text-wrap: balance;
+            }
+            .text-shadow {
+                text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            }
+            .card-hover {
+                @apply transition-all duration-300 ease-in-out transform hover:scale-[1.02] hover:shadow-lg;
+            }
+            .image-lazy {
+                @apply opacity-0 transition-opacity duration-500;
+            }
+            .image-loaded {
+                @apply opacity-100;
+            }
+        }
+    </style>
+    
+    <style>
+        /* 自定义滚动条 */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+        
+        /* 平滑滚动 */
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        /* 图片懒加载淡入效果 */
+        .lazy-image {
+            opacity: 1;
+            transition: opacity 0.5s ease-in-out;
+        }
+        .lazy-image.loaded {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body class="bg-light font-sans text-primary">
+    <!-- Hero 区域 -->
+    <section id="hero" class="min-h-screen flex flex-col items-center justify-center px-4 py-20">
+        <div class="container mx-auto max-w-5xl text-center">
+            <div class="mb-4 opacity-0" id="logo-container">
+                <!-- 移除logo -->
+            </div>
+            <h1 class="text-5xl md:text-7xl font-bold mb-6 opacity-0" id="title">工作室</h1>
+            <p class="text-xl md:text-2xl text-gray-dark max-w-2xl mx-auto mb-12 opacity-0" id="subtitle">
+                专注于极简设计与用户体验的创意工作室
+            </p>
+            <div class="opacity-0" id="scroll-indicator">
+                <a href="#about" class="inline-block animate-bounce">
+                    <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 工作室介绍区域 -->
+    <section id="about" class="py-20 bg-white">
+        <div class="container mx-auto max-w-5xl px-4">
+            <h2 class="text-3xl md:text-4xl font-bold mb-2 text-center opacity-0" id="about-title">工作室介绍</h2>
+            <p class="text-gray-dark text-center mb-12 max-w-2xl mx-auto opacity-0" id="about-subtitle">用简单设计，解决真实需求</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+                <!-- 理念 -->
+                <div class="bg-gray-light rounded-lg p-8 shadow-md text-center opacity-0" id="about-mission">
+                    <div class="text-4xl mb-4">
+                        <i class="fa fa-lightbulb-o"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">我们的理念</h3>
+                    <p class="text-gray-dark">
+                        秉持极简设计理念，将复杂的功能简化，以最直观的方式呈现给用户。
+                    </p>
+                </div>
+                <!-- 优势 -->
+                <div class="bg-gray-light rounded-lg p-8 shadow-md text-center opacity-0" id="about-advantage">
+                    <div class="text-4xl mb-4">
+                        <i class="fa fa-bolt"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">核心优势</h3>
+                    <p class="text-gray-dark">
+                        专注于免费、高效与便捷体验，持续为用户提供稳定可靠的实用工具。
+                    </p>
+                </div>
+                <!-- 成果 -->
+                <div class="bg-gray-light rounded-lg p-8 shadow-md text-center opacity-0" id="about-achievement">
+                    <div class="text-4xl mb-4">
+                        <i class="fa fa-trophy"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">已出成果</h3>
+                    <p class="text-gray-dark">
+                        Qian影视、Qian云盘，及多款小工具，覆盖用户日常娱乐与工作需求。
+                    </p>
+                </div>
+            </div>
+
+            <div class="bg-gray-light rounded-lg p-8 shadow-md opacity-0" id="about-content">
+                <blockquote class="border-l-4 border-primary pl-4 italic mb-6 text-gray-dark">
+                    "只有自己成为用户，才能更好地服务用户。"
+                </blockquote>
+                <p class="text-lg leading-relaxed text-gray-dark">
+                    工作室专注于简洁、实用、轻量化的互联网产品开发。我们深信，优秀的产品应当是无形的，让用户无需学习即可上手。我们的团队由一群热爱创造、追求极致的年轻人组成，我们不断探索新的技术和方法，只为给用户带来更好的体验。
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 作品展示区域 -->
+    <section id="works" class="py-20 bg-gray-light">
+        <div class="container mx-auto max-w-6xl px-4">
+            <h2 class="text-3xl md:text-4xl font-bold mb-16 text-center opacity-0" id="works-title">精选项目（效果以实际为准）</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- 作品卡片 1 -->
+                <div class="bg-white rounded-lg overflow-hidden shadow-md card-hover opacity-0" id="work-card-1">
+                    <div class="relative overflow-hidden">
+                        <img src="https://58mssvm2xj.coze.site/api/share/file/c9f829f2-4be4-45e2-a8bb-76a02fa8cb62/download" 
+                             alt="Qian影视" 
+                             class="w-full h-56 object-cover lazy-image"
+                             loading="lazy">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2">Qian影视</h3>
+                        <p class="text-gray-dark mb-4">基于腾讯视频制作的，免费、简洁观影网站，基本拒绝广告打扰。</p>
+                        <a href="" target="_blank" rel="noopener noreferrer" 
+                           class="inline-block text-primary hover:text-secondary transition-colors duration-300">
+                            查看项目 <i class="fa fa-external-link ml-1"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- 作品卡片 2 -->
+                <div class="bg-white rounded-lg overflow-hidden shadow-md card-hover opacity-0" id="work-card-2">
+                    <div class="relative overflow-hidden">
+                        <img src="https://58mssvm2xj.coze.site/api/share/file/177ab60c-7ba0-46e2-b131-33fdd23db73e/download" 
+                             alt="Qian云盘" 
+                             class="w-full h-56 object-cover lazy-image"
+                             loading="lazy">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2">Qian云盘</h3>
+                        <p class="text-gray-dark mb-4">基于火山云储存制作的，免费、无限空间云盘，且是全球首个可以在浏览器端实现多线程上传的云盘。（此信息来自Deepseek）</p>
+                        <a href="" target="_blank" rel="noopener noreferrer" 
+                           class="inline-block text-primary hover:text-secondary transition-colors duration-300">
+                            查看项目 <i class="fa fa-external-link ml-1"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- 作品卡片 3 -->
+                <div class="bg-white rounded-lg overflow-hidden shadow-md card-hover opacity-0" id="work-card-3">
+                    <div class="relative overflow-hidden">
+                        <img src="https://58mssvm2xj.coze.site/api/share/file/77a12f37-74ad-4dbe-9fe3-df5845282dc2/download" 
+                             alt="Qian音乐" 
+                             class="w-full h-56 object-cover lazy-image"
+                             loading="lazy">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2">Qian音乐</h3>
+                        <p class="text-gray-dark mb-4">基于网易云音乐制作的，免费、简洁听歌网站，只要有浏览器，有网就能听。</p>
+                        <a href="" target="_blank" rel="noopener noreferrer" 
+                           class="inline-block text-primary hover:text-secondary transition-colors duration-300">
+                            查看项目 <i class="fa fa-external-link ml-1"></i>
+                        </a>
+                    </div>
+
+                </div>
+                <!-- 作品卡片 5 -->
+                <div class="bg-white rounded-lg overflow-hidden shadow-md card-hover opacity-0" id="work-card-5">
+                    <div class="relative overflow-hidden">
+                        <img src="https://58mssvm2xj.coze.site/api/share/file/43d31ea0-4bb8-49ed-848f-978de9b2b7c0/download" 
+                             alt="SBTI" 
+                             class="w-full h-56 object-cover lazy-image"
+                             loading="lazy">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2">SBTI测试</h3>
+                        <p class="text-gray-dark mb-4">SBTI是一种人格测试，但许多网站都要对其收费，于是我们开发了我们自己的SBTI测试</p>
+                        <a href="" target="_blank" rel="noopener noreferrer" 
+                           class="inline-block text-primary hover:text-secondary transition-colors duration-300">
+                            查看项目 <i class="fa fa-external-link ml-1"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- 作品卡片 5 -->
+                <div class="bg-white rounded-lg overflow-hidden shadow-md card-hover opacity-0" id="work-card-5">
+                    <div class="relative overflow-hidden">
+                        <img src="https://58mssvm2xj.coze.site/api/share/file/3ab55d97-a029-4c23-92c8-2d8db2830453/download" 
+                             alt="RAZ-Plus 书籍破解器" 
+                             class="w-full h-56 object-cover lazy-image"
+                             loading="lazy">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2">RAZ-Plus 书籍破解器</h3>
+                        <p class="text-gray-dark mb-4">RAZ-Plus有很好的英语阅读教材，于是我制作了RAZ-Plus 书籍破解器（仅可用于教育目的）。</p>
+                        <a href="" target="_blank" rel="noopener noreferrer" 
+                           class="inline-block text-primary hover:text-secondary transition-colors duration-300">
+                            查看项目 <i class="fa fa-external-link ml-1"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- 作品卡片 5 -->
+                <div class="bg-white rounded-lg overflow-hidden shadow-md card-hover opacity-0" id="work-card-5">
+                    <div class="relative overflow-hidden">
+                        <img src="https://p3-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/cf9f7445aa104e368b62fed46a307839~tplv-a9rns2rl98-image.image?lk3s=8e244e95&rcl=20260322083305781BFA653CC595A13F82&rrcfp=f06b921b&x-expires=1776731637&x-signature=aOZDDgqSq6lLClW7QZR0PbaMS5s%3D" 
+                             alt="更多项目" 
+                             class="w-full h-56 object-cover lazy-image"
+                             loading="lazy">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-2">项目投稿</h3>
+                        <p class="text-gray-dark mb-4">欢迎投稿您的创意项目</p>
+                        <a href="" target="_blank" rel="noopener noreferrer" 
+                           class="inline-block text-primary hover:text-secondary transition-colors duration-300">
+                            投稿项目 <i class="fa fa-external-link ml-1"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="bg-primary text-light py-12">
+        <div class="container mx-auto max-w-6xl px-4 text-center">
+            <p class="mb-4 opacity-0" id="footer-text">© <span id="current-year">2026</span> 工作室. 保留所有权利.</p>
+            <p class="text-sm text-gray-medium opacity-1" id="footer-copyright">
+                只有自己成为用户，才能更好地服务用户。——（工作室创始人）
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // 初始化 GSAP ScrollTrigger
+        gsap.registerPlugin(ScrollTrigger);
+        
+        // 设置当前年份 - 确保年份自动更新
+        function updateCurrentYear() {
+            const currentYear = new Date().getFullYear();
+            const yearElement = document.getElementById('current-year');
+            if (yearElement) {
+                yearElement.textContent = currentYear;
+            }
+        }
+        
+        // 页面加载时更新年份
+        updateCurrentYear();
+        
+        // Hero 区域动画
+        function animateHero() {
+            gsap.timeline()
+                .to('#title', {opacity: 1, y: -20, duration: 1, delay: 0.2})
+                .to('#subtitle', {opacity: 1, y: -20, duration: 1, delay: 0.3}, "-=0.5")
+                .to('#scroll-indicator', {opacity: 1, y: -20, duration: 1, delay: 0.3}, "-=0.5");
+        }
+        
+        // 工作室介绍区域动画
+        function animateAbout() {
+            gsap.utils.toArray(['#about-title', '#about-subtitle', '#about-mission', '#about-advantage', '#about-achievement', '#about-content']).forEach((element, i) => {
+                gsap.to(element, {
+                    opacity: 1,
+                    y: -20,
+                    duration: 0.8,
+                    scrollTrigger: {
+                        trigger: element,
+                        start: "top 80%",
+                        toggleActions: "play none none none"
+                    },
+                    delay: i * 0.15
+                });
+            });
+        }
+        
+        // 作品区域动画
+        function animateWorks() {
+            gsap.utils.toArray(['#works-title', '#work-card-1', '#work-card-2', '#work-card-3', '#work-card-4', '#work-card-5']).forEach((element, i) => {
+                gsap.to(element, {
+                    opacity: 1,
+                    y: -20,
+                    duration: 0.8,
+                    scrollTrigger: {
+                        trigger: element,
+                        start: "top 80%",
+                        toggleActions: "play none none none"
+                    },
+                    delay: i * 0.2
+                });
+            });
+        }
+        
+        // 页脚动画 - 确保文字显示
+        function animateFooter() {
+            // 直接设置透明度为1确保文字显示
+            document.getElementById('footer-text').style.opacity = '1';
+            document.getElementById('footer-copyright').style.opacity = '1';
+            
+            // 同时保留动画效果
+            gsap.utils.toArray(['#footer-text', '#footer-copyright']).forEach((element, i) => {
+                gsap.to(element, {
+                    opacity: 1,
+                    y: -20,
+                    duration: 0.8,
+                    scrollTrigger: {
+                        trigger: element,
+                        start: "top 80%",
+                        toggleActions: "play none none none"
+                    },
+                    delay: i * 0.2
+                });
+            });
+        }
+        
+        // 图片懒加载 - 简化版本确保图片显示
+        function setupLazyLoading() {
+            const lazyImages = document.querySelectorAll('.lazy-image');
+            
+            // 直接添加loaded类确保图片显示
+            lazyImages.forEach(img => {
+                img.classList.add('loaded');
+                
+                // 图片加载错误处理
+                img.onerror = function() {
+                    console.error('图片加载失败:', this.src);
+                    this.src = 'data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22800%22%20height%3D%22400%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20800%20400%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_15ba800aa21%20text%20%7B%20fill%3A%23999%3Bfont-weight%3Anormal%3Bfont-family%3AHelvetica%2C%20monospace%3Bfont-size%3A40pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_15ba800aa21%22%3E%3Crect%20width%3D%22800%22%20height%3D%22400%22%20fill%3D%22%23EEEEEE%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%22285%22%20y%3D%22218%22%3E图片加载失败%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E';
+                };
+            });
+        }
+        
+        // 平滑滚动到作品区域
+        function setupSmoothScroll() {
+            const scrollLinks = document.querySelectorAll('a[href^="#"]');
+            
+            scrollLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+        }
+        
+        // 作品卡片悬停效果
+        function setupCardHoverEffects() {
+            const cards = document.querySelectorAll('.card-hover');
+            
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    gsap.to(this, {scale: 1.03, boxShadow: '0 10px 25px rgba(0,0,0,0.1)', duration: 0.3});
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    gsap.to(this, {scale: 1, boxShadow: '0 4px 6px rgba(0,0,0,0.1)', duration: 0.3});
+                });
+            });
+        }
+        
+        // 初始化所有功能
+        function init() {
+            animateHero();
+            animateAbout();
+            animateWorks();
+            animateFooter();
+            setupLazyLoading();
+            setupSmoothScroll();
+            setupCardHoverEffects();
+        }
+        
+        // 页面加载完成后初始化
+        window.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
