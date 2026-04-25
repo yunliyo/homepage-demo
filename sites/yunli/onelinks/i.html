@@ -1,0 +1,237 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1.0, shrink-to-fit=no, viewport-fit=cover">
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <title>韵狸 - 一个热爱诗词书画的程序员 | 馀事做诗人！</title>
+    <link rel="icon" href="./assets/images/avatar.jpg" type="image/x-icon">
+    <link rel="stylesheet" href="./assets/css/i.css" id="css-file">
+    <script src="https://kit.fontawesome.com/d0ea91959d.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="./assets/player/css/APlayer.min.css">
+    <script src="./assets/player/js/APlayer.min.js"></script>
+    <script src="./assets/js/hls.min.js"></script>
+    <script src="./assets/js/color-thief.js"></script>
+</head>
+
+<body>
+    <div id="aplayer"></div>
+    <div class="print no-print">YUNLI</div>
+    <div class="icontop search" id="tzcfsj"></div>
+    <div class="icontop favorite" id="favoriteIcon"></div>
+    <header class="header">
+        <nav class="navbar">
+            <div class="nav-brand">
+                <img src="./assets/images/avatar.jpg" alt="Logo" class="logo">
+                <span class="brand-text">韵狸</span>
+            </div>
+            <div class="nav-menu" id="nav-menu">
+                <div class="dropdown">
+                    <a href="javascript:void(0);" class="nav-link dropdown-toggle">旗下站点 <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown-menu">
+                        <a href="javascript:void(0);" class="dropdown-item">狸庐</a>
+                        <a href="https://boe.icu" target="_blank" class="dropdown-item">BOE.ICU</a>
+                    </div>
+                </div>
+                <a href="https://github.com/yunliyo" target="_blank" class="nav-link">GitHub</a>
+                <a href="mailto:yunliyo@foxmail.com" class="nav-link">联系</a>
+            </div>
+            <div class="hamburger" id="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </nav>
+    </header>
+    <div id="container">
+        <div class="carousel">
+            <div class="carousel-inner">
+                <img src="./assets/images/dream.png" alt="轮播图1" class="active">
+                <img src="./assets/images/tobepoet.png" alt="轮播图2">
+                <img src="./assets/images/recluse.png" alt="轮播图3">
+            </div>
+            <div class="carousel-dots">
+                <div class="dot active" data-index="0"></div>
+                <div class="dot" data-index="1"></div>
+                <div class="dot" data-index="2"></div>
+            </div>
+        </div>
+        <div class="wrap">
+            <p><img src="./assets/images/avatar.jpg" alt="avatar" width="128px" height="128px" /></p>
+            <h1>韵狸</h1>
+            <h2>一个热爱诗词书画的程序员</h2>
+            <div class="location">
+                <span class="location-icon">
+                  <i class="fa fa-map-marker-alt"></i>
+                </span>
+                <span class="location-text">中国·重庆</span>
+                <a href="#"><label class="switch" style="margin-left: 10px;"><input type="checkbox"><span class="slider round"></span></label></a>
+            </div>
+            <div class="social-icons">
+                <a href="https://github.com/yunliyo" target="_blank"><i class="fab fa-github"></i></a>
+                <a href="mailto:yunliyo@foxmail.com" target="_blank"><i class="fas fa-envelope"></i></a>
+                <a href="#" data-qrcode="./assets/images/donate.png" target="_blank"><i class="fa-solid fa-circle-dollar-to-slot"></i></a>
+            </div>
+            <div class="linktree">
+                <a title="个人博客" href="https://www.liqiang.info" target="_blank" class="btn"><i class="fa-solid fa-blog"></i> 个人博客</a>
+                <br><a title="BOE.ICU" href="https://www.boe.icu" target="_blank" class="btn"><i class="fa-solid fa-book"></i> BOE.ICU</a>
+                <br><a title="赞赏支持" href="#" data-qrcode="./assets/images/donate.png" target="_self" class="btn btn-qr"><i class="fa-solid fa-hand-holding-dollar"></i> 赞赏支持</a>
+            </div>
+            <div class="yiyan">
+                <p>『做梦想做的事』</p>
+            </div>
+            <div class="card-link">
+                <h2 class="card-link-title"><i class="fa-solid fa-link"></i>其他站点</h2>
+                <div class="card-link-content">
+                    <nav class="links-grid">
+                        <a href="https://yunliyo.github.io/homepage-demo" target="_blank" class="link-item"><i class="fa-solid fa-up-right-from-square"></i><span class="link-text"></span>个人主页收集</a>
+                        <a href="https://resume.liqiang.info" target="_blank" class="link-item"><i class="fa-solid fa-id-card"></i><span class="link-text"></span>个人简历</a>
+                        <a href="https://opresume.liqiang.info" target="_blank" class="link-item"><i class="fa-solid fa-file"></i><span class="link-text"></span>在线简历</a>
+                        <a href="https://linux.liqiang.info" target="_blank" class="link-item"><i class="fa-brands fa-linux"></i><span class="link-text"></span>Linux命令大全</a>
+                    </nav>
+                </div>
+            </div>
+            <div class="ecard">
+                <div class="ecard-tabs">
+                    <button class="tab-button active" data-tab="ecard">联系</button>
+                    <button class="tab-button" data-tab="skill">技能</button>
+                </div>
+                <div class="tab-content active" id="ecard">
+                    <ul>
+                        <li>
+                            <select id="dropdown" onchange="redirectNewTab(this);">
+                                <option value="" disabled selected hidden>--过眼溪山，旧时曾识--</option>
+                                <option value="https://www.liqiang.info">个人网站</option>
+                            </select>
+                        </li>
+                    </ul>
+                    <ol>
+                        <li>GitHub: <a href="https://github.com/yunliyo" target="_blank"><span id="contact-github"></span></a></li>
+                        <li>邮箱：<a href="mailto:yunliyo@foxmail.com" target="_self"><span id="contact-email"></span></a></li>
+                    </ol>
+                </div>
+                <div class="tab-content" id="skill">
+                    <h3>语言</h3>
+                    <ul>
+                        <li>中文</li>
+                        <li>古汉语</li>
+                        <li>英语</li>
+                    </ul>
+                    <h3>技术栈</h3>
+                    <ul>
+                        <li>擅长使用 XML + XSLT + VScode + Git 技术栈编写 DITA 结构化文档项目。</li>
+                        <li>熟练使用海内外 AI 大模型，将 AI Agent + MCP + Skills 融入日常开发，大幅提升工程效率。</li>
+                    </ul>
+                    <ol>
+                        <li><strong>操作系统:</strong><br>Linux,Windows Server</li>
+                        <li><strong>数据库:</strong><br>MySQL,Oracle,PostgreSQL,MongoDB,SQLite,Redis</br></li>
+                        <li><strong>语言:</strong><br>HTML,CSS,JavaScript,Typescript,PHP,SQL,Markdown,XML,JSON,YAML,TOML,TeX,Java,Python,C,C++,C#,Go,Ruby,R,Rust,Kotlin,Swift,Objective-C,ArkTS</li>
+                        <li><strong>框架:</strong><br>Nodejs,Tailwind,Bootstrap,jQuery,Uniapp,Flutter,Express,Fastify,Remix,Angular,Bun,Vue,Vite,React,Nuxt,Next,Astro,Nest,Laravel,ThinkPHP,Webman,Django,JSP,ASP,ASP.NET,Kratos</li>
+                        <li><strong>硬件:</strong><br>Arduino,STM32,RaspberryPi,BearPi</li>
+                        <li><strong>DevSecOps:</strong><br>Docker,Kubernetes,Jenkins,CI/CD,DevOps</li>
+                        <li><strong>通信:</strong><br>5G,NB-IoT,LTE,Sigfox,LoRa,GSM,eMTC,V2X;RFID,NFC,WiFi,蓝牙,红外,Zigbee,UWB,Z-Wave</li>
+                        <li><strong>网络:</strong><br>路由器,交换机,抓包</li>
+                        <li><strong>传感器:</strong><br>物理传感器,生物传感器</li>
+                        <li><strong>协议:</strong><br>MQTT,CoAP,HTTP,TCP/IP,J808,ModBus</li>
+                        <li><strong>版本管理:</strong><br>Git,SVN</li>
+                        <li><strong>其他:</strong><br>DITA结构化写作,Office,Adobe,OBS,Axure</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="siteinfo">
+                <details open>
+                    <summary>免责声明</summary>
+                    <p>本站域名为通用、多重含义、描述性的域名，为独立的私人所有，可能会出现商业化运营，但是与任何公众人物、公司、组织、品牌、商品、软件、服务、商标无关。</p>
+                </details>
+                <details open>
+                    <summary>个人经营声明</summary>
+                    <p>依照电子商务法、市场主体登记管理条例、网络交易监督管理办法，个人销售自产农副产品、家庭手工业产品；个人利用自身技能从事依法无须取得许可的便民劳务活动；零星小额交易活动；依照法律、行政法规的规定不需要进行登记的情形，无需办理市场主体登记。</p>
+                </details>
+            </div>
+        </div>
+        <div class="hitokoto-container">
+            <div class="hitokoto-header">
+                <span class="hitokoto-icon">💭</span>
+                <span class="hitokoto-title">今日一言</span>
+                <button id="refresh-btn" class="refresh-btn" title="换一句">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="23 4 23 10 17 10"></polyline>
+                        <polyline points="1 20 1 14 7 14"></polyline>
+                        <path d="m3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+                    </svg>
+                </button>
+            </div>
+            <div class="hitokoto-content">
+                <p class="hitokoto-text"><span id="jinrishici-sentence">正在加载今日诗词....</span></p>
+                <p class="hitokoto-from" id="jinrishici-from"></p>
+                <div style="height: 1px; background: rgba(0,0,0,0.1); margin: 15px 0;"></div>
+                <p class="hitokoto-text"><span id="hitokoto_text">:D 获取中...</span></p>
+                <p class="hitokoto-from" id="hitokoto-from"></p>
+            </div>
+        </div>
+        <div class="music">
+            <iframe src="./assets/player/aplayer.html"></iframe>
+        </div>
+    </div>
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <p>过眼溪山，旧时曾识</p>
+            <img src="./assets/images/donate.png" alt="" width="100%" height="auto">
+            <p><span class="close">关闭</span></p>
+        </div>
+    </div>
+    <div id="LogModal" class="modal">
+        <div class="modal-content-log">
+            <div class="log-container">
+                <div class="log-entry">
+                    <div class="log-details">
+                        <h1>头衔</h1>
+                        <p>诗人，个人开发者</p>
+                    </div>
+                </div>
+            </div>
+            <p><span class="close">关闭</span></p>
+        </div>
+    </div>
+
+    <div id="back-to-top" title="返回顶部">
+        <i class="fas fa-arrow-up"></i>
+    </div>
+
+    <footer>
+        <p>本站采用<strong><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank"> 署名—非商业性使用—相同方式共享 4.0 许可协议（CC BY-NC-SA 4.0）</a></strong>，转载请保留原文链接及署名。</p>
+        <p>&copy; 2014-<script>document.write(new Date().getFullYear())</script> by 韵狸.</p>
+        <p>&copy; <span id="copyright-year"></span> 狸庐.</p>
+        <p><span id="sitetime"></span></p>
+    </footer>
+</body>
+
+<script src="./assets/js/c.js"></script>
+<script src="./assets/player/js/setting.js"></script>
+<script src="./assets/player/js/Meting.min.js"></script>
+<meting-js
+    server="netease"
+    type="playlist"
+    id="12772706790"
+    auto="netease"
+    fixed="true"
+    mini="true"
+    autoplay="false"
+    theme="#fff"
+    loop="all"
+    order="list"
+    preload="auto"
+    volume="0.7"
+    mutex="true"
+    lrc-type="0"
+    list-folded="false"
+    list-max-height="100px"
+    storage-name="metingjs">
+</meting-js>
+<script src="https://sdk.jinrishici.com/v2/browser/jinrishici.js" charset="utf-8"></script>
+<script src="https://v1.hitokoto.cn/?encode=js&select=%23hitokoto" defer></script>
+
+</html>

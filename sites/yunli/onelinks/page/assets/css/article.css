@@ -1,0 +1,140 @@
+body {
+    padding-top: 60px;
+    margin: 0;
+}
+
+.top-nav {
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: calc(100% - 60px);
+    max-width: 900px;
+    background-color: #f2f2e7;
+    z-index: 1000;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 10px 0;
+}
+
+.nav-container {
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+}
+
+.nav-menu {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    gap: 20px;
+}
+
+.nav-menu li {
+    margin: 0;
+}
+
+.nav-menu a {
+    text-decoration: none;
+    color: #000000;
+    padding: 8px 16px;
+    border-radius: 20px;
+    transition: all 0.3s ease;
+    font-size: 18px;
+}
+
+.nav-menu a:hover {
+    color: #8d4bbb;
+    background-color: rgba(141, 75, 187, 0.1);
+}
+
+#app {
+    min-height: calc(100vh - 120px);
+}
+
+@media screen and (max-width: 768px) {
+    .top-nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        transform: none;
+        width: 100%;
+        max-width: none;
+        padding: 10px 0;
+    }
+
+    .nav-container {
+        padding: 0 10px;
+    }
+
+    .nav-menu {
+        gap: 5px;
+        flex-wrap: nowrap;
+        justify-content: center;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .nav-menu a {
+        padding: 8px 16px;
+        font-size: 16px;
+        white-space: nowrap;
+    }
+
+    body {
+        padding-top: 70px;
+    }
+
+    #app {
+        min-height: calc(100vh - 130px);
+        padding: 10px;
+    }
+
+    .nav-menu a {
+        border-radius: 15px;
+        margin: 2px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .top-nav {
+        width: 100%;
+        left: 0;
+        right: 0;
+    }
+
+    .nav-container {
+        padding: 0;
+    }
+
+    .nav-menu {
+        flex-wrap: nowrap;
+        justify-content: flex-start;
+        padding: 5px 0;
+    }
+
+    .nav-menu li {
+        margin: 0 10px;
+    }
+
+    .nav-menu a {
+        padding: 8px 16px;
+        font-size: 14px;
+        white-space: nowrap;
+    }
+
+    body {
+        padding-top: 60px;
+    }
+
+    #app {
+        padding: 5px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .github-corner {
+        display: none;
+    }
+}
