@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <meta name="applicable-device" content="pc,mobile" />
+    <title>合成诗经</title>
+    <link rel="shortcut icon" href="../assets/images/The-Book-of-Songs.svg">
+    <link rel="stylesheet" href="./assets/css/style.css">
+</head>
+<body>
+
+<div class="container">
+    <!-- Header -->
+    <div class="header">
+        <div class="title-area">
+            <h1>合成诗经</h1>
+            <div class="subtitle">Synthesis of Classics</div>
+        </div>
+        <div class="scores">
+            <div class="score-box">
+                <div class="score-label">分数</div>
+                <div class="score-value" id="score">0</div>
+            </div>
+            <div class="best-box">
+                <div class="best-label">最佳</div>
+                <div class="best-value" id="best">0</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="action-row">
+        <button class="btn btn-new" id="btnNew" onclick="newGame()">新游戏</button>
+        <a class="back-home" href="../index.html">← 返回首页</a>
+    </div>
+
+    <!-- Game Board -->
+    <div class="board-wrapper">
+        <div class="board" id="board"></div>
+    </div>
+
+    <p class="instruction">方向键 / 滑动屏幕 操作 &nbsp;|&nbsp; 相同体裁合并升级</p>
+</div>
+
+<!-- Game Over / Win Overlay -->
+<div class="overlay hidden" id="overlay">
+    <div class="overlay-content">
+        <div class="icon" id="overlayIcon"></div>
+        <h2 id="overlayTitle"></h2>
+        <p id="overlayMsg"></p>
+        <button class="btn btn-new" onclick="newGame()">再来一局</button>
+    </div>
+</div>
+
+<!-- Particles container for win celebration -->
+<div class="particles" id="particles"></div>
+
+<script src="./assets/js/script.js"></script>
+
+</body>
+</html>
