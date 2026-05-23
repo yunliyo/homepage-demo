@@ -272,7 +272,7 @@
         gameOver = true;
         overlayIcon.textContent = '📜';
         overlayTitle.textContent = '恭喜合成《诗经》！';
-        overlayMsg.textContent = '文脉贯通，终成经典！<br>分数：' + score;
+        overlayMsg.textContent = '文脉贯通，终成经典！分数：' + score;
         showOverlay();
         spawnParticles();
         if (score > best) {
@@ -307,7 +307,7 @@
         gameOver = true;
         overlayIcon.textContent = '😔';
         overlayTitle.textContent = '游戏结束';
-        overlayMsg.textContent = '再试一次吧！<br>分数：' + score;
+        overlayMsg.textContent = '再试一次吧！分数：' + score;
         showOverlay();
     }
 
