@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GitHub Account Age Checker</title>
+  <link rel="stylesheet" href="./assets/css/style.css">
+  <script defer src="./assets/js/app.js"></script>
+</head>
+<body>
+  <main>
+    <div class="topbar">
+      <div class="intro">
+        <h1 id="page-title">GitHub Account Age Checker</h1>
+        <p id="page-description">Look up a GitHub user and see when the account was created.</p>
+      </div>
+      <button id="language-button" class="language-button" type="button" aria-label="Switch to Chinese" title="Switch to Chinese">
+        <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"></circle>
+          <path d="M2 12h20"></path>
+          <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+        </svg>
+        <span id="language-code" class="language-code">中</span>
+      </button>
+    </div>
+
+    <form id="lookup-form" autocomplete="off">
+      <label for="username">GitHub username</label>
+      <input id="username" name="username" type="text" spellcheck="false" placeholder="octocat" value="octocat" required>
+      <button id="check-button" type="submit">Check</button>
+    </form>
+
+    <section id="result" class="hidden" aria-live="polite">
+      <dl>
+        <dt id="label-login">Username</dt>
+        <dd id="result-login">-</dd>
+        <dt id="label-created-at">Created at</dt>
+        <dd id="result-created-at">-</dd>
+        <dt id="label-age">Account age</dt>
+        <dd>
+          <span class="age-value">
+            <span id="result-age">-</span>
+            <button id="age-toggle" class="age-toggle hidden" type="button" aria-label="Show account age in years" title="Show account age in years">
+              <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M17 1l4 4-4 4"></path>
+                <path d="M3 11V9a4 4 0 0 1 4-4h14"></path>
+                <path d="M7 23l-4-4 4-4"></path>
+                <path d="M21 13v2a4 4 0 0 1-4 4H3"></path>
+              </svg>
+            </button>
+          </span>
+        </dd>
+      </dl>
+      <div id="status" class="status"></div>
+      <div id="hint" class="hint">Public GitHub data only. No token is used in this page.</div>
+      <div id="footnote" class="footnote"></div>
+    </section>
+  </main>
+</body>
+</html>
