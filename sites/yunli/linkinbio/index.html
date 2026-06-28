@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <title>Yunli</title>
+    <style>
+        html,
+        body {
+            overflow: hidden;
+            margin: 0;
+        }
+
+        body {
+            font-family: "Simsun";
+            color: #000000;
+            user-select: none;
+        }
+
+        #wrapper {
+            position: absolute;
+            top: 38.2%;
+            left: 50%;
+            z-index: 1;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+
+        .logo:hover {
+            transform: rotate(666turn);
+            transition: transform 59s 1s cubic-bezier(0.3, 0, 0.8, 1);
+        }
+
+        h1 {
+            margin: 1rem 0;
+            font-family: "Simsun";
+            font-weight: 700;
+            font-size: 30px;
+            letter-spacing: 9px;
+            text-transform: uppercase;
+        }
+
+        h2 {
+            margin: 1rem 0;
+            color: #000000;
+            font-weight: normal;
+            font-size: 16px;
+            letter-spacing: 0.12em;
+        }
+
+        a {
+            color: #000000;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+
+        a:hover {
+            opacity: 0.8;
+        }
+
+        .copyright {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 14px;
+            white-space: nowrap;
+        }
+
+        .copyright a {
+            color: #934491;
+        }
+
+        .copyright a:hover {
+            text-decoration: underline;
+        }
+
+        canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        @media (max-width: 520px) {
+            .copyright {
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="wrapper">
+        <img class="logo" src="https://www.liqiang.info/icon/avatar.jpg" alt="logo" width="128px" height="128px"/>
+        <h1>Yunli</h1>
+        <h2>A coder who loves poetry.</h2>
+        <p>
+            <a href="https://github.com/yunliyo" target="_blank">
+                <img src="https://img.shields.io/badge/GitHub-yunliyo-blue?logo=Github&logoColor=fff" alt="Github" />
+            </a>
+            <a href="https://liqiang.info" target="_blank">
+                <img src="https://img.shields.io/badge/Home-韵狸-934491?logo=Homepage&logoColor=fff" alt="Home" />
+            </a>
+            <a href="https://blog.liqiang.info" target="_blank">
+                <img src="https://img.shields.io/badge/Blog-狸庐-8d4bbb?logo=Bloglovin&logoColor=fff" alt="Blog" />
+            </a>
+            <a href="mailto:yunliyo@foxmail.com" target="_blank">
+                <img src="https://img.shields.io/badge/Email-@Yunli-ff2121?logo=Mailgun&logoColor=fff" alt="eMail" />
+            </a>
+        </p>
+    </div>
+    <div class="copyright">
+        <p>&copy; <script>document.write(new Date().getFullYear())</script> by Yunli.</p>
+    </div>
+
+    <canvas></canvas>
+
+    <script>
+        document.addEventListener('touchmove', function (e) {
+            e.preventDefault()
+        })
+        var c = document.getElementsByTagName('canvas')[0],
+            x = c.getContext('2d'),
+            pr = window.devicePixelRatio || 1,
+            w = window.innerWidth,
+            h = window.innerHeight,
+            f = 90,
+            q,
+            m = Math,
+            r = 0,
+            u = m.PI * 2,
+            v = m.cos,
+            z = m.random
+        c.width = w * pr
+        c.height = h * pr
+        x.scale(pr, pr)
+        x.globalAlpha = 0.6
+
+        function i() {
+            x.clearRect(0, 0, w, h)
+            q = [{
+                    x: 0,
+                    y: h * 0.7 + f
+                },
+                {
+                    x: 0,
+                    y: h * 0.7 - f
+                }
+            ]
+            while (q[1].x < w + f) d(q[0], q[1])
+        }
+
+        function d(i, j) {
+            x.beginPath()
+            x.moveTo(i.x, i.y)
+            x.lineTo(j.x, j.y)
+            var k = j.x + (z() * 2 - 0.25) * f,
+                n = y(j.y)
+            x.lineTo(k, n)
+            x.closePath()
+            r -= u / -50
+            x.fillStyle =
+                '#' +
+                (
+                    ((v(r) * 127 + 128) << 16) |
+                    ((v(r + u / 3) * 127 + 128) << 8) |
+                    (v(r + (u / 3) * 2) * 127 + 128)
+                ).toString(16)
+            x.fill()
+            q[0] = q[1]
+            q[1] = {
+                x: k,
+                y: n
+            }
+        }
+
+        function y(p) {
+            var t = p + (z() * 2 - 1.1) * f
+            return t > h || t < 0 ? y(p) : t
+        }
+        document.onclick = i
+        document.ontouchstart = i
+        i()
+    </script>
+</body>
+
+</html>
