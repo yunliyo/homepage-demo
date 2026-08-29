@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>个人主页</title>
+    <link rel="stylesheet" href="./assets/styles.css" />
+    <script>
+      const savedTheme = localStorage.getItem("theme");
+      if (savedTheme === "light") document.documentElement.classList.add("light");
+    </script>
+  </head>
+  <body>
+    <div class="ambient ambient-one"></div>
+    <div class="ambient ambient-two"></div>
+    <div class="ambient ambient-three"></div>
+    <div class="tile-grid" aria-hidden="true"></div>
+
+    <header class="site-header" id="site-header">
+      <a class="brand" href="#home" aria-label="首页">
+        <span class="brand-mark">
+          <img src="../../images/avatar.jpg" alt="" />
+        </span>
+        <span>Yunli</span>
+      </a>
+
+      <nav class="desktop-nav" aria-label="主导航">
+        <a href="#home" class="active">主页</a>
+        <a href="#story">关于</a>
+        <a href="#projects">项目</a>
+        <a href="#writing">文章</a>
+        <a href="#contact">联系</a>
+      </nav>
+
+      <div class="header-actions">
+        <button class="icon-button" id="theme-toggle" type="button" aria-label="切换主题">
+          <span class="sun-icon"></span>
+        </button>
+        <button class="icon-button menu-button" id="menu-toggle" type="button" aria-label="打开菜单">
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </header>
+
+    <nav class="mobile-nav" id="mobile-nav" aria-label="移动端导航">
+      <a href="#home">主页</a>
+      <a href="#story">关于</a>
+      <a href="#projects">项目</a>
+      <a href="#writing">文章</a>
+      <a href="#contact">联系</a>
+    </nav>
+
+    <main>
+      <section class="hero" id="home">
+        <div class="hero-copy">
+          <p class="eyebrow"><span></span> Personal Space</p>
+          <h1>我是 Yunli ，<br />把热爱写进日常。</h1>
+          <p class="lead">
+            喜欢研究数码和软件，也在探索 AI 与开发。这里会记录技术教程、
+            生活片段、琐碎发现，以及一路走来的思考。
+          </p>
+          <div class="tag-row" aria-label="兴趣标签">
+            <span>AI 探索</span>
+            <span>数码软件</span>
+            <span>技术教程</span>
+            <span>生活记录</span>
+          </div>
+          <div class="button-row">
+            <a class="primary-button" href="" target="_blank" rel="noreferrer">
+              进入博客
+            </a>
+            <a class="secondary-button" href="#story">关于我</a>
+          </div>
+        </div>
+
+        <div class="hero-visual" aria-label="Yunli 个人资料卡">
+          <div class="portrait-card">
+            <div class="portrait-orbit"></div>
+            <img src="../../images/avatar.jpg" alt="Yunli 的头像" />
+          </div>
+          <div class="profile-card">
+            <div>
+              <p>Personal Profile</p>
+              <span>Since 2014</span>
+            </div>
+            <strong>Yunli</strong>
+          </div>
+        </div>
+      </section>
+
+      <section class="section story-section" id="story">
+        <div class="section-heading">
+          <p>About</p>
+          <h2>为什么建站？</h2>
+        </div>
+        <div class="story-grid">
+          <article class="glass-panel wide">
+            <p>
+              创建这个站，是想拥有一个能积累知识、积累兴趣的地方。
+              和他人分享，会让这些内容成为沉淀；如果还能帮助更多人解决问题，
+              那一定是非常棒的事情。
+            </p>
+            <p>
+              这里不会只写一种内容。我会分享技能教程、软件与数码探索、
+              生活里的吐槽和妙招，也会记录一些话题上的思考和想法。
+            </p>
+          </article>
+          <article class="glass-panel mini-card">
+            <span>2014.02</span>
+            <p>博客启程</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section" id="projects">
+        <div class="section-heading">
+          <p>Projects</p>
+          <h2>一些正在折腾的项目</h2>
+        </div>
+        <div class="project-grid">
+          <a class="project-card" href="" target="_blank" rel="noreferrer">
+            <span>01</span>
+            <h3>Next.js AI 站</h3>
+            <p>面向 AI 能力和 Web 开发的实验场，把灵感快速变成可用体验。</p>
+          </a>
+          <a class="project-card" href="" target="_blank" rel="noreferrer">
+            <span>02</span>
+            <h3>运维开发百宝箱</h3>
+            <p>常用开发、运维、转换工具集合，让琐碎任务处理得更顺手。</p>
+          </a>
+          <a class="project-card" href="" target="_blank" rel="noreferrer">
+            <span>03</span>
+            <h3>在线音乐播放器</h3>
+            <p>给日常留一点旋律，在写代码和整理想法时保持轻盈的节奏。</p>
+          </a>
+        </div>
+      </section>
+
+      <section class="section writing-section" id="writing">
+        <div class="section-heading">
+          <p>Writing</p>
+          <h2>我会写些什么</h2>
+        </div>
+        <div class="writing-list">
+          <article>
+            <span>教程</span>
+            <h3>把折腾过程写成可复用的路径</h3>
+            <p>记录工具配置、网站部署、软件使用和问题排查，尽量把坑填平。</p>
+          </article>
+          <article>
+            <span>探索</span>
+            <h3>关注互联网里的创造与发展</h3>
+            <p>研究新技术、AI 工作流、数码产品和那些让人眼前一亮的东西。</p>
+          </article>
+          <article>
+            <span>日常</span>
+            <h3>保存生活里零碎但发光的瞬间</h3>
+            <p>分享生活感受、学习片段、灵感备忘，以及偶尔冒出来的小想法。</p>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer" id="contact">
+      <div class="footer-intro">
+        <p class="eyebrow"><span></span> Contact</p>
+        <h2>有幸相遇，欢迎来我的小站坐坐。</h2>
+      </div>
+      <div class="footer-groups" aria-label="页脚链接">
+        <div>
+          <p>Links</p>
+          <a href="mailto:yunliyo@foxmail.com">Email</a>
+          <a href="https://github.com/yunliyo" target="_blank" rel="noreferrer">GitHub</a>
+        </div>
+        <div>
+          <p>Site</p>
+          <a href="" target="_blank" rel="noreferrer">Blog</a>
+          <a href="#projects">Projects</a>
+        </div>
+      </div>
+      <p class="copyright">&copy; <script>document.write(new Date().getFullYear())</script> by 韵狸.</p>
+    </footer>
+
+    <script src="./assets/script.js"></script>
+  </body>
+</html>
